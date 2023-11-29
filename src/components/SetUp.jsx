@@ -15,9 +15,10 @@ const SetUp = () => {
   const [fileSelected, selectFile] = useState("");
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    selectFile(file)
+    if (file) {
+      selectFile(file);
+    }
   };
-
 
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const SetUp = () => {
         additional: {
           units: "feet",
           verticalSectionAzimuth: "",
-          surveyReferencePoint: "Other"
+          surveyReferencePoint: "Rotary Table"
         }
       },)
     }
@@ -80,9 +81,9 @@ const SetUp = () => {
           {
             (fileSelected !== "") && <Typography variant='body1'>{fileSelected.name.split('.')[0].slice(0, 16)}.xlsx</Typography>
           }
-          <Button variant="contained" >
+          <Button variant="contained" onClick={() => document.getElementById('fileInput').click()}>
             Select File
-            <VisuallyHiddenInput type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
+            <VisuallyHiddenInput id="fileInput" type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
           </Button>
         </Stack>
       </Stack>
@@ -215,7 +216,7 @@ const SetUp = () => {
 
               <LabelInput fieldName="verticalSectionAzimuth" fieldLabel="Vertical Section Azimuth" fieldStatus={fileSelected === ""} fieldValue={setUp.additional.verticalSectionAzimuth} fieldType="text" />
 
-              <LabelSelect fieldName="surveyReferencePoint" fieldLabel="Survey Reference Point" fieldValue={setUp.additional.surveyReferencePoint} fieldArray={["Rotary Table", "Other"]} />
+              <LabelSelect fieldName="surveyReferencePoint" fieldLabel="Survey Reference Point" fieldValue={setUp.additional.surveyReferencePoint} fieldArray={["Rotary Table"]} />
 
             </Stack>
           </Stack>
