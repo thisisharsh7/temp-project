@@ -23,9 +23,6 @@ const theme = createTheme({
     accent: {
       primary: "#216b38",
     },
-    border: {
-      card: "#d5e0d5"
-    },
     neutral: {
       main: '#00000099'
     }
@@ -38,13 +35,19 @@ const theme = createTheme({
         }
       }
     },
-    MuiCard: {
+    MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          boxShadow: "0px 0px 1px 0.5px #d5e0d5",
-        }
-      }
-    }
+          '& fieldset': {
+            borderColor: '#b8b4b48f !important',
+            borderWidth: 2,
+          },
+          '&:focus-within fieldset': {
+            borderColor: '#009B4D !important',
+          },
+        },
+      },
+    },
   },
   typography: {
     fontFamily: '\'Ubuntu\', sans-serif',

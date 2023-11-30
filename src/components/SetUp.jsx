@@ -68,18 +68,18 @@ const SetUp = () => {
   }, [fileSelected])
 
   return (
-    <Box mt={1} component="div">
+    <Box mt={2.5} component="div">
 
 
       <Stack alignItems={{ md: "center", xs: "space-between" }} justifyContent={'space-between'} spacing={4} direction={{ md: 'row', xs: 'column-reverse' }}>
-        <Typography variant='h5' fontWeight={500} width={'100%'} color='primary'>
+        <Typography variant='h5' fontWeight={500} width={'100%'} >
           {
             (fileSelected === "") ? "Import Well Plan" : "Current Well Plan"
           }
         </Typography>
         <Stack direction={{ sm: 'row', xs: 'row-reverse' }} width={'100%'} justifyContent={{ sm: "flex-end", xs: "space-between" }} alignItems='center' gap={{ sm: 8, xs: 2 }} alignSelf={{ sm: "flex-end", xs: "flex-start" }}>
           {
-            (fileSelected !== "") && <Typography variant='body1'>{fileSelected.name.split('.')[0].slice(0, 16)}.xlsx</Typography>
+            (fileSelected !== "") && <Typography variant='h5' fontWeight={500} color="#009B4D">{fileSelected.name.split('.')[0].slice(0, 16)}.xlsx</Typography>
           }
           <Button variant="contained" onClick={() => document.getElementById('fileInput').click()}>
             Select File
@@ -89,7 +89,7 @@ const SetUp = () => {
       </Stack>
 
 
-      <Stack component='div' my={6.5} direction='column' spacing={4} >
+      <Stack component='div' my={6} direction='column' spacing={4} >
 
 
         <Paper square={false} elevation={0} sx={{
@@ -216,7 +216,7 @@ const SetUp = () => {
 
               <LabelInput fieldName="verticalSectionAzimuth" fieldLabel="Vertical Section Azimuth" fieldStatus={fileSelected === ""} fieldValue={setUp.additional.verticalSectionAzimuth} fieldType="text" />
 
-              <LabelSelect fieldName="surveyReferencePoint" fieldLabel="Survey Reference Point" fieldValue={setUp.additional.surveyReferencePoint} fieldArray={["Rotary Table"]} />
+              <LabelSelect fieldName="surveyReferencePoint" fieldLabel="Survey Reference Point" fieldValue={setUp.additional.surveyReferencePoint} fieldArray={["Rotary Table"]} fieldStatus={fileSelected === ""} />
 
             </Stack>
           </Stack>
