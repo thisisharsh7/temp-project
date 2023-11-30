@@ -37,15 +37,15 @@ const theme = createTheme({
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: {
-          '& fieldset': {
-            borderColor: '#b8b4b48f !important',
-            borderWidth: 2,
-          },
-          '&:focus-within fieldset': {
-            borderColor: '#009B4D !important',
-          },
-        },
+        // root: {
+          // '& fieldset': {
+          //   borderColor: '#b8b4b48f !important',
+          //    borderWidth: 2,
+          // },
+          // '&:focus-within fieldset': {
+          //   borderColor: '#009B4D !important',
+          // },
+        // },
       },
     },
   },

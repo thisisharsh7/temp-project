@@ -93,7 +93,7 @@ const SetUp = () => {
 
 
         <Paper square={false} elevation={0} sx={{
-          border: "2px solid #a8a4a48f"
+          border: "1px solid #a8a4a48f"
         }}>
           <Stack direction='column' alignItems={'stretch'} width={'100%'}>
 
@@ -112,7 +112,7 @@ const SetUp = () => {
         </Paper>
 
         <Paper square={false} elevation={0} sx={{
-          border: "2px solid #a8a4a48f"
+          border: "1px solid #a8a4a48f"
         }}>
           <Stack direction='column' alignItems={'stretch'} width={'100%'}>
 
@@ -131,7 +131,7 @@ const SetUp = () => {
         </Paper>
 
         <Paper square={false} elevation={0} sx={{
-          border: "2px solid #a8a4a48f"
+          border: "1px solid #a8a4a48f"
         }}>
           <Stack direction='column' alignItems={'stretch'} width={'100%'}>
 
@@ -158,7 +158,7 @@ const SetUp = () => {
         </Paper>
 
         <Paper square={false} elevation={0} sx={{
-          border: "2px solid #a8a4a48f"
+          border: "1px solid #a8a4a48f"
         }}>
           <Stack direction='column' alignItems={'stretch'} width={'100%'}>
 
@@ -181,7 +181,7 @@ const SetUp = () => {
         </Paper>
 
         <Paper square={false} elevation={0} sx={{
-          border: "2px solid #a8a4a48f"
+          border: "1px solid #a8a4a48f"
         }}>
           <Stack direction='column' alignItems={'stretch'} width={'100%'}>
 
@@ -204,7 +204,7 @@ const SetUp = () => {
         </Paper>
 
         <Paper square={false} elevation={0} sx={{
-          border: "2px solid #a8a4a48f"
+          border: "1px solid #a8a4a48f"
         }}>
           <Stack direction='column' alignItems={'stretch'} width={'100%'}>
 
