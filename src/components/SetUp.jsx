@@ -13,13 +13,11 @@ import LabelDateInput from './SetUp/LabelDateInput';
 const SetUp = () => {
   const { setUp, updateSetUp } = useMatchStore();
 
-
-  const [fileSelected, selectFile] = useState("");
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      selectFile(file);
-      updateSetUp({ ...setUp, loading: true, enteries: false })
+      console.log(file);
+      updateSetUp({ ...setUp, loading: true, enteries: false, uploadFile: file.name })
       const data = await uploadFile(file);
       if (data) {
         updateSetUp({
@@ -28,19 +26,20 @@ const SetUp = () => {
             Units: "",
             VerticalSectionAzimuth: "",
             SurveyReferencePoint: ""
-          }
+          },
+          uploadFile: file.name
         });
       } else {
         updateSetUp({
           wellbore: {
             Name: "",
-            Created: "",
-            LastRevised: "",
+            Created: "dd-mm-yy",
+            LastRevised: "dd-mm-yy",
           },
           well: {
             Name: "",
             GovernmentId: "",
-            LastRevised: "",
+            LastRevised: "dd-mm-yy",
           },
           slot: {
             Name: "",
@@ -90,7 +89,7 @@ const SetUp = () => {
         </Typography>
         <Stack direction={{ sm: 'row', xs: 'row-reverse' }} width={'100%'} justifyContent={{ sm: "flex-end", xs: "space-between" }} alignItems='center' gap={{ sm: 8, xs: 2 }} alignSelf={{ sm: "flex-end", xs: "flex-start" }}>
           {
-            (setUp.enteries) && <Typography variant='h5' fontWeight={500} color="#009B4D">{fileSelected.name.split('.')[0].slice(0, 16)}.xlsx</Typography>
+            (setUp.enteries) && <Typography variant='h5' fontWeight={500} color="#009B4D">{setUp.uploadFile}</Typography>
           }
           {
             (setUp.loading) && <CircularProgress size={28} />
