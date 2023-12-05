@@ -4,7 +4,10 @@ export const useMatchStore = create((set) => ({
 
 
     //variable for edit modal for setUp
-    open: false,
+    open: {
+        show: false,
+        text: ''
+    },
     setOpen: (sopen) => set(state => ({ open: sopen })),
     //object variable for setUp Tab
     setUp: {

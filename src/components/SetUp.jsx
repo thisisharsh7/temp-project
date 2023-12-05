@@ -1,5 +1,4 @@
 import { Box, Stack, Button, Typography, Paper } from '@mui/material';
-import { useEffect, useState } from 'react';
 import { useMatchStore } from '../store/store';
 import { VisuallyHiddenInput, uploadFile } from './constant';
 import LabelInput from './SetUp/LabelInput';
