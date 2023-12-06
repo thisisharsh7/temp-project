@@ -18,6 +18,10 @@ const val = 1;
 export default function SurveyTable() {
     const [rows, setRows] = useState([
         createData('Tie on', '0.00', '0.00', '193.630', '0.00', '0.00', '0.00', '', '0.00'),
+        createData('', '', '', '', '0.00', '0.00', '0.00', '', '0.00'),
+        createData('', '', '', '', '0.00', '0.00', '0.00', '', '0.00'),
+        createData('', '', '', '', '0.00', '0.00', '0.00', '', '0.00'),
+        createData('', '', '', '', '0.00', '0.00', '0.00', '', '0.00'),
     ]);
 
     const handleInputChange = (event, index) => {
@@ -35,7 +39,7 @@ export default function SurveyTable() {
     };
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} elevation={0}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
@@ -57,7 +61,7 @@ export default function SurveyTable() {
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row" >
-                                {index === 0 ? row.Inc : (
+                                {index === 0 ? 'Tie On' : (
                                     index + 1
                                 )}
                             </TableCell>
@@ -110,9 +114,9 @@ export default function SurveyTable() {
                     ))}
                 </TableBody>
             </Table>
-            <Stack m={4} alignItems={'flex-end'}>
+            {/* <Stack m={4} alignItems={'flex-end'}>
                 <Button onClick={addRow} variant='contained'>Add Row</Button>
-            </Stack>
+            </Stack> */}
         </TableContainer>
     );
 }

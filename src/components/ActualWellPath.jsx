@@ -22,48 +22,30 @@ const ActualWellPath = () => {
               borderRadius: "0.2rem 0.2rem 0rem 0rem",
               borderBottom: "1px solid #a8a4a48f"
             }} >
-              <Stack direction={{ sm: 'row', xs: 'column' }} spacing={4} justifyContent={'space-between'} alignItems={'center'}>
+              <Stack direction={{ sm: 'row', xs: 'column' }} sx={{
+                position: 'relative'
+              }} spacing={4} justifyContent={'space-between'} alignItems={'center'}>
                 <Typography variant='h5' component='h1' fontWeight={'bold'}>
                   Survey Tool Program
                 </Typography>
-                <Stack direction={{ sm: 'row', xs: 'column' }} spacing={{ sm: 4, xs: 2 }} alignSelf={{ sm: 'flex-end', xs: 'flex-start' }}>
-                  <Button variant="outlined" sx={{
-                    'color': 'black',
-                    'borderColor': 'black !important',
-                    ':hover': {
-                      backgroundColor: '#0abd61 !important',
-                      borderColor: '#0abd61  !important',
-                      color: 'white'
-                    },
-                  }} onClick={() => handleClick('Add')}>
-                    Add New
-                  </Button>
-                  <Button variant="outlined" sx={{
-                    'color': 'black',
-                    'borderColor': 'black !important',
-                    ':hover': {
-                      backgroundColor: '#0abd61 !important',
-                      borderColor: '#0abd61  !important',
-                      color: 'white'
-                    },
-                  }} onClick={() => handleClick('Edit')}>
-                    Edit
-                  </Button>
-                  <Button variant="outlined" sx={{
-                    'color': 'black',
-                    'borderColor': 'black !important',
-                    ':hover': {
-                      backgroundColor: '#0abd61 !important',
-                      borderColor: '#0abd61  !important',
-                      color: 'white'
-                    },
-                  }} onClick={() => handleClick('Remove')}>
-                    Remove
-                  </Button>
-                </Stack>
+                <Button variant="outlined" size='small' sx={{
+                  'color': 'gray',
+                  'borderColor': 'gray !important',
+                  ':hover': {
+                    backgroundColor: '#0abd61 !important',
+                    borderColor: '#0abd61  !important',
+                    color: 'white'
+                  },
+                  position: 'absolute',
+                  right: 0
+                }} onClick={() => handleClick('Add')}>
+                  Add New
+                </Button>
               </Stack>
             </Box>
-            <LogTable />
+            <Box padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} >
+              <LogTable />
+            </Box>
           </Stack>
         </Paper>
         <Paper square={false} elevation={0} sx={{
@@ -72,8 +54,9 @@ const ActualWellPath = () => {
           <Stack direction='column' alignItems={'stretch'} width={'100%'}>
 
             <BoxHeader boxHead="Actual Survey" />
-
-            <SurveyTable />
+            <Box padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} >
+              <SurveyTable />
+            </Box>
           </Stack>
         </Paper>
       </Stack>
