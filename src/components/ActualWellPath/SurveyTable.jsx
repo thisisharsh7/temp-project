@@ -1,122 +1,165 @@
-import { useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Input from '@mui/material/Input';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 
-const createData = (cnt, MD, Inc, Azi, TVD, North, East, Dogleg, VerticalSection) => {
-    return { cnt, MD, Inc, Azi, TVD, North, East, Dogleg, VerticalSection };
-};
-const val = 1;
+import { DataGrid } from '@mui/x-data-grid';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import { useEffect, useState } from 'react';
+
+const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+    border: 0,
+    color:
+        theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.85)',
+    fontFamily: '\'Ubuntu\', sans-serif',
+    WebkitFontSmoothing: 'auto',
+    letterSpacing: 'normal',
+    '& .MuiDataGrid-columnsContainer': {
+        backgroundColor: theme.palette.mode === 'light' ? '#fafafa' : '#1d1d1d',
+    },
+    '& .MuiDataGrid-iconSeparator': {
+        display: 'none',
+    },
+    '& .MuiDataGrid-columnHeader': {
+        fontSize: "0.95rem",
+        fontWeight: "600",
+    },
+    '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
+        borderRight: `1px solid #a8a4a48f`,
+        paddingLeft: '28px',
+        paddingRight: '28px'
+
+    },
+    '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
+        borderBottom: `px solid #a8a4a48f`,
+    },
+    '& .MuiDataGrid-cell': {
+        color:
+            theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.65)',
+    },
+    '& .MuiPaginationItem-root': {
+        borderRadius: 0,
+    },
+    '& .MuiDataGrid-columnHeaderTitle': {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+
+    '& .MuiDataGrid-colCellTitle': {
+        fontWeight: 'bold',
+        fontSize: '0.95rem',
+        lineHeight: '1.4rem',
+    },
+
+    '& .MuiDataGrid-colCellTitle, .MuiDataGrid-cell': {
+        color:
+            theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.65)',
+    },
+
+    '& .MuiDataGrid-colCellTitleUnits': {
+        fontSize: '0.75rem',
+        color: theme.palette.mode === 'light' ? 'lightgray' : 'darkgray',
+        lineHeight: '1rem',
+    },
+    '& .MuiDataGrid-row:hover': {
+        backgroundColor: 'transparent'
+    },
+    '& .frozen--cell': {
+        backgroundColor: 'white',
+        color: 'gray'
+    },
+    '& .Unfrozen--cell': {
+        backgroundColor: '#f2ffff'
+    },
+
+    '& .MuiDataGrid-virtualScroller::-webkit-scrollbar': {
+
+        width: '4px' /* Change this value to adjust the width of the scrollbar */
+    },
+
+    '& .MuiDataGrid-virtualScroller::-webkit-scrollbar-track': {
+        background: 'lightgray'/* Change this value to customize the scrollbar track color */
+    },
+
+    '& .MuiDataGrid-virtualScroller::-webkit-scrollbar-thumb': {
+        background: 'gray'/* Change this value to customize the scrollbar thumb color */
+    }
+}));
+
+const initialRows = [
+    { id: 1, col1: 'Tie On', col2: '0.00', col3: '0.00', col4: '193.630', col5: '0.00', col6: '0.00', col7: '0.00', col8: '', col9: '0.00', col10: '' },
+    { id: 2, col1: 2, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 3, col1: 3, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 4, col1: 4, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 5, col1: 5, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 6, col1: 6, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 7, col1: 7, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 8, col1: 8, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 9, col1: 9, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 10, col1: 10, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 11, col1: 11, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+
+];
+
+const initialColumns = [
+    { field: 'col1', headerName: '', width: 121.5, sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col2', headerName: 'MD', headerUnits: '(ft)', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
+    { field: 'col3', headerName: 'Inc', headerUnits: '(deg)', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+    { field: 'col4', headerName: 'Azi', headerUnits: '(deg)', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+    { field: 'col5', headerName: 'TVD', headerUnits: '(ft)', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+    { field: 'col6', headerName: 'North', headerUnits: '(ft)', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col7', headerName: 'East', headerUnits: '(ft)', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col8', headerName: 'DLS', headerUnits: '(deg/100ft)', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col9', headerName: 'VS', headerUnits: '( ft )', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col10', headerName: 'Comment', minWidth: 180, align: 'right', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: 'Unfrozen--cell', },
+];
+
 
 export default function SurveyTable() {
-    const [rows, setRows] = useState([
-        createData('Tie on', '0.00', '0.00', '193.630', '0.00', '0.00', '0.00', '', '0.00'),
-        createData('', '', '', '', '0.00', '0.00', '0.00', '', '0.00'),
-        createData('', '', '', '', '0.00', '0.00', '0.00', '', '0.00'),
-        createData('', '', '', '', '0.00', '0.00', '0.00', '', '0.00'),
-        createData('', '', '', '', '0.00', '0.00', '0.00', '', '0.00'),
-    ]);
+    const [rows, setRows] = useState(initialRows);
 
-    const handleInputChange = (event, index) => {
-        const { name, value } = event.target;
-        const newRows = [...rows];
-        newRows[index][name] = value;
-        setRows(newRows);
-    };
+    useEffect(() => {
+        const allRowsFilled = rows.slice(1).every((row) =>
+            Object.values(row).every((value) => value !== '')
+        );
 
-    const addRow = () => {
-        setRows((prevRows) => [
-            ...prevRows,
-            createData('Tie on', '', '', '', '0.00', '0.00', '0.00', '', '0.00'),
-        ]);
-    };
+        if (allRowsFilled) {
+            // If all rows (excluding header and row 1) are filled, add a new empty row
+            const newRow = {
+                id: rows.length + 1,
+                col1: rows[rows.length - 1].col1 + 1,
+                col2: '',
+                col3: '',
+                col4: '',
+                col5: '',
+                col6: '',
+                col7: '',
+                col8: '',
+                col9: '',
+                col10: '',
+            };
+            setRows((prevRows) => [...prevRows, newRow]);
+        }
+    }, [rows]);
+
 
     return (
-        <TableContainer component={Paper} elevation={0}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell width={'80px'}></TableCell>
-                        <TableCell align="right" sx={{ width: 100 }} >MD (ft)</TableCell>
-                        <TableCell align="right" sx={{ width: 100 }}>Inc [deg]</TableCell>
-                        <TableCell align="right" sx={{ width: 100 }}>Azi [deg]</TableCell>
-                        <TableCell align="right" sx={{ width: 100 }}>TVD [ft]</TableCell>
-                        <TableCell align="right" sx={{ width: 100 }}>North [ft]</TableCell>
-                        <TableCell align="right" sx={{ width: 100 }}>East [ft]</TableCell>
-                        <TableCell align="right" sx={{ width: 100 }}>Dogleg [deg/100ft]</TableCell>
-                        <TableCell align="right" sx={{ width: 100 }}>Vertical Section [ft]</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell component="th" scope="row" >
-                                {index === 0 ? 'Tie On' : (
-                                    index + 1
-                                )}
-                            </TableCell>
-                            <TableCell align="right">
-                                {index === 0 ? row.Inc : (
-                                    <Input
-                                        name="Inc"
-                                        value={row.Inc}
-                                        onChange={(event) => handleInputChange(event, index)}
-                                        sx={{ direction: 'rtl' }}
-                                    />
-                                )}
-                            </TableCell>
-                            <TableCell align="right">
-                                {index === 0 ? row.MD : (
-                                    <Input
-                                        name="MD"
-                                        value={row.MD}
-                                        onChange={(event) => handleInputChange(event, index)}
-                                        sx={{ direction: 'rtl' }}
-                                    />
-                                )}
-                            </TableCell>
-                            <TableCell align="right">
-                                {index === 0 ? row.Azi : (
-                                    <Input
-                                        name="Azi"
-                                        value={row.Azi}
-                                        onChange={(event) => handleInputChange(event, index)}
-                                        sx={{ direction: 'rtl' }}
-                                    />
-                                )}
-                            </TableCell>
-                            <TableCell align="right">
-                                {row.TVD}
-                            </TableCell>
-                            <TableCell align="right">
-                                {row.North}
-                            </TableCell>
-                            <TableCell align="right">
-                                {row.East}
-                            </TableCell>
-                            <TableCell align="right">
-                                {row.Dogleg}
-                            </TableCell>
-                            <TableCell align="right">
-                                {row.VerticalSection}
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-            {/* <Stack m={4} alignItems={'flex-end'}>
-                <Button onClick={addRow} variant='contained'>Add Row</Button>
-            </Stack> */}
-        </TableContainer>
+        <Box component={'div'} sx={{ height: 696, width: '100%' }}>
+            <StyledDataGrid
+                rowSelection={false}
+                disableColumnMenu
+                disableColumnFilter
+                rows={rows}
+                hideFooter
+                columnHeaderHeight={72}
+                columns={initialColumns.map((column) => ({
+                    ...column,
+                    renderHeader: (params) => (
+                        <div className="MuiDataGrid-columnHeaderTitle">
+                            <div className="MuiDataGrid-colCellTitle">{column.headerName}</div>
+                            <div className="MuiDataGrid-colCellTitleUnits">{column.headerUnits}</div>
+                        </div>
+                    ),
+                }))}
+            />
+        </Box>
     );
 }

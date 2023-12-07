@@ -1,6 +1,7 @@
 import { Button, Box, Modal, Stack, TextField, Paper, Select, MenuItem, FormControl, InputLabel } from "@mui/material"
 import { useMatchStore } from "../../store/store";
 import BoxHeader from "../SetUp/BoxHeader";
+import { useState } from "react";
 
 
 const style = {
@@ -14,12 +15,37 @@ const style = {
 };
 
 const EditNew = () => {
-    const { setOpen, open } = useMatchStore();
+    const { setOpen, open, logArray, setLog } = useMatchStore();
+    const [form, setForm] = useState({
+        naam: logArray[open.id].naam,
+        model: logArray[open.id].model,
+        error: logArray[open.id].error,
+    })
+
 
     const handleClose = () => {
-        setOpen({ show: false, text: '' });
+        setOpen({ show: false, text: '', id: -1 });
+    }
+    const handleSave = () => {
+        const updatedLogArray = logArray.map((item, index) => {
+            if (index === open.id) {
+                return form;
+            }
+            return item;
+        });
+
+        // Update the state with the new array
+        setLog(updatedLogArray);
+        handleClose();
     }
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm({
+            ...form,
+            [name]: value
+        })
+    }
     return (
         <div >
             <Modal
@@ -42,30 +68,37 @@ const EditNew = () => {
                             <Stack display={'grid'} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gap={2}>
 
                                 <TextField
+                                    name="naam"
                                     variant="outlined"
                                     fullWidth
                                     label="Survey Tool Program Name"
                                     inputProps={{ style: { fontSize: 15.2 } }}
                                     size="medium"
+                                    value={form.naam}
+                                    onChange={handleChange}
                                 />
                                 <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Survey Tool Model</InputLabel>
+                                    <InputLabel id="model-label">Survey Tool Model</InputLabel>
                                     <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={""}
+                                        name="model"
+                                        labelId="model-label"
+                                        id="model"
+                                        value={form.model}
                                         label="Survey Tool Model"
+                                        onChange={handleChange}
                                     >
                                         <MenuItem value={"ISCWSA MWD"}>ISCWSA MWD</MenuItem>
                                     </Select>
                                 </FormControl>
                                 <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Error Model</InputLabel>
+                                    <InputLabel id="error-label">Error Model</InputLabel>
                                     <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={""}
+                                        name="error"
+                                        labelId="error-label"
+                                        id="error"
+                                        value={form.error}
                                         label="Error Model"
+                                        onChange={handleChange}
                                     >
                                         <MenuItem value={"MWD-STD"}>MWD-STD</MenuItem>
                                     </Select>
@@ -75,7 +108,7 @@ const EditNew = () => {
                                     <Button variant="text" sx={{
                                         color: "gray"
                                     }} onClick={handleClose}>Cancel</Button>
-                                    <Button variant="contained">Save</Button>
+                                    <Button variant="contained" disabled={(form.name === '' || form.model === '' || form.error === '') ? true : false} onClick={handleSave}>Save</Button>
                                 </Stack>
                             </Stack>
                         </Stack>

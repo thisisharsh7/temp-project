@@ -5,47 +5,47 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import { useMatchStore } from '../../store/store';
-
-function createData(logName, usedFrom, usedTo) {
-    return { logName, usedFrom, usedTo };
-}
-
-const rows = [
-    createData('ADNC Onshore / 13-3/Bin Csg Gyro Surveys <25.0ft - 154.03ft>', '25.00', '1543.00'),
-    createData('ADNC Onshore / 13-3/Bin Csg Gyro Surveys <25.0ft - 154.03ft>', '25.00', '1543.00')
-];
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 export default function LogTable() {
-    const { setOpen } = useMatchStore();
+    const { setOpen, logArray } = useMatchStore();
 
-    const handleButton = (val) => {
-        setOpen({ show: true, text: val });
-    }
-    const handleClick = (e) => {
-        if (e.detail === 2) {
-            setOpen({ show: true, text: 'Edit' });
-        }
+    const handleButton = (val, idx) => {
+        setOpen({ show: true, text: val, id: idx });
     }
     return (
         <TableContainer component={Paper} elevation={0} >
             <Table aria-label="simple table" >
                 <TableHead>
-                    <TableRow>
-                        <TableCell width={500}>Log Name</TableCell>
-                        <TableCell align="right" width={200}>Used From</TableCell>
-                        <TableCell align="right" width={200}>Used To</TableCell>
-                        <TableCell></TableCell>
+                    <TableRow >
+                        <TableCell sx={{
+                            fontSize: "0.95rem",
+                            fontWeight: "600",
+                            fontFamily: '\'Ubuntu\', sans-serif',
+                            paddingLeft: 3.5
+                        }}>Log Name</TableCell>
+                        <TableCell align="right" width={120} sx={{
+                            fontSize: "0.95rem",
+                            fontWeight: "600",
+                            fontFamily: '\'Ubuntu\', sans-serif',
+                        }}>Used From</TableCell>
+                        <TableCell align="right" width={120} sx={{
+                            fontSize: "0.95rem",
+                            fontWeight: "600",
+                            fontFamily: '\'Ubuntu\', sans-serif',
+                        }}>Used To</TableCell>
+                        <TableCell width={200}></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
+                    {logArray.map((row, index) => (
                         <TableRow
-                            key={row.logName}
+                            key={index}
                             hover
-                            onClick={handleClick}
                             sx={{
                                 '&:last-child td, &:last-child th': { border: 0 },
                                 ':hover': {
@@ -53,35 +53,23 @@ export default function LogTable() {
                                 }
                             }}
                         >
-                            <TableCell component="th" scope="row">
-                                {row.logName}
+                            <TableCell component="th" scope="row" sx={{
+                                paddingLeft: 3.5
+                            }}>
+                                {`${row.naam} < ${row.model} >  < ${row.error} >`}
                             </TableCell>
-                            <TableCell align="right" >{row.usedTo}</TableCell>
-                            <TableCell align="right">{row.usedFrom}</TableCell>
-                            <TableCell align="right">
+                            <TableCell align="right" >{112.23}</TableCell>
+                            <TableCell align="right">{180.23}</TableCell>
+                            <TableCell align="right" sx={{
+                                paddingRight: 3.5
+                            }}>
                                 <Stack direction={'row'} justifyContent={'flex-end'} spacing={4}>
-                                    <Button variant="outlined" size='small' sx={{
-                                        'color': 'gray',
-                                        'borderColor': 'gray !important',
-                                        ':hover': {
-                                            backgroundColor: '#0abd61 !important',
-                                            borderColor: '#0abd61  !important',
-                                            color: 'white'
-                                        },
-                                    }} onClick={() => handleButton('Edit')}>
-                                        Edit
-                                    </Button>
-                                    <Button variant="outlined" size='small' sx={{
-                                        'color': 'gray',
-                                        'borderColor': 'gray !important',
-                                        ':hover': {
-                                            backgroundColor: '#0abd61 !important',
-                                            borderColor: '#0abd61  !important',
-                                            color: 'white'
-                                        },
-                                    }} onClick={() => handleButton('Remove')}>
-                                        Remove
-                                    </Button>
+                                    <IconButton color='primary' size='small' onClick={() => handleButton('Edit', index)}>
+                                        <EditOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton color='primary' size='small' onClick={() => handleButton('Remove', index)}>
+                                        <DeleteOutlineOutlinedIcon />
+                                    </IconButton>
                                 </Stack>
                             </TableCell>
                         </TableRow>

@@ -8,10 +8,10 @@ const ActualWellPath = () => {
   const { setOpen } = useMatchStore();
 
   const handleClick = (val) => {
-    setOpen({ show: true, text: val });
+    setOpen({ show: true, text: val, id: -1 });
   }
   return (
-    <Box mt={2.5} component="div">
+    <Box mt={2.5} component="div" mb={6}>
       <Stack direction={'column'} spacing={5}>
         <Paper square={false} elevation={0} sx={{
           border: "1px solid #a8a4a48f"
@@ -43,7 +43,7 @@ const ActualWellPath = () => {
                 </Button>
               </Stack>
             </Box>
-            <Box padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} >
+            <Box >
               <LogTable />
             </Box>
           </Stack>
@@ -54,7 +54,7 @@ const ActualWellPath = () => {
           <Stack direction='column' alignItems={'stretch'} width={'100%'}>
 
             <BoxHeader boxHead="Actual Survey" />
-            <Box padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} >
+            <Box >
               <SurveyTable />
             </Box>
           </Stack>

@@ -14,12 +14,21 @@ const style = {
 };
 
 const DelNew = () => {
-    const { setOpen, open } = useMatchStore();
+    const { setOpen, open, logArray, setLog } = useMatchStore();
 
     const handleClose = () => {
-        setOpen({ show: false, text: '' });
+        setOpen({ show: false, text: '', id: -1 });
     }
+    const handleDelete = () => {
+        const updatedLogArray = [
+            ...logArray.slice(0, open.id),
+            ...logArray.slice(open.id + 1),
+        ];
 
+        // Update the state with the new array
+        setLog(updatedLogArray);
+        handleClose();
+    }
     return (
         <div >
             <Modal
@@ -48,7 +57,7 @@ const DelNew = () => {
                                     <Button variant="text" sx={{
                                         color: "gray"
                                     }} onClick={handleClose}>Cancel</Button>
-                                    <Button variant="contained">Confirm</Button>
+                                    <Button variant="contained" onClick={handleDelete}>Confirm</Button>
                                 </Stack>
                             </Stack>
                         </Stack>

@@ -1,12 +1,15 @@
 import { create } from 'zustand'
 
 export const useMatchStore = create((set) => ({
-
+    //object variable of actualWellPath
+    logArray: [{ naam: "ADNOC Onshore/ 13-3/Bin Csg Gyro Surveys/ <25.0ft - 38.0ft>", model: "ISCWSA MWD", error: "MWD-STD" }],
+    setLog: (log) => set(state => ({ logArray: log })),
 
     //variable for edit modal for setUp
     open: {
         show: false,
-        text: ''
+        text: '',
+        id: -1
     },
     setOpen: (sopen) => set(state => ({ open: sopen })),
     //object variable for setUp Tab
