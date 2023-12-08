@@ -48,16 +48,19 @@ const DelNew = () => {
 
                             <BoxHeader boxHead="Delete Survey Log" />
 
-                            <Stack display={'grid'} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gap={2}>
+                            <Stack display={'grid'} mt={2} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gap={2}>
 
-                                <Typography variant="body1" textAlign={"center"}>All surveys associated with this Survey Log will be deleted.<br /> Are you sure?
+                                <Typography variant="subtitle1" textAlign={"center"}>All surveys associated with this Survey Log will be deleted.<br /> Are you sure?
                                 </Typography>
 
                                 <Stack direction={'row'} mt={2} justifyContent="flex-end" spacing={2}>
                                     <Button variant="text" sx={{
                                         color: "gray"
                                     }} onClick={handleClose}>Cancel</Button>
-                                    <Button variant="contained" onClick={handleDelete}>Confirm</Button>
+                                    <Button variant="text" sx={{
+                                        color: "#0abd61",
+                                        fontWeight: "600",
+                                    }} onClick={handleDelete}>Confirm</Button>
                                 </Stack>
                             </Stack>
                         </Stack>
