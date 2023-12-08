@@ -54,12 +54,17 @@ export default function LogTable() {
                             }}
                         >
                             <TableCell component="th" scope="row" sx={{
-                                paddingLeft: 3.5
+                                paddingLeft: 3.5,
+                                fontSize: '15.2px'
                             }}>
                                 {row.naam}
                             </TableCell>
-                            <TableCell align="right" >{112.23}</TableCell>
-                            <TableCell align="right">{180.23}</TableCell>
+                            <TableCell align="right" sx={{
+                                fontSize: '15.2px'
+                            }}>{112.23}</TableCell>
+                            <TableCell align="right" sx={{
+                                fontSize: '15.2px'
+                            }}>{180.23}</TableCell>
                             <TableCell align="right" sx={{
                                 paddingRight: 3.5
                             }}>
@@ -69,14 +74,14 @@ export default function LogTable() {
                                             bgcolor: "transparent"
                                         }
                                     }}>
-                                        <EditOutlinedIcon fontSize='16px' />
+                                        <EditOutlinedIcon fontSize='18px' />
                                     </IconButton>
                                     <IconButton color='primary' size='small' onClick={() => handleButton('Remove', index)} sx={{
                                         "&.MuiButtonBase-root:hover": {
                                             bgcolor: "transparent"
                                         }
                                     }}>
-                                        <DeleteOutlineOutlinedIcon fontSize='16px' />
+                                        <DeleteOutlineOutlinedIcon fontSize='18px' />
                                     </IconButton>
                                 </Stack>
                             </TableCell>

@@ -29,18 +29,19 @@ const ActualWellPath = () => {
                 <Typography variant='h5' component='h1' fontWeight={'bold'}>
                   Survey Tool Program
                 </Typography>
-                <Button variant="text" onClick={() => handleClick('Add')} startIcon={<AddIcon fontSize='10px' />} sx={{
-                  'color': 'gray',
-                  'border': 'none',
-                  ':hover': {
-                    color: '#0abd61',
-                    background: 'transparent'
-                  },
-                  textTransform: 'none',
-                  position: 'absolute',
-                  right: 0,
-                  fontSize: '18px'
-                }}>
+                <Button variant="text" onClick={() => handleClick('Add')} startIcon={<AddIcon sx={{ fontSize: '17px !important' }} />}
+                  sx={{
+                    'color': 'black',
+                    'border': 'none',
+                    ':hover': {
+                      color: '#0abd61',
+                      background: 'transparent'
+                    },
+                    textTransform: 'none',
+                    position: 'absolute',
+                    right: 0,
+                    fontSize: '15.2px '
+                  }}>
                   New
                 </Button>
 

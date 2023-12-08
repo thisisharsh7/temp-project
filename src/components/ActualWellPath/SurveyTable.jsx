@@ -31,6 +31,8 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         borderBottom: `1px solid #e7e7e6`,
     },
     '& .MuiDataGrid-cell': {
+        fontSize: '15.2px',
+        fontWeight: 500,
         color:
             theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.65)',
     },
@@ -48,7 +50,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         fontSize: '0.95rem',
         lineHeight: '1.4rem',
     },
-
     '& .MuiDataGrid-colCellTitle, .MuiDataGrid-cell': {
         color:
             theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.65)',
@@ -64,7 +65,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         backgroundColor: 'transparent'
     },
     '& .frozen--cell': {
-        backgroundColor: '#f1f1f1'
+        backgroundColor: '#fafafa'
     },
     '& .Unfrozen--cell': {
         backgroundColor: '#f2ffff'
@@ -106,7 +107,7 @@ const initialRows = [
 ];
 
 const initialColumns = [
-    { field: 'col1', headerName: '', width: 115, sortable: false },
+    { field: 'col1', headerName: '', width: 105, sortable: false },
     { field: 'col2', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
     { field: 'colE', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
     { field: 'col3', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
@@ -156,7 +157,7 @@ export default function SurveyTable() {
                 disableColumnFilter
                 rows={rows}
                 hideFooter
-                rowHeight={40}
+                rowHeight={42}
                 columnHeaderHeight={72}
                 columns={initialColumns.map((column) => ({
                     ...column,
