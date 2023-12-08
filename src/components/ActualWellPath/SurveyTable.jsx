@@ -101,7 +101,21 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     },
     '& .MuiDataGrid-virtualScroller::-webkit-scrollbar-thumb': {
         background: '#f1f1f1',
-       borderRadius: '0rem 0rem 0.2rem 0rem'
+        borderRadius: '0rem 0rem 0.2rem 0rem'
+    },
+    '& ::-webkit-scrollbar': {
+        width: '4px',
+        height: '4px'
+    },
+
+
+    '& ::-webkit-scrollbar-track': {
+        background: 'lightgray',
+        borderRadius: '0rem 0rem 0.2rem 0rem'
+    },
+    '& ::-webkit-scrollbar-thumb': {
+        background: '#f1f1f1',
+        borderRadius: '0rem 0rem 0.2rem 0rem'
     }
 }));
 

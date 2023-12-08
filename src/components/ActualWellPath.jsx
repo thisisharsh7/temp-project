@@ -29,18 +29,17 @@ const ActualWellPath = () => {
                 <Typography variant='h5' component='h1' fontWeight={'bold'}>
                   Survey Tool Program
                 </Typography>
-                <Button variant="contained" size="small" onClick={() => handleClick('Add')} startIcon={<AddIcon sx={{ fontSize: '17px !important' }} />}
+                <Button variant="contained" size="small" onClick={() => handleClick('Add')}
                   sx={{
                     'border': 'none',
                     ':hover': {
                       background: '#0abd61'
                     },
-                    textTransform: 'none',
                     position: 'absolute',
                     right: 0,
-                    fontSize: '15.2px'
+                    fontSize: '14px'
                   }}>
-                  New Log
+                  Add New Log
                 </Button>
 
               </Stack>

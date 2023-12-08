@@ -60,7 +60,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '\'Ubuntu\', sans-serif',
+    fontFamily: '\'Poppins\', sans-serif',
     body1: {
       fontSize: '0.92rem',
       fontWeight: 400,
@@ -133,7 +133,7 @@ const theme = createTheme({
       lineHeight: 1.2
     },
     h5: {
-      fontFamily: '\'Ubuntu\', sans-serif',
+      fontFamily: '\'Poppins\', sans-serif',
       fontSize: '1.2rem',
       '@media (max-width:800px)': {
         fontSize: '1.1rem',

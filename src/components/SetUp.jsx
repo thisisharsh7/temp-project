@@ -80,29 +80,26 @@ const SetUp = () => {
   return (
     <Box mt={2.5} component="div">
 
-      <Stack alignItems={{ md: "center", xs: "space-between" }} justifyContent={'space-between'} spacing={4} direction={{ md: 'row', xs: 'column-reverse' }}>
-        <Typography variant='h5' fontWeight={500} width={'100%'} >
-          {
-            (!setUp.enteries) ? "Import Well Plan" : "Current Well Plan"
-          }
-        </Typography>
-        <Stack direction={{ sm: 'row', xs: 'row-reverse' }} width={'100%'} justifyContent={{ sm: "flex-end", xs: "space-between" }} alignItems='center' gap={{ sm: 8, xs: 2 }} alignSelf={{ sm: "flex-end", xs: "flex-start" }}>
-          {
-            (setUp.enteries) && <Typography variant='h5' fontWeight={500} color="#009B4D">{setUp.uploadFile}</Typography>
-          }
-          {
-            (setUp.loading) && <CircularProgress size={28} />
-          }
 
-          <Button variant="contained" onClick={() => document.getElementById('fileInput').click()} sx={{
-            "&.MuiButtonBase-root:hover": {
-              bgcolor: "#0abd61"
-            }
-          }}>
-            Select File
-            <VisuallyHiddenInput id="fileInput" type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
-          </Button>
-        </Stack>
+      <Stack direction={{ sm: 'row' }} width={'100%'} spacing={4} alignItems='center' gap={{ sm: 8, xs: 2 }} >
+
+        <Button variant="contained" onClick={() => document.getElementById('fileInput').click()} sx={{
+          "&.MuiButtonBase-root:hover": {
+            bgcolor: "#0abd61"
+          }
+        }}>
+          Select File
+          <VisuallyHiddenInput id="fileInput" type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
+        </Button>
+        {
+          (setUp.enteries) && <Typography variant='h5' fontWeight={500} color="#009B4D">{setUp.uploadFile}</Typography>
+        }
+        {
+          (!setUp.enteries && !setUp.loading) && <Typography variant='h5' fontWeight={500} justifySelf={'center'} color="#009B4D">Select Well Plan in .xlsx format to start Setup.</Typography>
+        }
+        {
+          (setUp.loading) && <CircularProgress size={28} />
+        }
       </Stack>
 
       <Stack component='div' my={6} direction='column' spacing={4} >

@@ -55,15 +55,18 @@ export default function LogTable() {
                         >
                             <TableCell component="th" scope="row" sx={{
                                 paddingLeft: 3.5,
-                                fontSize: '15.2px'
+                                fontSize: '15.2px',
+                                fontWeight: 500,
                             }}>
                                 {row.naam}
                             </TableCell>
                             <TableCell align="right" sx={{
-                                fontSize: '15.2px'
+                                fontSize: '15.2px',
+                                fontWeight: 500,
                             }}>{112.23}</TableCell>
                             <TableCell align="right" sx={{
-                                fontSize: '15.2px'
+                                fontSize: '15.2px',
+                                fontWeight: 500
                             }}>{180.23}</TableCell>
                             <TableCell align="right" sx={{
                                 paddingRight: 3.5

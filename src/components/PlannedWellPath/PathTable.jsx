@@ -87,19 +87,20 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         backgroundColor: '#f2ffff'
     },
 
-    '& .MuiDataGrid-virtualScroller::-webkit-scrollbar': {
-        width: '4px' /* Change this value to adjust the width of the scrollbar */
+    '& ::-webkit-scrollbar': {
+        width: '4px' ,
+        height: '4px'
     },
 
 
-    '& .MuiDataGrid-virtualScroller::-webkit-scrollbar-track': {
+    '& ::-webkit-scrollbar-track': {
         background: 'lightgray',
         borderRadius: '0rem 0rem 0.2rem 0rem'
     },
     '& .column-cell': {
         borderRight: "none",
     },
-    '& .MuiDataGrid-virtualScroller::-webkit-scrollbar-thumb': {
+    '& ::-webkit-scrollbar-thumb': {
         background: '#f1f1f1',
         borderRadius: '0rem 0rem 0.2rem 0rem'
     }
@@ -130,7 +131,7 @@ const initialRows = [
 ];
 
 const initialColumns = [
-    { field: 'col1', headerName: 'S/N', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
+    { field: 'col1', headerName: '', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
     { field: 'col2', headerName: 'MD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
     { field: 'col3', headerName: 'Inc', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
     { field: 'col4', headerName: 'Azi', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
