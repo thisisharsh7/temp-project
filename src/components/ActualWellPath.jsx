@@ -39,7 +39,7 @@ const ActualWellPath = () => {
                   textTransform: 'none',
                   position: 'absolute',
                   right: 0,
-                  fontSize: '16px'
+                  fontSize: '18px'
                 }}>
                   New
                 </Button>

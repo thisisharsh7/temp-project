@@ -45,7 +45,11 @@ const PlannedWellPath = () => {
             (plannedWell.loading) && <CircularProgress size={28} />
           }
 
-          <Button variant="contained" onClick={() => document.getElementById('fileInput').click()}>
+          <Button variant="contained" onClick={() => document.getElementById('fileInput').click()} sx={{
+            "&.MuiButtonBase-root:hover": {
+              bgcolor: "#0abd61"
+            }
+          }}>
             Select File
             <VisuallyHiddenInput id="fileInput" type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
           </Button>

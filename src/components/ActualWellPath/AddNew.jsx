@@ -99,7 +99,11 @@ const AddNew = () => {
                                     <Button variant="text" sx={{
                                         color: "gray"
                                     }} onClick={handleClose}>Cancel</Button>
-                                    <Button variant="contained" disabled={(form.name === '' || form.model === '' || form.error === '') ? true : false} onClick={handleSave}>Save</Button>
+                                    <Button variant="contained" disabled={(form.naam === '' || form.model === '' || form.error === '') ? true : false} sx={{
+                                        "&.MuiButtonBase-root:hover": {
+                                            bgcolor: "#0abd61"
+                                        }
+                                    }} onClick={handleSave}>Save</Button>
                                 </Stack>
                             </Stack>
                         </Stack>

@@ -56,7 +56,7 @@ export default function LogTable() {
                             <TableCell component="th" scope="row" sx={{
                                 paddingLeft: 3.5
                             }}>
-                                {`${row.naam} < ${row.model} >  < ${row.error} >`}
+                                {row.naam}
                             </TableCell>
                             <TableCell align="right" >{112.23}</TableCell>
                             <TableCell align="right">{180.23}</TableCell>

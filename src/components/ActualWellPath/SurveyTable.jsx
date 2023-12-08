@@ -22,13 +22,13 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         fontWeight: "600",
     },
     '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
-        borderRight: `1px solid #e7e7e7`,
+        borderRight: `1px solid #e7e7e6`,
         paddingLeft: '28px',
         paddingRight: '28px'
 
     },
     '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
-        borderBottom: `1px solid #e7e7e7`,
+        borderBottom: `1px solid #e7e7e6`,
     },
     '& .MuiDataGrid-cell': {
         color:
@@ -78,7 +78,9 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     '& .MuiDataGrid-virtualScroller::-webkit-scrollbar-track': {
         background: 'lightgray'/* Change this value to customize the scrollbar track color */
     },
-
+    '& .column-cell': {
+        borderRight: "none",
+    },
     '& .MuiDataGrid-virtualScroller::-webkit-scrollbar-thumb': {
         background: 'gray'/* Change this value to customize the scrollbar thumb color */
     }
@@ -114,7 +116,7 @@ const initialColumns = [
     { field: 'col7', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
     { field: 'col8', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
     { field: 'col9', headerName: 'VS', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col10', headerName: 'Comment', minWidth: 180, align: 'right', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: 'Unfrozen--cell', },
+    { field: 'col10', headerName: 'Comment', minWidth: 180, align: 'right', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
 ];
 
 
@@ -147,14 +149,14 @@ export default function SurveyTable() {
 
 
     return (
-        <Box component={'div'} sx={{ height: 696, width: '100%' }}>
+        <Box component={'div'} sx={{ height: 720, width: '100%' }}>
             <StyledDataGrid
                 rowSelection={false}
                 disableColumnMenu
                 disableColumnFilter
                 rows={rows}
                 hideFooter
-                rowHeight={38}
+                rowHeight={40}
                 columnHeaderHeight={72}
                 columns={initialColumns.map((column) => ({
                     ...column,
