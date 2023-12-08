@@ -5,16 +5,25 @@ export const useMatchStore = create((set) => ({
     logArray: [{ naam: "ADNOC Onshore/ 13-3/Bin Csg Gyro Surveys/ <25.0ft - 38.0ft>", model: "ISCWSA MWD", error: "MWD-STD" }],
     setLog: (log) => set(state => ({ logArray: log })),
 
+    //object vairable for plannedwellPath
+    plannedWell: {
+        uploadFile: "",
+        enteries: false,
+        loading: false
+    },
+    setPlannedWell: (splan) => set(state => ({ plannedWell: splan })),
+
     //variable for edit modal for setUp
     open: {
         show: false,
         text: '',
         id: -1
     },
+
     setOpen: (sopen) => set(state => ({ open: sopen })),
     //object variable for setUp Tab
     setUp: {
-        uploadedFile: "",
+        uploadFile: "",
         wellbore: {
             Name: "",
             Created: "dd-mm-yy",

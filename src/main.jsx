@@ -31,20 +31,29 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          color: "#fcfcfc"
+          color: "#fcfcfc",
+          boxShadow: 'none',
+          '&:hover': {
+            boxShadow: 'none',
+          },
+          '&:active': {
+            boxShadow: 'none',
+          },
         }
       }
     },
     MuiOutlinedInput: {
       styleOverrides: {
+
         // root: {
-          // '& fieldset': {
-          //   borderColor: '#b8b4b48f !important',
-          //    borderWidth: 2,
-          // },
-          // '&:focus-within fieldset': {
-          //   borderColor: '#009B4D !important',
-          // },
+        //   // '& fieldset': {
+        //   //   borderColor: '#b8b4b48f !important',
+        //   //    borderWidth: 2,
+        //   // },
+        //   // '&:focus-within fieldset': {
+        //   //   borderColor: '#009B4D !important',
+        //   // },
+
         // },
       },
     },

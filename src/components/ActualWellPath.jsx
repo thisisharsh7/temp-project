@@ -3,6 +3,7 @@ import LogTable from './ActualWellPath/LogTable';
 import SurveyTable from './ActualWellPath/SurveyTable';
 import BoxHeader from './SetUp/BoxHeader';
 import { useMatchStore } from '../store/store';
+import AddIcon from '@mui/icons-material/Add';
 
 const ActualWellPath = () => {
   const { setOpen } = useMatchStore();
@@ -28,19 +29,21 @@ const ActualWellPath = () => {
                 <Typography variant='h5' component='h1' fontWeight={'bold'}>
                   Survey Tool Program
                 </Typography>
-                <Button variant="outlined" size='small' sx={{
+                <Button variant="text" onClick={() => handleClick('Add')} startIcon={<AddIcon fontSize='10px' />} sx={{
                   'color': 'gray',
-                  'borderColor': 'gray !important',
+                  'border': 'none',
                   ':hover': {
-                    backgroundColor: '#0abd61 !important',
-                    borderColor: '#0abd61  !important',
-                    color: 'white'
+                    color: '#0abd61',
+                    background: 'transparent'
                   },
+                  textTransform: 'none',
                   position: 'absolute',
-                  right: 0
-                }} onClick={() => handleClick('Add')}>
-                  Add New
+                  right: 0,
+                  fontSize: '16px'
+                }}>
+                  New
                 </Button>
+
               </Stack>
             </Box>
             <Box >
@@ -54,7 +57,7 @@ const ActualWellPath = () => {
           <Stack direction='column' alignItems={'stretch'} width={'100%'}>
 
             <BoxHeader boxHead="Actual Survey" />
-            <Box >
+            <Box>
               <SurveyTable />
             </Box>
           </Stack>

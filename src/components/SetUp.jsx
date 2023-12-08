@@ -70,7 +70,7 @@ const SetUp = () => {
           },
           enteries: false,
           loading: false,
-          uploadedFile: ""
+          uploadFile: ""
         });
         alert('File not supported!');
       }

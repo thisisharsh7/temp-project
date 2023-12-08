@@ -22,13 +22,13 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         fontWeight: "600",
     },
     '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
-        borderRight: `1px solid #a8a4a48f`,
+        borderRight: `1px solid #e7e7e7`,
         paddingLeft: '28px',
         paddingRight: '28px'
 
     },
     '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
-        borderBottom: `px solid #a8a4a48f`,
+        borderBottom: `1px solid #e7e7e7`,
     },
     '& .MuiDataGrid-cell': {
         color:
@@ -55,6 +55,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     },
 
     '& .MuiDataGrid-colCellTitleUnits': {
+        fontWeight: 'normal',
         fontSize: '0.75rem',
         color: theme.palette.mode === 'light' ? 'lightgray' : 'darkgray',
         lineHeight: '1rem',
@@ -63,8 +64,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         backgroundColor: 'transparent'
     },
     '& .frozen--cell': {
-        backgroundColor: 'white',
-        color: 'gray'
+        backgroundColor: '#f1f1f1'
     },
     '& .Unfrozen--cell': {
         backgroundColor: '#f2ffff'
@@ -96,19 +96,24 @@ const initialRows = [
     { id: 9, col1: 9, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
     { id: 10, col1: 10, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
     { id: 11, col1: 11, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 12, col1: 12, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 13, col1: 13, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 14, col1: 14, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 15, col1: 15, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
 
 ];
 
 const initialColumns = [
-    { field: 'col1', headerName: '', width: 121.5, sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col2', headerName: 'MD', headerUnits: '(ft)', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
-    { field: 'col3', headerName: 'Inc', headerUnits: '(deg)', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-    { field: 'col4', headerName: 'Azi', headerUnits: '(deg)', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-    { field: 'col5', headerName: 'TVD', headerUnits: '(ft)', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-    { field: 'col6', headerName: 'North', headerUnits: '(ft)', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col7', headerName: 'East', headerUnits: '(ft)', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col8', headerName: 'DLS', headerUnits: '(deg/100ft)', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col9', headerName: 'VS', headerUnits: '( ft )', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col1', headerName: '', width: 115, sortable: false },
+    { field: 'col2', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
+    { field: 'colE', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
+    { field: 'col3', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+    { field: 'col4', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+    { field: 'col5', headerName: 'TVD', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col6', headerName: 'North', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col7', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col8', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col9', headerName: 'VS', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
     { field: 'col10', headerName: 'Comment', minWidth: 180, align: 'right', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: 'Unfrozen--cell', },
 ];
 
@@ -149,6 +154,7 @@ export default function SurveyTable() {
                 disableColumnFilter
                 rows={rows}
                 hideFooter
+                rowHeight={38}
                 columnHeaderHeight={72}
                 columns={initialColumns.map((column) => ({
                     ...column,

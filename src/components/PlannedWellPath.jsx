@@ -1,39 +1,59 @@
 import { Box, Stack, Button, Typography } from '@mui/material';
-import { useState } from 'react';
-import { VisuallyHiddenInput } from './constant';
+import { VisuallyHiddenInput, uploadFile } from './constant';
+import { useMatchStore } from '../store/store';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useEffect } from 'react';
+import PathTable from './PlannedWellPath/PathTable';
 
 const PlannedWellPath = () => {
+  const { plannedWell, setPlannedWell } = useMatchStore();
 
-  const [fileSelected, selectFile] = useState("");
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      selectFile(file);
+      console.log(file);
+      setPlannedWell({ ...plannedWell, loading: true, enteries: false })
+      const data = await uploadFile(file);
+      if (data) {
+        setPlannedWell({ uploadFile: file.name, loading: false, enteries: true });
+        console.log('done');
+      } else {
+        setPlannedWell({ ...plannedWell, loading: false, enteries: false });
+        alert('File not supported!');
+      }
     }
   };
+
+  useEffect(() => {
+    console.log(plannedWell);
+  })
 
   return (
     <Box mt={2.5} component="div">
 
       <Stack alignItems={{ md: "center", xs: "space-between" }} justifyContent={'space-between'} spacing={4} direction={{ md: 'row', xs: 'column-reverse' }}>
-        {/* <Typography variant='h5' fontWeight={500} width={'100%'} >
+        <Typography variant='h5' fontWeight={500} width={'100%'} >
           {
-            (fileSelected === "") ? "Import Well Plan" : "Current Well Plan"
+            (!plannedWell.enteries) ? "Import Well Path" : "Current Well Path"
           }
-        </Typography> */}
+        </Typography>
         <Stack direction={{ sm: 'row', xs: 'row-reverse' }} width={'100%'} justifyContent={{ sm: "flex-end", xs: "space-between" }} alignItems='center' gap={{ sm: 8, xs: 2 }} alignSelf={{ sm: "flex-end", xs: "flex-start" }}>
           {
-            (fileSelected !== "") && <Typography variant='h5' fontWeight={500} color="#009B4D">{fileSelected.name.split('.')[0].slice(0, 16)}.xlsx</Typography>
+            (plannedWell.enteries) && <Typography variant='h5' fontWeight={500} color="#009B4D">{plannedWell.uploadFile}</Typography>
           }
+          {
+            (plannedWell.loading) && <CircularProgress size={28} />
+          }
+
           <Button variant="contained" onClick={() => document.getElementById('fileInput').click()}>
-            Upload File
+            Select File
             <VisuallyHiddenInput id="fileInput" type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
           </Button>
         </Stack>
       </Stack>
-
-      <Stack component='div' my={6} direction='column' spacing={4} >
-      </Stack>
+      <Box component='div' mt={8} mb={6}>
+        <PathTable />
+      </Box>
     </Box>
   )
 }

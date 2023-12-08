@@ -32,12 +32,12 @@ export default function LogTable() {
                             fontSize: "0.95rem",
                             fontWeight: "600",
                             fontFamily: '\'Ubuntu\', sans-serif',
-                        }}>Used From</TableCell>
+                        }}>Depth From</TableCell>
                         <TableCell align="right" width={120} sx={{
                             fontSize: "0.95rem",
                             fontWeight: "600",
                             fontFamily: '\'Ubuntu\', sans-serif',
-                        }}>Used To</TableCell>
+                        }}>Depth To</TableCell>
                         <TableCell width={200}></TableCell>
                     </TableRow>
                 </TableHead>
@@ -64,11 +64,19 @@ export default function LogTable() {
                                 paddingRight: 3.5
                             }}>
                                 <Stack direction={'row'} justifyContent={'flex-end'} spacing={4}>
-                                    <IconButton color='primary' size='small' onClick={() => handleButton('Edit', index)}>
-                                        <EditOutlinedIcon />
+                                    <IconButton color='primary' size='small' onClick={() => handleButton('Edit', index)} sx={{
+                                        "&.MuiButtonBase-root:hover": {
+                                            bgcolor: "transparent"
+                                        }
+                                    }}>
+                                        <EditOutlinedIcon fontSize='16px' />
                                     </IconButton>
-                                    <IconButton color='primary' size='small' onClick={() => handleButton('Remove', index)}>
-                                        <DeleteOutlineOutlinedIcon />
+                                    <IconButton color='primary' size='small' onClick={() => handleButton('Remove', index)} sx={{
+                                        "&.MuiButtonBase-root:hover": {
+                                            bgcolor: "transparent"
+                                        }
+                                    }}>
+                                        <DeleteOutlineOutlinedIcon fontSize='16px' />
                                     </IconButton>
                                 </Stack>
                             </TableCell>
