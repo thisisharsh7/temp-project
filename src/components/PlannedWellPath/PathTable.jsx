@@ -131,9 +131,9 @@ const initialRows = [
 
 const initialColumns = [
     { field: 'col1', headerName: 'S/N', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
-    { field: 'col2', headerName: 'MD', headerUnits: '(ft)', minWidth: 100, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
-    { field: 'col3', headerName: 'Inc', headerUnits: '(deg)', minWidth: 100, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col4', headerName: 'Azi', headerUnits: '(deg)', minWidth: 100, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col2', headerName: 'MD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
+    { field: 'col3', headerName: 'Inc', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col4', headerName: 'Azi', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
     { field: 'col5', headerName: 'TVD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
     { field: 'col6', headerName: 'TVDSS', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
     { field: 'col7', headerName: 'North', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
@@ -143,7 +143,7 @@ const initialColumns = [
     { field: 'col11', headerName: 'Build Rate', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
     { field: 'col12', headerName: 'Turn Rate', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
     { field: 'col13', headerName: 'VS', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col14', headerName: 'Comments', minWidth: 100, align: 'center', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['frozen--cell', 'column-cell'], },
+    { field: 'col14', headerName: 'Comments', minWidth: 100, align: 'center', headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['frozen--cell', 'column-cell'], },
 ];
 
 
