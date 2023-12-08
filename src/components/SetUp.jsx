@@ -88,7 +88,7 @@ const SetUp = () => {
             bgcolor: "#0abd61"
           }
         }}>
-          Select File
+          Import Plan
           <VisuallyHiddenInput id="fileInput" type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
         </Button>
         {
