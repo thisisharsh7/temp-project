@@ -1,4 +1,4 @@
-import { Box, Stack, Button, Typography } from '@mui/material';
+import { Box, Stack, Button, Typography, Paper } from '@mui/material';
 import { VisuallyHiddenInput, uploadFile } from './constant';
 import { useMatchStore } from '../store/store';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -55,8 +55,12 @@ const PlannedWellPath = () => {
           </Button>
         </Stack>
       </Stack>
-      <Box component='div' mt={8} mb={6}>
-        <PathTable />
+      <Box mt={8} mb={6}>
+        <Paper square={false} elevation={0} sx={{
+          border: "1px solid #a8a4a48f"
+        }}>
+          <PathTable />
+        </Paper>
       </Box>
     </Box>
   )

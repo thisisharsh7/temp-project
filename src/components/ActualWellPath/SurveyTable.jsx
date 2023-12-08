@@ -58,6 +58,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        gap: '0.25rem'
     },
 
     '& .MuiDataGrid-colCellTitle': {

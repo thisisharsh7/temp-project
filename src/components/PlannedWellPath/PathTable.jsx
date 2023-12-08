@@ -19,18 +19,35 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     },
     '& .MuiDataGrid-columnHeader': {
         fontSize: "0.95rem",
-        fontWeight: "600",
+        fontWeight: "1000",
     },
     '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
-        borderRight: `1px solid #a8a4a48f`,
-        paddingLeft: '28px',
-        paddingRight: '28px'
+        borderRight: `1px solid #e7e7e6`,
+        paddingLeft: '10px',
+        paddingRight: '10px'
+
+    },
+    '& .MuiDataGrid-columnHeader:last-of-type , .MuiDataGrid-cell:last-of-type': {
+        borderRight: `none`,
+        paddingLeft: '10px',
+        paddingRight: '10px'
 
     },
     '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
-        borderBottom: `px solid #a8a4a48f`,
+        borderBottom: `1px solid #e7e7e6`,
+    },
+    '& .MuiDataGrid-row--lastVisible .MuiDataGrid-cell': {
+        borderBottom: 'none'
+    },
+    '& .MuiDataGrid-row--lastVisible .MuiDataGrid-cell:first-of-type': {
+        borderRadius: '0rem 0rem 0rem 0.2rem'
+    },
+    '& .MuiDataGrid-row--lastVisible .column-cell': {
+        borderRadius: '0rem 0rem 0.2rem 0rem',
     },
     '& .MuiDataGrid-cell': {
+        fontSize: '15.2px',
+        fontWeight: 500,
         color:
             theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.65)',
     },
@@ -41,6 +58,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        gap: '0.25rem'
     },
 
     '& .MuiDataGrid-colCellTitle': {
@@ -48,13 +66,13 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         fontSize: '0.95rem',
         lineHeight: '1.4rem',
     },
-
     '& .MuiDataGrid-colCellTitle, .MuiDataGrid-cell': {
         color:
             theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.65)',
     },
 
     '& .MuiDataGrid-colCellTitleUnits': {
+        fontWeight: 'normal',
         fontSize: '0.75rem',
         color: theme.palette.mode === 'light' ? 'lightgray' : 'darkgray',
         lineHeight: '1rem',
@@ -63,38 +81,69 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         backgroundColor: 'transparent'
     },
     '& .frozen--cell': {
-        backgroundColor: '#efefef',
-        color: 'gray'
+        backgroundColor: '#fafafa'
+    },
+    '& .Unfrozen--cell': {
+        backgroundColor: '#f2ffff'
+    },
+
+    '& .MuiDataGrid-virtualScroller::-webkit-scrollbar': {
+        width: '4px' /* Change this value to adjust the width of the scrollbar */
+    },
+
+
+    '& .MuiDataGrid-virtualScroller::-webkit-scrollbar-track': {
+        background: 'lightgray',
+        borderRadius: '0rem 0rem 0.2rem 0rem'
+    },
+    '& .column-cell': {
+        borderRight: "none",
+    },
+    '& .MuiDataGrid-virtualScroller::-webkit-scrollbar-thumb': {
+        background: '#f1f1f1',
+        borderRadius: '0rem 0rem 0.2rem 0rem'
     }
 }));
 
 const initialRows = [
-    { id: 1, col2: '0', col3: 0, col4: 0, col5: 0, col6: '0.00N', col7: '0.00E', col8: '', col9: 0 },
-    { id: 2, col2: 25, col3: 0.05, col4: 203.37, col5: 25, col6: '0.01S', col7: '0.00E', col8: 0.2, col9: 0 },
-    { id: 3, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
-    { id: 4, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
-    { id: 5, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
-    { id: 6, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
-    { id: 7, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
-    { id: 8, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
-    { id: 9, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
-    { id: 10, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
-    { id: 11, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
-    { id: 12, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
-    { id: 13, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
-    { id: 14, col2: 50, col3: 0.11, col4: 203.37, col5: 50, col6: '0.04S', col7: '0.02W', col8: 0.24, col9: '-0.01' },
+    { id: 1, col1: '1', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 2, col1: '2', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 3, col1: '3', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 4, col1: '4', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 5, col1: '5', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 6, col1: '6', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 7, col1: '7', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 8, col1: '8', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 9, col1: '9', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 10, col1: '10', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 11, col1: '11', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 12, col1: '12', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 13, col1: '13', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 14, col1: '14', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 15, col1: '15', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 16, col1: '16', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 17, col1: '17', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 18, col1: '18', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 19, col1: '19', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
+    { id: 20, col1: '20', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
 
 ];
 
 const initialColumns = [
-    { field: 'col2', headerName: 'MD', headerUnits: '( ft )', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
-    { field: 'col3', headerName: 'Inc', headerUnits: '( deg )', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1, },
-    { field: 'col4', headerName: 'Azi', headerUnits: '( deg )', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1, },
-    { field: 'col5', headerName: 'TVD', headerUnits: '( ft )', minWidth: 121.5, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1, },
-    { field: 'col6', headerName: 'North', headerUnits: '( ft )', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
-    { field: 'col7', headerName: 'East', headerUnits: '( ft )', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
-    { field: 'col8', headerName: 'DLS', headerUnits: '( deg/100ft )', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
-    { field: 'col9', headerName: 'VS', headerUnits: '( ft )', minWidth: 121.5, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
+    { field: 'col1', headerName: 'S/N', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
+    { field: 'col2', headerName: 'MD', headerUnits: '(ft)', minWidth: 100, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
+    { field: 'col3', headerName: 'Inc', headerUnits: '(deg)', minWidth: 100, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col4', headerName: 'Azi', headerUnits: '(deg)', minWidth: 100, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col5', headerName: 'TVD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col6', headerName: 'TVDSS', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col7', headerName: 'North', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col8', headerName: 'East', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col9', headerName: 'DLS', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col10', headerName: 'Toolface', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col11', headerName: 'Build Rate', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col12', headerName: 'Turn Rate', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col13', headerName: 'VS', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'col14', headerName: 'Comments', minWidth: 100, align: 'center', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['frozen--cell', 'column-cell'], },
 ];
 
 
@@ -103,13 +152,14 @@ export default function PathTable() {
 
 
     return (
-        <Box component={'div'} sx={{ height: 900, width: '100%' }}>
+        <Box component={'div'} sx={{ height: 800, width: '100%' }}>
             <StyledDataGrid
                 rowSelection={false}
                 disableColumnMenu
                 disableColumnFilter
                 rows={rows}
                 hideFooter
+                rowHeight={42}
                 columnHeaderHeight={72}
                 columns={initialColumns.map((column) => ({
                     ...column,

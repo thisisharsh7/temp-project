@@ -68,7 +68,7 @@ export default function LogTable() {
                             <TableCell align="right" sx={{
                                 paddingRight: 3.5
                             }}>
-                                <Stack direction={'row'} justifyContent={'flex-end'} spacing={4}>
+                                <Stack direction={'row'} justifyContent={'flex-end'} spacing={3}>
                                     <IconButton color='primary' size='small' onClick={() => handleButton('Edit', index)} sx={{
                                         "&.MuiButtonBase-root:hover": {
                                             bgcolor: "transparent"
