@@ -27,8 +27,23 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         paddingRight: '28px'
 
     },
+    '& .MuiDataGrid-columnHeader:last-of-type , .MuiDataGrid-cell:last-of-type': {
+        borderRight: `none`,
+        paddingLeft: '10px',
+        paddingRight: '10px'
+
+    },
     '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
         borderBottom: `1px solid #e7e7e6`,
+    },
+    '& .MuiDataGrid-row--lastVisible .MuiDataGrid-cell': {
+        borderBottom: 'none'
+    },
+    '& .MuiDataGrid-row--lastVisible .MuiDataGrid-cell:first-of-type': {
+        borderRadius: '0rem 0rem 0rem 0.2rem'
+    },
+    '& .MuiDataGrid-row--lastVisible .column-cell': {
+        borderRadius: '0rem 0rem 0.2rem 0rem',
     },
     '& .MuiDataGrid-cell': {
         fontSize: '15.2px',
@@ -72,18 +87,20 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     },
 
     '& .MuiDataGrid-virtualScroller::-webkit-scrollbar': {
-
         width: '4px' /* Change this value to adjust the width of the scrollbar */
     },
 
+
     '& .MuiDataGrid-virtualScroller::-webkit-scrollbar-track': {
-        background: 'lightgray'/* Change this value to customize the scrollbar track color */
+        background: 'lightgray',
+        borderRadius: '0rem 0rem 0.2rem 0rem'
     },
     '& .column-cell': {
         borderRight: "none",
     },
     '& .MuiDataGrid-virtualScroller::-webkit-scrollbar-thumb': {
-        background: 'gray'/* Change this value to customize the scrollbar thumb color */
+        background: '#f1f1f1',
+       borderRadius: '0rem 0rem 0.2rem 0rem'
     }
 }));
 
@@ -150,7 +167,7 @@ export default function SurveyTable() {
 
 
     return (
-        <Box component={'div'} sx={{ height: 720, width: '100%' }}>
+        <Box component={'div'} sx={{ height: 702, width: '100%' }}>
             <StyledDataGrid
                 rowSelection={false}
                 disableColumnMenu
