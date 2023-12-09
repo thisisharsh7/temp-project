@@ -6,6 +6,7 @@ import BoxHeader from './SetUp/BoxHeader';
 import LabelSelect from './SetUp/LabelSelect';
 import CircularProgress from '@mui/material/CircularProgress';
 import LabelDateInput from './SetUp/LabelDateInput';
+import SetUpTable from './SetUp/SetUpTable';
 
 
 
@@ -102,7 +103,7 @@ const SetUp = () => {
         }
       </Stack>
 
-      <Stack component='div' my={6} direction='column' spacing={4} >
+      {/* <Stack component='div' my={6} direction='column' spacing={4} >
 
         <Paper square={false} elevation={0} sx={{
           border: "1px solid #a8a4a48f"
@@ -113,7 +114,7 @@ const SetUp = () => {
 
             <Stack display={'grid'} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gridTemplateColumns={{ lg: "1fr 1fr 1fr 1fr", md: "1fr 1fr 1fr", sm: "1fr 1fr" }} gap={4}>
 
-              <LabelInput fieldLabel="Name" fieldStatus={!setUp.enteries} fieldValue={setUp.wellbore.Name} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Name" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
 
               <LabelDateInput fieldLabel="Created" fieldStatus={!setUp.enteries} fieldValue={(setUp.wellbore.Created.includes('T')) ? setUp.wellbore.Created.split('T')[0] : (setUp.wellbore.Created)} fieldName="setUp.wellbore.Created" />
 
@@ -234,7 +235,53 @@ const SetUp = () => {
           </Stack>
         </Paper>
 
+      </Stack> */}
+      <Stack component='div' my={6} direction='column' spacing={6} >
+        <Paper square={false} elevation={0} sx={{
+          border: "1px solid #a8a4a48f"
+        }}>
+          <Stack direction='column' alignItems={'stretch'} width={'100%'}>
+
+            <BoxHeader boxHead="Well Details" />
+
+            <Stack display={'grid'} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gridTemplateColumns={{ lg: "1fr 1fr 1fr 1fr", md: "1fr 1fr 1fr", sm: "1fr 1fr" }} gap={4}>
+
+              <LabelInput fieldLabel="Well Name" fieldStatus={!setUp.enteries} fieldValue={setUp.wellbore.Name} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Plan Revision" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Field Name" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="UTM Zone" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="North Reference" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Magnetic Declination" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Grid Convergence" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelDateInput fieldLabel="Last Revised" fieldStatus={!setUp.enteries} fieldValue={(setUp.wellbore.LastRevised.includes('T')) ? setUp.wellbore.LastRevised.split('T')[0] : (setUp.wellbore.LastRevised)} fieldName="setUp.wellbore.LastRevised" />
+              <LabelInput fieldLabel="Field Vertical Reference" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Rotary to Facility Vertical Datum" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Rotary to Sub Sea" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Rotary to Mud Return Line" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Section Origin X" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Section Origin Y" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Vertical Section Azimuth" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+
+
+              <LabelDateInput fieldLabel="Last Uploaded" fieldStatus={!setUp.enteries} fieldValue={(setUp.wellbore.LastRevised.includes('T')) ? setUp.wellbore.LastRevised.split('T')[0] : (setUp.wellbore.LastRevised)} fieldName="setUp.wellbore.LastRevised" />
+
+            </Stack>
+          </Stack>
+        </Paper>
+
+        <Paper square={false} elevation={0} sx={{
+          border: "1px solid #a8a4a48f"
+        }}>
+          <Stack direction='column' alignItems={'stretch'} width={'100%'}>
+
+            <BoxHeader boxHead="Location Coordinates" />
+            <Box>
+              <SetUpTable />
+            </Box>
+          </Stack>
+        </Paper>
       </Stack>
+
     </Box>
   )
 }
