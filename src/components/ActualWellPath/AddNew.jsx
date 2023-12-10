@@ -2,7 +2,8 @@ import { Button, Box, Modal, Stack, TextField, Paper, Select, MenuItem, FormCont
 import { useMatchStore } from "../../store/store";
 import BoxHeader from "../SetUp/BoxHeader";
 import { useState } from "react";
-
+import { postLogData } from "../constant";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const style = {
     position: 'absolute',
@@ -19,14 +20,33 @@ const AddNew = () => {
         naam: '',
         model: '',
         error: '',
+        loading: false,
     })
     const { setOpen, open, logArray, setLog } = useMatchStore();
 
     const handleClose = () => {
         setOpen({ show: false, text: '', id: -1 });
     }
-    const handleSave = () => {
-        setLog([form, ...logArray]);
+    const handleSave = async () => {
+        setForm({
+            ...form,
+            loading: true
+        })
+        const logData = await postLogData('https://og-project.onrender.com/api/v1/surveyCreate/', {
+            "logName": form.naam,
+            "usedFrom": 5674.65,
+            "usedBy": 45894
+        });
+        if (logData) {
+            setLog([form, ...logArray]);
+
+        } else {
+            alert('Log not added.');
+        }
+        setForm({
+            ...form,
+            loading: false
+        })
         handleClose();
     }
 
@@ -103,7 +123,9 @@ const AddNew = () => {
                                         "&.MuiButtonBase-root:hover": {
                                             bgcolor: "#0abd61"
                                         }
-                                    }} onClick={handleSave}>Save</Button>
+                                    }} onClick={handleSave}>
+                                        {form.loading ? <CircularProgress size={14} color="secondary" /> : 'Save'}
+                                    </Button>
                                 </Stack>
                             </Stack>
                         </Stack>

@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 export const useMatchStore = create((set) => ({
     //object variable of actualWellPath
-    logArray: [{ naam: "ADNOC Onshore/ 13-3/Bin Csg Gyro Surveys/ <25.0ft - 38.0ft>", model: "ISCWSA MWD", error: "MWD-STD" }],
+    logArray: [],
     setLog: (log) => set(state => ({ logArray: log })),
 
     //object vairable for plannedwellPath

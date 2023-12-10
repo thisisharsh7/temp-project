@@ -10,13 +10,20 @@ import Stack from '@mui/material/Stack';
 import { useMatchStore } from '../../store/store';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { useState } from 'react';
 
 export default function LogTable() {
     const { setOpen, logArray } = useMatchStore();
+    const [selectedRowIndex, setSelectedRowIndex] = useState(-1);
 
     const handleButton = (val, idx) => {
         setOpen({ show: true, text: val, id: idx });
     }
+
+    const handleRowClick = (e) => {
+        const rowIndex = parseInt(e.currentTarget.getAttribute('data-row-index'));
+        setSelectedRowIndex(rowIndex);
+      };
     return (
         <TableContainer component={Paper} elevation={0} >
             <Table aria-label="simple table" >
@@ -52,6 +59,9 @@ export default function LogTable() {
                                     cursor: 'pointer'
                                 }
                             }}
+                            data-row-index={index}
+                            onClick={handleRowClick}
+                            className={selectedRowIndex === index ? "table-row selected" : "table-row"}
                         >
                             <TableCell component="th" scope="row" sx={{
                                 paddingLeft: 3.5,

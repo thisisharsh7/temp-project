@@ -2,6 +2,8 @@ import { Button, Box, Modal, Stack, TextField, Paper, Select, MenuItem, FormCont
 import { useMatchStore } from "../../store/store";
 import BoxHeader from "../SetUp/BoxHeader";
 import { useState } from "react";
+import { postLogData } from "../constant";
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const style = {
@@ -20,25 +22,41 @@ const EditNew = () => {
         naam: logArray[open.id].naam,
         model: logArray[open.id].model,
         error: logArray[open.id].error,
+        loading: false,
     })
 
 
     const handleClose = () => {
         setOpen({ show: false, text: '', id: -1 });
     }
-    const handleSave = () => {
-        const updatedLogArray = logArray.map((item, index) => {
-            if (index === open.id) {
-                return form;
-            }
-            return item;
-        });
+    const handleSave = async () => {
+        setForm({
+            ...form,
+            loading: true
+        })
+        const logData = await postLogData('https://og-project.onrender.com/api/v1/surveyEdit', {
+            "logName": logArray[open.id].naam,
+            "editLogName": form.naam
 
-        // Update the state with the new array
-        setLog(updatedLogArray);
+        });
+        if (logData) {
+            const updatedLogArray = logArray.map((item, index) => {
+                if (index === open.id) {
+                    return form;
+                }
+                return item;
+            });
+            setLog(updatedLogArray);
+        } else {
+            alert('Log not added.');
+        }
+        setForm({
+            ...form,
+            loading: false
+        })
+
         handleClose();
     }
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm({
@@ -112,7 +130,7 @@ const EditNew = () => {
                                         "&.MuiButtonBase-root:hover": {
                                             bgcolor: "#0abd61"
                                         }
-                                    }} onClick={handleSave}>Save</Button>
+                                    }} onClick={handleSave}> {form.loading ? <CircularProgress size={14} color="secondary" /> : 'Save'}</Button>
                                 </Stack>
                             </Stack>
                         </Stack>

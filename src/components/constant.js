@@ -13,7 +13,24 @@ export const VisuallyHiddenInput = styled('input')({
 });
 
 
+export function updateDate() {
+  const date = new Date();
 
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  const formattedMonth = month.toString().padStart(2, "0");
+  const formattedDay = day.toString().padStart(2, "0");
+
+  const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
+
+  return formattedDate;
+
+}
+
+
+//APIs
 
 export async function uploadFile(file) {
   let data = null;
@@ -42,18 +59,20 @@ export async function uploadFile(file) {
   return data;
 }
 
-export function updateDate() {
-  const date = new Date();
+export async function postLogData(url, data) {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
 
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-
-  const formattedMonth = month.toString().padStart(2, "0");
-  const formattedDay = day.toString().padStart(2, "0");
-
-  const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
-
-  return formattedDate;
-
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error('Error:', error);
+    return 0;
+  }
 }

@@ -1,6 +1,9 @@
 import { Button, Box, Modal, Stack, Paper, Typography } from "@mui/material"
 import { useMatchStore } from "../../store/store";
 import BoxHeader from "../SetUp/BoxHeader";
+import CircularProgress from '@mui/material/CircularProgress';
+import { useState } from "react";
+import { postLogData } from "../constant";
 
 
 const style = {
@@ -15,19 +18,29 @@ const style = {
 
 const DelNew = () => {
     const { setOpen, open, logArray, setLog } = useMatchStore();
+    const [loading, setLoading] = useState(false);
 
     const handleClose = () => {
         setOpen({ show: false, text: '', id: -1 });
     }
-    const handleDelete = () => {
-        const updatedLogArray = [
-            ...logArray.slice(0, open.id),
-            ...logArray.slice(open.id + 1),
-        ];
-
+    const handleDelete = async () => {
+        console.log(logArray[open.id].name);
+        setLoading(true);
+        const logData = await postLogData('https://og-project.onrender.com/api/v1/surveyDelete', {
+            "logName": logArray[open.id].naam,
+        });
+        if (logData) {
+            const updatedLogArray = [
+                ...logArray.slice(0, open.id),  
+                ...logArray.slice(open.id + 1),
+            ];
+            setLog(updatedLogArray);
+        } else {
+            alert('Log not Deleted.');
+        }
         // Update the state with the new array
-        setLog(updatedLogArray);
         handleClose();
+        setLoading(false);
     }
     return (
         <div >
@@ -60,7 +73,7 @@ const DelNew = () => {
                                     <Button variant="text" sx={{
                                         color: "#0abd61",
                                         fontWeight: "600",
-                                    }} onClick={handleDelete}>Confirm</Button>
+                                    }} onClick={handleDelete}> {loading ? <CircularProgress size={14} /> : 'Confirm'}</Button>
                                 </Stack>
                             </Stack>
                         </Stack>
