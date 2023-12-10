@@ -82,7 +82,7 @@ const SetUp = () => {
     <Box mt={2.5} component="div">
 
 
-      <Stack direction={{ sm: 'row' }} width={'100%'} spacing={4} alignItems='center' gap={{ sm: 8, xs: 2 }} >
+      <Stack direction={{ sm: 'row' }} width={'100%'} spacing={5} alignItems='center'  >
 
         <Button variant="contained" onClick={() => document.getElementById('fileInput').click()} sx={{
           "&.MuiButtonBase-root:hover": {
@@ -100,7 +100,7 @@ const SetUp = () => {
         {
           (!setUp.enteries && !setUp.loading) && <Typography variant='body1' sx={{
             fontSize: '15.2px',
-          }} fontWeight={500} justifySelf={'center'} >Upload Well Plan (xlsx format) to start Setup.</Typography>
+          }} fontWeight={500} justifySelf={'center'} >Upload well plan (xlsx format) to get started.</Typography>
         }
         {
           (setUp.loading) && <CircularProgress size={26} />
