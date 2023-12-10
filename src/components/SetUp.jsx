@@ -1,12 +1,12 @@
 import { Box, Stack, Button, Typography, Paper } from '@mui/material';
 import { useMatchStore } from '../store/store';
-import { VisuallyHiddenInput, uploadFile } from './constant';
+import { VisuallyHiddenInput, updateDate, uploadFile } from './constant';
 import LabelInput from './SetUp/LabelInput';
 import BoxHeader from './SetUp/BoxHeader';
-import LabelSelect from './SetUp/LabelSelect';
 import CircularProgress from '@mui/material/CircularProgress';
 import LabelDateInput from './SetUp/LabelDateInput';
 import SetUpTable from './SetUp/SetUpTable';
+import LabelSelect from './SetUp/LabelSelect';
 
 
 
@@ -16,62 +16,33 @@ const SetUp = () => {
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log(file);
-      updateSetUp({ ...setUp, loading: true, enteries: false, uploadFile: file.name })
+      updateSetUp({ ...setUp, loading: true, enteries: false })
       const data = await uploadFile(file);
       if (data) {
         updateSetUp({
-          ...data.setup, loading: false, enteries: true,
-          additional: {
-            Units: "",
-            VerticalSectionAzimuth: "",
-            SurveyReferencePoint: ""
-          },
-          uploadFile: file.name
+          ...data.newField, loading: false, enteries: true, uploadFile: file.name, LastRevised: updateDate()
         });
       } else {
         updateSetUp({
-          wellbore: {
-            Name: "",
-            Created: "dd-mm-yy",
-            LastRevised: "dd-mm-yy",
-          },
-          well: {
-            Name: "",
-            GovernmentId: "",
-            LastRevised: "dd-mm-yy",
-          },
-          slot: {
-            Name: "",
-            GridNorthing: "",
-            GridEasting: "",
-            Latitude: "",
-            Longitude: "",
-            North: "",
-            East: ""
-          },
-          installation: {
-            Name: "",
-            Easting: "",
-            Northing: "",
-            MapName: "",
-            NorthAlignment: ""
-          },
-          field: {
-            Name: "",
-            Easting: "",
-            Northing: "",
-            MapName: "",
-            NorthAlignment: ""
-          },
-          additional: {
-            Units: "",
-            VerticalSectionAzimuth: "",
-            SurveyReferencePoint: ""
-          },
+          uploadFile: "",
+          well: "",
+          wellbore: "",
+          planRevision: "",
+          fieldName: "",
+          utm: "",
+          northReference: "",
+          magneticDeclination: "",
+          convergence: "",
+          fieldVerticalReference: "",
+          rotaryToField: "",
+          rotarySubsea: "",
+          rotaryToMHL: "",
+          sectionX: "",
+          sectionY: "",
+          verticalSectionAzimuth: "",
+          LastRevised: "dd-mm-yy",
           enteries: false,
-          loading: false,
-          uploadFile: ""
+          loading: false
         });
         alert('File not supported!');
       }
@@ -248,23 +219,23 @@ const SetUp = () => {
 
             <BoxHeader boxHead="Well Details" />
 
-            <Stack display={'grid'} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gridTemplateColumns={{ xl: "1fr 1fr 1fr 1fr 1fr", lg: "1fr 1fr 1fr 1fr", md: "1fr 1fr 1fr 1fr", sm: "1fr 1fr " }} gap={4}>
+            <Stack display={'grid'} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gridTemplateColumns={{ xl: "1fr 1fr 1fr 1fr 1fr", lg: "1fr 1fr 1fr 1fr", md: "1fr 1fr 1fr ", sm: "1fr 1fr " }} gap={4}>
 
-              <LabelInput fieldLabel="Well Name" fieldStatus={!setUp.enteries} fieldValue={setUp.wellbore.Name} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Magnetic Declination" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="UTM Zone" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Rotary to Facility Vertical Datum" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Section Origin X" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Plan Revision" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Grid Convergence" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="North Reference" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Rotary to Sub Sea" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Section Origin Y" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Field Name" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Vertical Section Azimuth" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Field Vertical Reference" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Rotary to Mud Return Line" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelDateInput fieldLabel="Last Revised" fieldStatus={!setUp.enteries} fieldValue={(setUp.wellbore.LastRevised.includes('T')) ? setUp.wellbore.LastRevised.split('T')[0] : (setUp.wellbore.LastRevised)} fieldName="setUp.wellbore.LastRevised" />
+              <LabelInput fieldLabel="Well Name" fieldStatus={!setUp.enteries} fieldValue={setUp.well} fieldName="setUp.well" />
+              <LabelInput fieldLabel="Magnetic Declination" fieldStatus={!setUp.enteries} fieldValue={setUp.magneticDeclination} fieldName="setUp.magneticDeclination" />
+              <LabelInput fieldLabel="UTM Zone" fieldStatus={!setUp.enteries} fieldValue={setUp.utm} fieldName="setUp.utm" />
+              <LabelInput fieldLabel="Rotary to Facility Vertical Datum" fieldStatus={!setUp.enteries} fieldValue={setUp.rotaryToField} fieldName="setUp.rotaryToField" />
+              <LabelInput fieldLabel="Section Origin X" fieldStatus={!setUp.enteries} fieldValue={setUp.sectionX} fieldName="setUp.sectionX" />
+              <LabelInput fieldLabel="Plan Revision" fieldStatus={!setUp.enteries} fieldValue={setUp.planRevision} fieldName="setUp.planRevision" />
+              <LabelInput fieldLabel="Grid Convergence" fieldStatus={!setUp.enteries} fieldValue={setUp.convergence} fieldName="setUp.convergence" />
+              <LabelSelect fieldArray={["Grid", "True", "Magnetic"]} fieldLabel="North Reference" fieldStatus={!setUp.enteries} fieldValue={setUp.northReference} fieldName="setUp.northReference" />
+              <LabelInput fieldLabel="Rotary to Sub Sea" fieldStatus={!setUp.enteries} fieldValue={setUp.rotarySubsea} fieldName="setUp.rotarySubsea" />
+              <LabelInput fieldLabel="Section Origin Y" fieldStatus={!setUp.enteries} fieldValue={setUp.sectionY} fieldName="setUp.sectionY" />
+              <LabelInput fieldLabel="Field Name" fieldStatus={!setUp.enteries} fieldValue={setUp.fieldName} fieldName="setUp.fieldName" />
+              <LabelInput fieldLabel="Vertical Section Azimuth" fieldStatus={!setUp.enteries} fieldValue={setUp.verticalSectionAzimuth} fieldName="setUp.verticalSectionAzimuth" />
+              <LabelInput fieldLabel="Field Vertical Reference" fieldStatus={!setUp.enteries} fieldValue={setUp.fieldVerticalReference} fieldName="setUp.fieldVerticalReference" />
+              <LabelInput fieldLabel="Rotary to Mud Return Line" fieldStatus={!setUp.enteries} fieldValue={setUp.rotaryToMHL} fieldName="setUp.wellbore.Name" />
+              <LabelDateInput fieldLabel="Last Revised" fieldStatus={!setUp.enteries} fieldValue={setUp.LastRevised} fieldName="setUp.LastRevised" />
 
             </Stack>
           </Stack>

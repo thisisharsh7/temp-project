@@ -1,5 +1,6 @@
 import { Stack, TextField } from '@mui/material';
 import { useMatchStore } from '../../store/store';
+import { updateDate } from '../constant';
 
 const LabelInput = ({ fieldName, fieldLabel, fieldValue, fieldStatus }) => {
 
@@ -8,10 +9,9 @@ const LabelInput = ({ fieldName, fieldLabel, fieldValue, fieldStatus }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     const obj = name.split('.');
-    const first = obj[1];
-    const second = obj[2];
+    const second = obj[1];
     updateSetUp({
-      ...setUp, [first]: { ...setUp[first], [second]: value },
+      ...setUp, [second]: value
     })
   }
 

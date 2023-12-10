@@ -24,44 +24,22 @@ export const useMatchStore = create((set) => ({
     //object variable for setUp Tab
     setUp: {
         uploadFile: "",
-        wellbore: {
-            Name: "",
-            Created: "dd-mm-yy",
-            LastRevised: "dd-mm-yy",
-        },
-        well: {
-            Name: "",
-            GovernmentId: "",
-            LastRevised: "dd-mm-yy",
-        },
-        slot: {
-            Name: "",
-            GridNorthing: "",
-            GridEasting: "",
-            Latitude: "",
-            Longitude: "",
-            North: "",
-            East: ""
-        },
-        installation: {
-            Name: "",
-            Easting: "",
-            Northing: "",
-            MapName: "",
-            NorthAlignment: ""
-        },
-        field: {
-            Name: "",
-            Easting: "",
-            Northing: "",
-            MapName: "",
-            NorthAlignment: ""
-        },
-        additional: {
-            Units: "",
-            VerticalSectionAzimuth: "",
-            SurveyReferencePoint: ""
-        },
+        well: "",
+        wellbore: "",
+        planRevision: "",
+        fieldName: "",
+        utm: "",
+        northReference: "",
+        magneticDeclination: "",
+        convergence: "",
+        fieldVerticalReference: "",
+        rotaryToField: "",
+        rotarySubsea: "",
+        rotaryToMHL: "",
+        sectionX: "",
+        sectionY: "",
+        verticalSectionAzimuth: "",
+        LastRevised: "dd-mm-yy",
         enteries: false,
         loading: false,
     },
