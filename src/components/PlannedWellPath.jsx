@@ -1,7 +1,6 @@
 import { Box, Stack, Typography, Paper } from '@mui/material';
 import PathTable from './PlannedWellPath/PathTable';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import BoxHeader from './SetUp/BoxHeader';
 
 const PlannedWellPath = () => {
 
