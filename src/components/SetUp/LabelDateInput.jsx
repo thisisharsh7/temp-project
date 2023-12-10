@@ -18,8 +18,8 @@ const LabelDateInput = ({ fieldName, fieldLabel, fieldValue, fieldStatus }) => {
 
     return (
         <Stack direction="column" style={{
-            fontSize: 17,
-            fontWeight: "500",
+            fontSize: '15.2px',
+            fontWeight: 500,
             fontFamily: '\'Poppins\', sans-serif',
             gap: "0.3rem",
         }}>
@@ -31,7 +31,7 @@ const LabelDateInput = ({ fieldName, fieldLabel, fieldValue, fieldStatus }) => {
                 name={fieldName}
                 disabled={fieldStatus}
                 value={fieldValue || ''}
-                inputProps={{ style: { fontSize: 17, height: '15px', padding: '13px 10px' } }}
+                inputProps={{ style: { fontSize: '15.2px', height: '15px', padding: '13px 10px' } }}
                 size="small"
                 type={type}
                 onFocus={() => setType('date')}

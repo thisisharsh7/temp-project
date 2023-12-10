@@ -83,10 +83,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     '& .frozen--cell': {
         backgroundColor: '#fafafa'
     },
-    '& .Unfrozen--cell': {
-        backgroundColor: '#f2ffff'
-    },
-
     '& ::-webkit-scrollbar': {
         width: '4px' ,
         height: '4px'

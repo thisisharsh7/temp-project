@@ -54,7 +54,7 @@ const ActualWellPath = () => {
         }}>
           <Stack direction='column' alignItems={'stretch'} width={'100%'}>
 
-            <BoxHeader boxHead="Actual Survey" />
+            <BoxHeader boxHead="Actual Surveys" />
             <Box>
               <SurveyTable />
             </Box>

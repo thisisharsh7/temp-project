@@ -93,13 +93,17 @@ const SetUp = () => {
           <VisuallyHiddenInput id="fileInput" type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
         </Button>
         {
-          (setUp.enteries) && <Typography variant='h5' fontWeight={500} color="#009B4D">{setUp.uploadFile}</Typography>
+          (setUp.enteries) && <Typography sx={{
+            fontSize: '15.2px',
+          }} fontWeight={500} color="#009B4D">{setUp.uploadFile}</Typography>
         }
         {
-          (!setUp.enteries && !setUp.loading) && <Typography variant='h5' fontWeight={500} justifySelf={'center'} color="#009B4D">Select Well Plan in .xlsx format to start Setup.</Typography>
+          (!setUp.enteries && !setUp.loading) && <Typography variant='body1' sx={{
+            fontSize: '15.2px',
+          }} fontWeight={500} justifySelf={'center'} >Upload Well Plan (xlsx format) to start Setup.</Typography>
         }
         {
-          (setUp.loading) && <CircularProgress size={28} />
+          (setUp.loading) && <CircularProgress size={26} />
         }
       </Stack>
 
@@ -244,26 +248,23 @@ const SetUp = () => {
 
             <BoxHeader boxHead="Well Details" />
 
-            <Stack display={'grid'} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gridTemplateColumns={{ lg: "1fr 1fr 1fr 1fr", md: "1fr 1fr 1fr", sm: "1fr 1fr" }} gap={4}>
+            <Stack display={'grid'} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gridTemplateColumns={{ xl: "1fr 1fr 1fr 1fr 1fr", lg: "1fr 1fr 1fr 1fr", md: "1fr 1fr 1fr 1fr", sm: "1fr 1fr " }} gap={4}>
 
               <LabelInput fieldLabel="Well Name" fieldStatus={!setUp.enteries} fieldValue={setUp.wellbore.Name} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Plan Revision" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Field Name" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="UTM Zone" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="North Reference" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
               <LabelInput fieldLabel="Magnetic Declination" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Grid Convergence" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelDateInput fieldLabel="Last Revised" fieldStatus={!setUp.enteries} fieldValue={(setUp.wellbore.LastRevised.includes('T')) ? setUp.wellbore.LastRevised.split('T')[0] : (setUp.wellbore.LastRevised)} fieldName="setUp.wellbore.LastRevised" />
-              <LabelInput fieldLabel="Field Vertical Reference" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="UTM Zone" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
               <LabelInput fieldLabel="Rotary to Facility Vertical Datum" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Rotary to Sub Sea" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-              <LabelInput fieldLabel="Rotary to Mud Return Line" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
               <LabelInput fieldLabel="Section Origin X" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Plan Revision" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Grid Convergence" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="North Reference" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Rotary to Sub Sea" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
               <LabelInput fieldLabel="Section Origin Y" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Field Name" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
               <LabelInput fieldLabel="Vertical Section Azimuth" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
-
-
-              <LabelDateInput fieldLabel="Last Uploaded" fieldStatus={!setUp.enteries} fieldValue={(setUp.wellbore.LastRevised.includes('T')) ? setUp.wellbore.LastRevised.split('T')[0] : (setUp.wellbore.LastRevised)} fieldName="setUp.wellbore.LastRevised" />
+              <LabelInput fieldLabel="Field Vertical Reference" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelInput fieldLabel="Rotary to Mud Return Line" fieldStatus={!setUp.enteries} fieldValue={""} fieldName="setUp.wellbore.Name" />
+              <LabelDateInput fieldLabel="Last Revised" fieldStatus={!setUp.enteries} fieldValue={(setUp.wellbore.LastRevised.includes('T')) ? setUp.wellbore.LastRevised.split('T')[0] : (setUp.wellbore.LastRevised)} fieldName="setUp.wellbore.LastRevised" />
 
             </Stack>
           </Stack>
