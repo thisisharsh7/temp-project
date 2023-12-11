@@ -1,8 +1,10 @@
 
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridRowEditStopReasons, } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { postLogData } from '../constant';
+import { useMatchStore } from '../../store/store';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
@@ -120,65 +122,107 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 }));
 
 const initialRows = [
-    { id: 1, col1: 'Tie On', col2: '0.00', col3: '0.00', col4: '193.630', col5: '0.00', col6: '0.00', col7: '0.00', col8: '', col9: '0.00', col10: '' },
-    { id: 2, col1: 2, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 3, col1: 3, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 4, col1: 4, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 5, col1: 5, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 6, col1: 6, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 7, col1: 7, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 8, col1: 8, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 9, col1: 9, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 10, col1: 10, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 11, col1: 11, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 12, col1: 12, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 13, col1: 13, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 14, col1: 14, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
-    { id: 15, col1: 15, col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '', col10: '' },
+    { id: 1, fieldNumber: 'Tie On', md: '0.00', inc: '0.00', azi: '193.630', tvd: '0.00', ns: '0.00', ew: '0.00', dls: '', vs: '0.00', comment: '' },
+    { id: 2, fieldNumber: 2, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 3, fieldNumber: 3, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 4, fieldNumber: 4, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 5, fieldNumber: 5, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 6, fieldNumber: 6, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 7, fieldNumber: 7, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 8, fieldNumber: 8, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 9, fieldNumber: 9, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 10, fieldNumber: 10, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 11, fieldNumber: 11, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 12, fieldNumber: 12, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 13, fieldNumber: 13, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 14, fieldNumber: 14, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+    { id: 15, fieldNumber: 15, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
 
 ];
 
+
 const initialColumns = [
-    { field: 'col1', headerName: '', width: 105, sortable: false },
-    { field: 'col2', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
-    { field: 'colE', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
-    { field: 'col3', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-    { field: 'col4', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-    { field: 'col5', headerName: 'TVD', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col6', headerName: 'North', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col7', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col8', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col9', headerName: 'VS', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'col10', headerName: 'Comment', minWidth: 180, align: 'right', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
+    { field: 'fieldNumber', headerName: '', width: 105, sortable: false },
+    { field: 'md', type: 'number', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
+    { field: 'cl', type: 'number', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
+    { field: 'inc', type: 'number', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+    { field: 'azi', type: 'number', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+    { field: 'tvd', type: 'number', headerName: 'TVD', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'ns', type: 'number', headerName: 'North', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'ew', type: 'number', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'dls', type: 'number', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'vs', type: 'number', headerName: 'VS', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+    { field: 'comment', headerName: 'Comment', minWidth: 180, align: 'right', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
 ];
 
 
 export default function SurveyTable() {
     const [rows, setRows] = useState(initialRows);
+    const { setUp, logArray } = useMatchStore();
 
-    useEffect(() => {
-        const allRowsFilled = rows.slice(1).every((row) =>
-            Object.values(row).every((value) => value !== '')
-        );
-
-        if (allRowsFilled) {
-            // If all rows (excluding header and row 1) are filled, add a new empty row
-            const newRow = {
-                id: rows.length + 1,
-                col1: rows[rows.length - 1].col1 + 1,
-                col2: '',
-                col3: '',
-                col4: '',
-                col5: '',
-                col6: '',
-                col7: '',
-                col8: '',
-                col9: '',
-                col10: '',
-            };
-            setRows((prevRows) => [...prevRows, newRow]);
+    const handleRowEditStop = (params, event) => {
+        if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+            event.defaultMuiPrevented = true;
         }
-    }, [rows]);
+    };
+
+    const processRowUpdate = async (newRow) => {
+
+        const formattedRow = {
+            ...newRow,
+            md: parseFloat(newRow.md).toFixed(2),
+            inc: parseFloat(newRow.inc).toFixed(2),
+            azi: parseFloat(newRow.azi).toFixed(2),
+        };
+
+        console.log({
+            "md": formattedRow.md,
+            "inc": formattedRow.inc,
+            "azi": formattedRow.azi,
+            "logName": logArray[0].naam,
+            "well": setUp.well,
+            "fieldNumber": (formattedRow.fieldNumber - 1)
+        });
+
+        const data = await postLogData('https://og-project.onrender.com/api/v1/survey', {
+            "md": formattedRow.md,
+            "inc": formattedRow.inc,
+            "azi": formattedRow.azi,
+            "logName": logArray[0].naam,
+            "well": setUp.well,
+            "fieldNumber": (formattedRow.fieldNumber - 1)
+        });
+
+        let updatedRow;
+
+        if (data) {
+            updatedRow = {
+                "id": formattedRow.id,
+                "fieldNumber": formattedRow.fieldNumber,
+                "md": data.newSurvey["md"],
+                "cl": data.newSurvey["cl"],
+                "inc": data.newSurvey["inc"],
+                "azi": data.newSurvey["azi"],
+                "tvd": data.newSurvey["tvd"],
+                "ns": data.newSurvey["ns"],
+                "ew": data.newSurvey["ew"],
+                "dls": data.newSurvey["dls"],
+                "vs": data.newSurvey["vs"],
+                "comment": formattedRow.comment
+            };
+        } else {
+            updatedRow = { ...formattedRow };
+        }
+
+        const updatedRows = rows.map((row) => (row.id === formattedRow.id ? updatedRow : row));
+        setRows(updatedRows);
+
+        return updatedRow;
+    };
+
+    const onProcessRowUpdateError = () => {
+        alert('Error Occured');
+    }
 
 
     return (
@@ -187,6 +231,10 @@ export default function SurveyTable() {
                 rowSelection={false}
                 disableColumnMenu
                 disableColumnFilter
+                editMode='row'
+                onRowEditStop={handleRowEditStop}
+                processRowUpdate={processRowUpdate}
+                onProcessRowUpdateError={onProcessRowUpdateError}
                 rows={rows}
                 hideFooter
                 rowHeight={42}

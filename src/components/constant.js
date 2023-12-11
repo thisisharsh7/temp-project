@@ -76,3 +76,16 @@ export async function postLogData(url, data) {
     return 0;
   }
 }
+
+export function formatNumberToTwoDecimalPlaces(input) {
+
+  let number = parseFloat(input);
+
+  if (!isNaN(number)) {
+    let formattedNumber = number.toFixed(2);
+
+    return formattedNumber;
+  } else {
+    return input;
+  }
+}

@@ -5,13 +5,6 @@ export const useMatchStore = create((set) => ({
     logArray: [],
     setLog: (log) => set(state => ({ logArray: log })),
 
-    //object vairable for plannedwellPath
-    plannedWell: {
-        uploadFile: "",
-        enteries: false,
-        loading: false
-    },
-    setPlannedWell: (splan) => set(state => ({ plannedWell: splan })),
 
     //variable for edit modal for setUp
     open: {
