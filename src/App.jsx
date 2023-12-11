@@ -63,7 +63,7 @@ export default function BasicTabs() {
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Stack display={'grid'} gridTemplateColumns={'300px 1fr'} alignItems={'center'} justifyContent={'space-between'}>
-          <Typography variant="h5" mx={2.5} mt={0.5} fontWeight={600} flex={1} width={'400px'}>Survey Application Demo</Typography>
+          <Typography variant="h5" mx={2.5} mt={0.5} fontWeight={700} flex={1} width={'400px'}>Survey Application Demo</Typography>
           <Tabs value={value} onChange={handleChange} sx={{
             placeSelf: "flex-end",
             mx: 1

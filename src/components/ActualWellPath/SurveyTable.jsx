@@ -1,9 +1,9 @@
 
-import { DataGrid, GridRowEditStopReasons, } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
-import { postLogData } from '../constant';
+import { useEffect, useState } from 'react';
+import { formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, postLogData } from '../constant';
 import { useMatchStore } from '../../store/store';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -146,85 +146,106 @@ const initialRows = [
 
 export default function SurveyTable() {
     const { setUp, logArray } = useMatchStore();
+    const [rows, setRows] = useState(initialRows);
+    const [ids, setIds] = useState(0);
     const initialColumns = [
         { field: 'fieldNumber', headerName: '', width: 105, sortable: false },
-        { field: 'md', type: 'number', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: (logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
-        { field: 'cl', type: 'number', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
-        { field: 'inc', type: 'number', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: (logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-        { field: 'azi', type: 'number', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: (logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-        { field: 'tvd', type: 'number', headerName: 'TVD', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-        { field: 'ns', type: 'number', headerName: 'North', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-        { field: 'ew', type: 'number', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-        { field: 'dls', type: 'number', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-        { field: 'vs', type: 'number', headerName: 'VS', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+        { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: (logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
+        { field: 'cl', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
+        { field: 'inc', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: (logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+        { field: 'azi', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: (logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+        { field: 'tvd', headerName: 'TVD', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+        { field: 'ns', headerName: 'North', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+        { field: 'ew', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+        { field: 'dls', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+        { field: 'vs', headerName: 'VS', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
         { field: 'comment', headerName: 'Comment', minWidth: 180, align: 'right', editable: (logArray.length) ? true : false, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
     ];
-    const [rows, setRows] = useState(initialRows);
 
 
-    const handleRowEditStop = (params, event) => {
-        if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-            event.defaultMuiPrevented = true;
+
+    const handleCellEditStop = (params, event) => {
+        let updateCell = rows;
+        if (params.field !== 'comment') {
+            const val = formatStringInNumberToTwoDecimalPlaces(event.target.value);
+            updateCell = rows.map((sRow, index) => {
+                if (index === params.id - 1) {
+                    // Update the specified field for the target row
+                    return {
+                        ...sRow,
+                        [params.field]: val,
+                    };
+                } else {
+                    // Keep the row unchanged
+                    return sRow;
+                }
+            });
+        } else {
+            updateCell = rows.map((sRow, index) => {
+                if (index === params.id - 1) {
+                    // Update the specified field for the target row
+                    return {
+                        ...sRow,
+                        [params.field]: event.target.value,
+                    };
+                } else {
+                    // Keep the row unchanged
+                    return sRow;
+                }
+            });
         }
+        setIds(params.id - 1);
+        setRows(updateCell);
     };
-
-    const processRowUpdate = async (newRow) => {
-
-        const formattedRow = {
-            ...newRow,
-            md: parseFloat(newRow.md).toFixed(2),
-            inc: parseFloat(newRow.inc).toFixed(2),
-            azi: parseFloat(newRow.azi).toFixed(2),
-        };
-
-        console.log({
-            "md": formattedRow.md,
-            "inc": formattedRow.inc,
-            "azi": formattedRow.azi,
-            "logName": logArray[0].naam,
-            "well": setUp.well,
-            "fieldNumber": (formattedRow.fieldNumber - 1)
-        });
-
+    const processRowUpdate = async (currentRow) => {
         const data = await postLogData('https://og-project.onrender.com/api/v1/survey', {
-            "md": formattedRow.md,
-            "inc": formattedRow.inc,
-            "azi": formattedRow.azi,
+            "md": Number(currentRow.md),
+            "inc": Number(currentRow.inc),
+            "azi": Number(currentRow.azi),
             "logName": logArray[0].naam,
             "well": setUp.well,
-            "fieldNumber": (formattedRow.fieldNumber - 1)
+            "fieldNumber": (currentRow.fieldNumber - 1).toString()
         });
 
         let updatedRow;
 
         if (data) {
             updatedRow = {
-                "id": formattedRow.id,
-                "fieldNumber": formattedRow.fieldNumber,
-                "md": data.newSurvey["md"],
-                "cl": data.newSurvey["cl"],
-                "inc": data.newSurvey["inc"],
-                "azi": data.newSurvey["azi"],
-                "tvd": data.newSurvey["tvd"],
-                "ns": data.newSurvey["ns"],
-                "ew": data.newSurvey["ew"],
-                "dls": data.newSurvey["dls"],
-                "vs": data.newSurvey["vs"],
-                "comment": formattedRow.comment
+                "id": currentRow.id,
+                "fieldNumber": currentRow.fieldNumber,
+                "md": formatNumberToTwoDecimalPlaces(data.newSurvey["md"]),
+                "cl": formatNumberToTwoDecimalPlaces(data.newSurvey["cl"]),
+                "inc": formatNumberToTwoDecimalPlaces(data.newSurvey["inc"]),
+                "azi": formatNumberToTwoDecimalPlaces(data.newSurvey["azi"]),
+                "tvd": formatNumberToTwoDecimalPlaces(data.newSurvey["tvd"]),
+                "ns": formatNumberToTwoDecimalPlaces(data.newSurvey["ns"]),
+                "ew": formatNumberToTwoDecimalPlaces(data.newSurvey["ew"]),
+                "dls": formatNumberToTwoDecimalPlaces(data.newSurvey["dls"]),
+                "vs": formatNumberToTwoDecimalPlaces(data.newSurvey["vs"]),
+                "comment": currentRow.comment
             };
         } else {
-            updatedRow = { ...formattedRow };
+            updatedRow = { ...currentRow };
         }
 
-        const updatedRows = rows.map((row) => (row.id === formattedRow.id ? updatedRow : row));
+        const updatedRows = rows.map((row) => (row.id === currentRow.id ? updatedRow : row));
         setRows(updatedRows);
-
-        return updatedRow;
-    };
-
-    const onProcessRowUpdateError = () => {
-        alert('Error Occured');
     }
+
+    useEffect(() => {
+        if (ids !== 0) {
+            const currentRow = rows[ids];
+            if (currentRow.md && currentRow.azi && currentRow.inc) {
+                processRowUpdate(currentRow);
+            }
+        }
+        if (!logArray.length) {
+            console.log('yes')
+            setRows(initialRows);
+        }
+
+    }, [rows, logArray])
+
 
 
     return (
@@ -233,10 +254,7 @@ export default function SurveyTable() {
                 rowSelection={false}
                 disableColumnMenu
                 disableColumnFilter
-                editMode='row'
-                onRowEditStop={handleRowEditStop}
-                processRowUpdate={processRowUpdate}
-                onProcessRowUpdateError={onProcessRowUpdateError}
+                onCellEditStop={handleCellEditStop}
                 rows={rows}
                 hideFooter
                 rowHeight={42}

@@ -19,7 +19,7 @@ const style = {
 const EditNew = () => {
     const { setOpen, open, logArray, setLog } = useMatchStore();
     const [form, setForm] = useState({
-        naam: logArray[open.id].naam,
+        logName: logArray[open.id].logName,
         model: logArray[open.id].model,
         error: logArray[open.id].error,
         loading: false,
@@ -35,8 +35,8 @@ const EditNew = () => {
             loading: true
         })
         const logData = await postLogData('https://og-project.onrender.com/api/v1/surveyEdit', {
-            "logName": logArray[open.id].naam,
-            "editLogName": form.naam
+            "logName": logArray[open.id].logName,
+            "editLogName": form.logName
 
         });
         if (logData) {
@@ -86,13 +86,13 @@ const EditNew = () => {
                             <Stack display={'grid'} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gap={2}>
 
                                 <TextField
-                                    name="naam"
+                                    name="logName"
                                     variant="outlined"
                                     fullWidth
                                     label="Survey Tool Program Name"
                                     inputProps={{ style: { fontSize: 15.2 } }}
                                     size="medium"
-                                    value={form.naam}
+                                    value={form.logName}
                                     onChange={handleChange}
                                 />
                                 <FormControl fullWidth>
@@ -126,7 +126,7 @@ const EditNew = () => {
                                     <Button variant="text" sx={{
                                         color: "gray"
                                     }} onClick={handleClose}>Cancel</Button>
-                                    <Button variant="contained" disabled={(form.naam === '' || form.model === '' || form.error === '') ? true : false} sx={{
+                                    <Button variant="contained" disabled={(form.logName === '' || form.model === '' || form.error === '') ? true : false} sx={{
                                         "&.MuiButtonBase-root:hover": {
                                             bgcolor: "#0abd61"
                                         }

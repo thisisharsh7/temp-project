@@ -34,23 +34,20 @@ export function updateDate() {
 
 export async function uploadFile(file) {
   let data = null;
-  // Create a FormData object to send the file
   const formData = new FormData();
   formData.append('excelFile', file);
+  const query = file.name.split('.')[0]
 
   try {
-    // Make the POST request using fetch
-    const response = await fetch('https://og-project.onrender.com/api/v1/fields', {
+    const response = await fetch(`https://og-project.onrender.com/api/v1/fields?excelName=${query}`, {
       method: 'POST',
       body: formData,
     });
 
     if (response.ok) {
-      // Request was successful
       const result = await response.json();
       data = result;
     } else {
-      // Request failed
       console.error('Request failed:', response.statusText);
     }
   } catch (error) {
@@ -77,15 +74,20 @@ export async function postLogData(url, data) {
   }
 }
 
+export function formatStringInNumberToTwoDecimalPlaces(input) {
+  return parseFloat(Number(input)).toFixed(2);
+}
 export function formatNumberToTwoDecimalPlaces(input) {
+  return parseFloat(input).toFixed(2);
+}
 
-  let number = parseFloat(input);
-
-  if (!isNaN(number)) {
-    let formattedNumber = number.toFixed(2);
-
-    return formattedNumber;
-  } else {
-    return input;
+export async function getSavedData(url) {
+  try {
+    const response = await fetch(url);
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
   }
 }

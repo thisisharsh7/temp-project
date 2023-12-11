@@ -24,14 +24,13 @@ const DelNew = () => {
         setOpen({ show: false, text: '', id: -1 });
     }
     const handleDelete = async () => {
-        console.log(logArray[open.id].name);
         setLoading(true);
         const logData = await postLogData('https://og-project.onrender.com/api/v1/surveyDelete', {
-            "logName": logArray[open.id].naam,
+            "logName": logArray[open.id].logName,
         });
         if (logData) {
             const updatedLogArray = [
-                ...logArray.slice(0, open.id),  
+                ...logArray.slice(0, open.id),
                 ...logArray.slice(open.id + 1),
             ];
             setLog(updatedLogArray);
@@ -63,7 +62,7 @@ const DelNew = () => {
 
                             <Stack display={'grid'} mt={2} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gap={2}>
 
-                                <Typography variant="subtitle1" textAlign={"center"}>All surveys associated with this Survey Log will be deleted.<br /> Are you sure?
+                                <Typography variant="subtitle1">All surveys associated with this Survey Log will be deleted. Are you sure?
                                 </Typography>
 
                                 <Stack direction={'row'} mt={2} justifyContent="flex-end" spacing={2}>

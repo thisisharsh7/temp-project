@@ -17,7 +17,7 @@ const style = {
 
 const AddNew = () => {
     const [form, setForm] = useState({
-        naam: '',
+        logName: '',
         model: '',
         error: '',
         loading: false,
@@ -33,7 +33,7 @@ const AddNew = () => {
             loading: true
         })
         const logData = await postLogData('https://og-project.onrender.com/api/v1/surveyCreate/', {
-            "logName": form.naam,
+            "logName": form.logName,
             "usedFrom": 5674.65,
             "usedBy": 45894
         });
@@ -79,7 +79,7 @@ const AddNew = () => {
                             <Stack display={'grid'} padding={{ md: "20px 28px", sm: "20px 20px", xs: "20px 18px" }} gap={2}>
 
                                 <TextField
-                                    name="naam"
+                                    name="logName"
                                     variant="outlined"
                                     fullWidth
                                     label="Survey Tool Program Name"
@@ -119,7 +119,7 @@ const AddNew = () => {
                                     <Button variant="text" sx={{
                                         color: "gray"
                                     }} onClick={handleClose}>Cancel</Button>
-                                    <Button variant="contained" disabled={(form.naam === '' || form.model === '' || form.error === '') ? true : false} sx={{
+                                    <Button variant="contained" disabled={(form.logName === '' || form.model === '' || form.error === '') ? true : false} sx={{
                                         "&.MuiButtonBase-root:hover": {
                                             bgcolor: "#0abd61"
                                         }

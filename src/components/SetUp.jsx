@@ -1,30 +1,35 @@
 import { Box, Stack, Button, Typography, Paper } from '@mui/material';
 import { useMatchStore } from '../store/store';
-import { VisuallyHiddenInput, updateDate, uploadFile } from './constant';
+import { VisuallyHiddenInput, getSavedData, updateDate, uploadFile } from './constant';
 import LabelInput from './SetUp/LabelInput';
 import BoxHeader from './SetUp/BoxHeader';
 import CircularProgress from '@mui/material/CircularProgress';
 import LabelDateInput from './SetUp/LabelDateInput';
 import SetUpTable from './SetUp/SetUpTable';
 import LabelSelect from './SetUp/LabelSelect';
+import { useEffect } from 'react';
 
-
+const userCurrentFile = localStorage.getItem('fileName');
 
 const SetUp = () => {
-  const { setUp, updateSetUp } = useMatchStore();
+  const { setUp, updateSetUp, setLog } = useMatchStore();
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
       updateSetUp({ ...setUp, loading: true, enteries: false })
+      console.log(file);
+
       const data = await uploadFile(file);
       if (data) {
+
         updateSetUp({
-          ...data.newField, loading: false, enteries: true, uploadFile: file.name, LastRevised: updateDate()
+          ...data.newField, loading: false, enteries: true, LastRevised: updateDate()
         });
+        localStorage.setItem('fileName', file.name.split('.')[0]);
       } else {
         updateSetUp({
-          uploadFile: "",
+          excelName: "",
           well: "",
           wellbore: "",
           planRevision: "",
@@ -45,9 +50,38 @@ const SetUp = () => {
           loading: false
         });
         alert('File not supported!');
+        localStorage.setItem('fileName', null);
       }
     }
   };
+
+
+  const fetchData = async () => {
+    try {
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${userCurrentFile}`);
+      updateSetUp({
+        ...data.details[0], loading: false, enteries: true, LastRevised: updateDate()
+      });
+    } catch (error) {
+      console.log('error');
+    }
+  };
+  const fetchLogs = async () => {
+    try {
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs/`);
+      setLog(data.logs);
+    } catch (error) {
+      console.log('error');
+    }
+  };
+
+  useEffect(() => {
+    if (userCurrentFile) {
+      fetchData();
+      fetchLogs();
+    }
+
+  }, []);
 
   return (
     <Box mt={2.5} component="div">
@@ -66,7 +100,7 @@ const SetUp = () => {
         {
           (setUp.enteries) && <Typography sx={{
             fontSize: '15.2px',
-          }} fontWeight={500} color="#009B4D">{setUp.uploadFile}</Typography>
+          }} fontWeight={500} color="#009B4D">{setUp.excelName}.xlsx</Typography>
         }
         {
           (!setUp.enteries && !setUp.loading) && <Typography variant='body1' sx={{

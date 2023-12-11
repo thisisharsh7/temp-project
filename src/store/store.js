@@ -16,7 +16,7 @@ export const useMatchStore = create((set) => ({
     setOpen: (sopen) => set(state => ({ open: sopen })),
     //object variable for setUp Tab
     setUp: {
-        uploadFile: "",
+        excelName: "",
         well: "",
         wellbore: "",
         planRevision: "",

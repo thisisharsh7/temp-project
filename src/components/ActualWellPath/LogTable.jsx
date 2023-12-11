@@ -68,7 +68,7 @@ export default function LogTable() {
                                 fontSize: '15.2px',
                                 fontWeight: 500,
                             }}>
-                                {row.naam}
+                                {row.logName}
                             </TableCell>
                             <TableCell align="right" sx={{
                                 fontSize: '15.2px',
