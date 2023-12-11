@@ -141,24 +141,26 @@ const initialRows = [
 ];
 
 
-const initialColumns = [
-    { field: 'fieldNumber', headerName: '', width: 105, sortable: false },
-    { field: 'md', type: 'number', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
-    { field: 'cl', type: 'number', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
-    { field: 'inc', type: 'number', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-    { field: 'azi', type: 'number', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-    { field: 'tvd', type: 'number', headerName: 'TVD', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'ns', type: 'number', headerName: 'North', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'ew', type: 'number', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'dls', type: 'number', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'vs', type: 'number', headerName: 'VS', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-    { field: 'comment', headerName: 'Comment', minWidth: 180, align: 'right', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
-];
+
 
 
 export default function SurveyTable() {
-    const [rows, setRows] = useState(initialRows);
     const { setUp, logArray } = useMatchStore();
+    const initialColumns = [
+        { field: 'fieldNumber', headerName: '', width: 105, sortable: false },
+        { field: 'md', type: 'number', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: (logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
+        { field: 'cl', type: 'number', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
+        { field: 'inc', type: 'number', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: (logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+        { field: 'azi', type: 'number', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: (logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+        { field: 'tvd', type: 'number', headerName: 'TVD', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+        { field: 'ns', type: 'number', headerName: 'North', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+        { field: 'ew', type: 'number', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+        { field: 'dls', type: 'number', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+        { field: 'vs', type: 'number', headerName: 'VS', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+        { field: 'comment', headerName: 'Comment', minWidth: 180, align: 'right', editable: (logArray.length) ? true : false, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
+    ];
+    const [rows, setRows] = useState(initialRows);
+
 
     const handleRowEditStop = (params, event) => {
         if (params.reason === GridRowEditStopReasons.rowFocusOut) {

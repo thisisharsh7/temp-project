@@ -151,6 +151,7 @@ export default function PathTable() {
                 rowSelection={false}
                 disableColumnMenu
                 disableColumnFilter
+                editMode='row'
                 rows={rows}
                 hideFooter
                 rowHeight={42}
