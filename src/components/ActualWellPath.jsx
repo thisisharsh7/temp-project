@@ -3,10 +3,10 @@ import LogTable from './ActualWellPath/LogTable';
 import SurveyTable from './ActualWellPath/SurveyTable';
 import BoxHeader from './SetUp/BoxHeader';
 import { useMatchStore } from '../store/store';
-import AddIcon from '@mui/icons-material/Add';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 const ActualWellPath = () => {
-  const { setOpen } = useMatchStore();
+  const { setOpen, logArray } = useMatchStore();
 
   const handleClick = (val) => {
     setOpen({ show: true, text: val, id: -1 });
@@ -44,9 +44,22 @@ const ActualWellPath = () => {
 
               </Stack>
             </Box>
-            <Box >
-              <LogTable />
-            </Box>
+            {
+              (logArray.length)
+                ?
+                <Box >
+                  <LogTable />
+                </Box>
+                :
+                <Stack direction={'row'} alignSelf={'flex-start'} alignItems={'center'} spacing={1} px={4} py={2}>
+                  <InfoOutlinedIcon fontSize='small' />
+                  <Typography sx={{
+                    fontSize: '15.2px',
+                    fontWeight: 400
+                  }} >Create a new Survey Log to start posting Surveys.</Typography>
+                </Stack>
+            }
+
           </Stack>
         </Paper>
         <Paper square={false} elevation={0} sx={{
