@@ -60,11 +60,12 @@ const SetUp = () => {
     try {
       const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${userCurrentFile}`);
       updateSetUp({
-        ...data.details[0], loading: false, enteries: true, LastRevised: updateDate()
+        ...data.details, loading: false, enteries: true, LastRevised: updateDate()
       });
     } catch (error) {
       console.log('error');
     }
+
   };
   const fetchLogs = async () => {
     try {

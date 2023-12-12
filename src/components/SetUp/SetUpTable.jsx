@@ -2,7 +2,8 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useMatchStore } from '../../store/store';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
@@ -116,17 +117,17 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 }));
 
 const initialRows = [
-    { id: 1, col1: 'Slot Location', col2: '0', col3: '0', col4: '216749', col5: '2581569', col6: `23°19'16.1719"N`, col7: `54°13'49.0730"E`, col8: '0', col9: '0' },
-    { id: 2, col1: 'Facility Reference Pt', col2: '', col3: '', col4: '216749', col5: '2581569', col6: `23°19'16.1719"N`, col7: `54°13'49.0730"E`, col8: '3.3', col9: '3' },
-    { id: 3, col1: 'Field Reference Pt', col2: '', col3: '', col4: '209194.56', col5: '2572759.46', col6: `23°19'16.1719"N`, col7: `54°13'49.0730"E`, col8: '', col9: '' },
+    { id: 1, col1: 'Slot Location', col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '' },
+    { id: 2, col1: 'Facility Reference Pt', col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '' },
+    { id: 3, col1: 'Field Reference Pt', col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '' },
 
 ];
 
 const initialColumns = [
     { field: 'col1', headerName: '', minWidth: 195, sortable: false, cellClassName: 'first--cell', flex: 1 },
     { field: 'col2', headerName: 'Local North', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
-    { field: 'col3', headerName: 'Local East', headerUnits: '(ft)', minWidth: 195, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-    { field: 'col4', headerName: 'Grid East', headerUnits: '(m)', minWidth: 195, editable: true, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'Unfrozen--cell', },
+    { field: 'col3', headerName: 'Local East', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+    { field: 'col4', headerName: 'Grid East', headerUnits: '(m)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'Unfrozen--cell', },
     { field: 'col5', headerName: 'Grid North', headerUnits: '(m)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
     { field: 'col6', headerName: 'Latitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
     { field: 'col7', headerName: 'Longitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
@@ -136,6 +137,9 @@ const initialColumns = [
 
 export default function PathTable() {
     const [rows, setRows] = useState(initialRows);
+    const [columns, setColumns] = useState(initialColumns)
+    const { setUp } = useMatchStore();
+
 
     const getCellClassName = ({ value, field }) => {
         if (!value && field !== 'col9') {
@@ -147,6 +151,50 @@ export default function PathTable() {
         }
         return '';
     };
+    useEffect(() => {
+        if (setUp.excelName != "") {
+            const {
+                localNorthSlotLocation
+                , localEastSlotLocation
+                , localGridNorthSlotLocation
+                , localGridEastSlotLocation
+                , localLongitudeSlotLocation
+                , localLatitudeSlotLocation
+                , localHorizSlotLocation
+                , localVertSlotLocation
+                , localNorthFacilityReferencePt
+                , localEastFacilityReferencePt
+                , localGridNorthFacilityReferencePt
+                , localGridEastFacilityReferencePt
+                , localLongitudeFacilityReferencePt
+                , localLatitudeFacilityReferencePt
+                , localHorizFacilityReferencePt
+                , localVertFacilityReferencePt
+                , localNorthFieldReferencePt
+                , localEastFieldReferencePt
+                , localGridNorthFieldReferencePt
+                , localGridEastFieldReferencePt
+                , localLongitudeFieldReferencePt
+                , localLatitudeFieldReferencePt
+                , localHorizFieldReferencePt
+                , localVertFieldReferencePt
+            } = setUp
+            const modifiedRows = [
+                { id: 1, col1: 'Slot Location', col2: localNorthSlotLocation, col3: localEastSlotLocation, col4: localGridNorthSlotLocation, col5: localGridEastSlotLocation, col6: localLongitudeSlotLocation, col7: localLatitudeSlotLocation, col8: localHorizSlotLocation, col9: localVertSlotLocation },
+                { id: 2, col1: 'Facility Reference Pt', col2: localNorthFacilityReferencePt, col3: localEastFacilityReferencePt, col4: localGridNorthFacilityReferencePt, col5: localGridEastFacilityReferencePt, col6: localLongitudeFacilityReferencePt, col7: localLatitudeFacilityReferencePt, col8: localHorizFacilityReferencePt, col9: localVertFacilityReferencePt },
+                { id: 3, col1: 'Field Reference Pt', col2: localNorthFieldReferencePt, col3: localEastFieldReferencePt, col4: localGridNorthFieldReferencePt, col5: localGridEastFieldReferencePt, col6: localLongitudeFieldReferencePt, col7: localLatitudeFieldReferencePt, col8: localHorizFieldReferencePt, col9: localVertFieldReferencePt },
+            ];
+            const modifiedColumns = initialColumns.map((column, index) => {
+                const modifiedColumn = { ...column };
+                if (index !== 0) {
+                    modifiedColumn.editable = true;
+                }
+                return modifiedColumn;
+            });
+            setColumns(modifiedColumns);
+            setRows(modifiedRows);
+        }
+    }, [setUp.excelName])
     return (
         <Box component={'div'} sx={{ height: '100%', width: '100%' }}>
             <StyledDataGrid
@@ -157,7 +205,7 @@ export default function PathTable() {
                 hideFooter
                 rowHeight={42}
                 columnHeaderHeight={72}
-                columns={initialColumns.map((column) => ({
+                columns={columns.map((column) => ({
                     ...column,
                     cellClassName: getCellClassName,
                     renderHeader: (params) => (
