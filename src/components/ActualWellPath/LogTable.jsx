@@ -10,20 +10,71 @@ import Stack from '@mui/material/Stack';
 import { useMatchStore } from '../../store/store';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { getSavedData } from '../constant';
 
 export default function LogTable() {
-    const { setOpen, logArray } = useMatchStore();
-    const [selectedRowIndex, setSelectedRowIndex] = useState(-1);
+    const { setOpen, logArray, logIndex, setLogIndex, surveyRows, setSurveyRows } = useMatchStore();
 
     const handleButton = (val, idx) => {
+
         setOpen({ show: true, text: val, id: idx });
     }
 
     const handleRowClick = (e) => {
         const rowIndex = parseInt(e.currentTarget.getAttribute('data-row-index'));
-        setSelectedRowIndex(rowIndex);
-      };
+        setLogIndex(rowIndex);
+    };
+
+    const fetchSurveys = async () => {
+        let updateSurveys = [
+            { id: 1, fieldNumber: 'Tie On', md: '0.00', inc: '0.00', azi: '193.630', tvd: '0.00', ns: '0.00', ew: '0.00', dls: '', vs: '0.00', comment: '' },
+            { id: 2, fieldNumber: 1, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 3, fieldNumber: 2, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 4, fieldNumber: 3, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 5, fieldNumber: 4, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 6, fieldNumber: 5, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 7, fieldNumber: 6, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 8, fieldNumber: 7, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 9, fieldNumber: 8, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 10, fieldNumber: 9, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 11, fieldNumber: 10, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 12, fieldNumber: 11, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 13, fieldNumber: 12, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 14, fieldNumber: 13, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+            { id: 15, fieldNumber: 14, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
+
+        ]
+        console.log('yes');
+        try {
+            const previousSurvey = await getSavedData(`https://og-project.onrender.com/api/v1/allSurveys?logName=${logArray[logIndex].logName}`);
+            if (previousSurvey.surveys.length) {
+                const updatedDataMap = previousSurvey.surveys.reduce((map, obj) => {
+                    map[obj.fieldNumber] = obj;
+                    return map;
+                }, {});
+
+                updateSurveys = surveyRows.map(row => {
+                    const updatedObject = updatedDataMap[row.fieldNumber];
+                    if (updatedObject) {
+                        // If there's an update for the current fieldNumber, merge the objects
+                        return { ...row, ...updatedObject };
+                    }
+                    return row;
+                });
+            }
+        } catch (error) {
+            console.log('Survey error');
+        }
+        setSurveyRows(updateSurveys);
+    };
+
+    useEffect(() => {
+        if (logIndex !== -1) {
+            fetchSurveys();
+        }
+
+    }, [logIndex])
     return (
         <TableContainer component={Paper} elevation={0} >
             <Table aria-label="simple table" >
@@ -61,7 +112,7 @@ export default function LogTable() {
                             }}
                             data-row-index={index}
                             onClick={handleRowClick}
-                            className={selectedRowIndex === index ? "table-row selected" : "table-row"}
+                            className={logIndex === index ? "table-row selected" : "table-row"}
                         >
                             <TableCell component="th" scope="row" sx={{
                                 paddingLeft: 3.5,

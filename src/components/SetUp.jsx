@@ -7,12 +7,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LabelDateInput from './SetUp/LabelDateInput';
 import SetUpTable from './SetUp/SetUpTable';
 import LabelSelect from './SetUp/LabelSelect';
-import { useEffect } from 'react';
 
-const userCurrentFile = localStorage.getItem('fileName');
+
 
 const SetUp = () => {
-  const { setUp, updateSetUp, setLog } = useMatchStore();
+  const { setUp, updateSetUp } = useMatchStore();
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
@@ -55,34 +54,6 @@ const SetUp = () => {
     }
   };
 
-
-  const fetchData = async () => {
-    try {
-      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${userCurrentFile}`);
-      updateSetUp({
-        ...data.details, loading: false, enteries: true, LastRevised: updateDate()
-      });
-    } catch (error) {
-      console.log('error');
-    }
-
-  };
-  const fetchLogs = async () => {
-    try {
-      const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs/`);
-      setLog(data.logs);
-    } catch (error) {
-      console.log('error');
-    }
-  };
-
-  useEffect(() => {
-    if (userCurrentFile) {
-      fetchData();
-      fetchLogs();
-    }
-
-  }, []);
 
   return (
     <Box mt={2.5} component="div">

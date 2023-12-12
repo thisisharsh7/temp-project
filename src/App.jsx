@@ -14,6 +14,13 @@ import AddNew from './components/ActualWellPath/AddNew'
 import EditNew from './components/ActualWellPath/EditNew'
 import DelNew from './components/ActualWellPath/DelNew'
 import { useMatchStore } from './store/store';
+import { getSavedData, updateDate } from './components/constant';
+
+
+
+
+const userCurrentFile = localStorage.getItem('fileName');
+
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,10 +57,50 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
-  const { open } = useMatchStore();
+  const { open, setPlannedRows, setUp, setLog, updateSetUp } = useMatchStore();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const fetchPlanned = async () => {
+    try {
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getWellPlanned?excelName=${setUp.excelName}`);
+      if (data) {
+        setPlannedRows(data.plan)
+      }
+    } catch (error) {
+      console.log('error');
+    }
+
+  };
+  const fetchData = async () => {
+    try {
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${userCurrentFile}`);
+      updateSetUp({
+        ...data.details, loading: false, enteries: true, LastRevised: updateDate()
+      });
+    } catch (error) {
+      console.log('error');
+    }
+
+  };
+  const fetchLogs = async () => {
+    try {
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs/`);
+      setLog(data.logs);
+    } catch (error) {
+      console.log('error');
+    }
+  };
+ 
+
+  React.useEffect(() => {
+    if (setUp.excelName !== "" || userCurrentFile) {
+      fetchData();
+      fetchPlanned();
+      fetchLogs();
+    }
+  }, [setUp.excelName])
 
   return (
     <Box component="main" maxWidth={"1920px"} marginInline={"auto"} >

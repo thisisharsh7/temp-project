@@ -38,7 +38,7 @@ const AddNew = () => {
             "usedBy": 45894
         });
         if (logData) {
-            setLog([form, ...logArray]);
+            setLog([...logArray, form]);
 
         } else {
             alert('Log not added.');

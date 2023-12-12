@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
-import { formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, postLogData } from '../constant';
+import { formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, getSavedData, postLogData } from '../constant';
 import { useMatchStore } from '../../store/store';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -121,32 +121,11 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     }
 }));
 
-const initialRows = [
-    { id: 1, fieldNumber: 'Tie On', md: '0.00', inc: '0.00', azi: '193.630', tvd: '0.00', ns: '0.00', ew: '0.00', dls: '', vs: '0.00', comment: '' },
-    { id: 2, fieldNumber: 2, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 3, fieldNumber: 3, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 4, fieldNumber: 4, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 5, fieldNumber: 5, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 6, fieldNumber: 6, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 7, fieldNumber: 7, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 8, fieldNumber: 8, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 9, fieldNumber: 9, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 10, fieldNumber: 10, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 11, fieldNumber: 11, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 12, fieldNumber: 12, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 13, fieldNumber: 13, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 14, fieldNumber: 14, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-    { id: 15, fieldNumber: 15, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-
-];
-
-
-
 
 
 export default function SurveyTable() {
-    const { setUp, logArray } = useMatchStore();
-    const [rows, setRows] = useState(initialRows);
+    const { setUp, logArray, surveyRows, setSurveyRows } = useMatchStore();
+    const [call, setCall] = useState(false);
     const [ids, setIds] = useState(0);
     const initialColumns = [
         { field: 'fieldNumber', headerName: '', width: 105, sortable: false },
@@ -165,46 +144,44 @@ export default function SurveyTable() {
 
 
     const handleCellEditStop = (params, event) => {
-        let updateCell = rows;
+        let updateCell = surveyRows;
         if (params.field !== 'comment') {
             const val = formatStringInNumberToTwoDecimalPlaces(event.target.value);
-            updateCell = rows.map((sRow, index) => {
+            updateCell = surveyRows.map((sRow, index) => {
                 if (index === params.id - 1) {
-                    // Update the specified field for the target row
                     return {
                         ...sRow,
                         [params.field]: val,
                     };
                 } else {
-                    // Keep the row unchanged
                     return sRow;
                 }
             });
         } else {
-            updateCell = rows.map((sRow, index) => {
+            updateCell = surveyRows.map((sRow, index) => {
                 if (index === params.id - 1) {
-                    // Update the specified field for the target row
                     return {
                         ...sRow,
                         [params.field]: event.target.value,
                     };
                 } else {
-                    // Keep the row unchanged
                     return sRow;
                 }
             });
         }
+        setCall(true);
         setIds(params.id - 1);
-        setRows(updateCell);
+        setSurveyRows(updateCell);
     };
+
     const processRowUpdate = async (currentRow) => {
         const data = await postLogData('https://og-project.onrender.com/api/v1/survey', {
             "md": Number(currentRow.md),
             "inc": Number(currentRow.inc),
             "azi": Number(currentRow.azi),
-            "logName": logArray[0].naam,
+            "logName": logArray[0].logName,
             "well": setUp.well,
-            "fieldNumber": (currentRow.fieldNumber - 1).toString()
+            "fieldNumber": (currentRow.fieldNumber).toString()
         });
 
         let updatedRow;
@@ -228,23 +205,19 @@ export default function SurveyTable() {
             updatedRow = { ...currentRow };
         }
 
-        const updatedRows = rows.map((row) => (row.id === currentRow.id ? updatedRow : row));
-        setRows(updatedRows);
+        const updatedRows = surveyRows.map((row) => (row.id === currentRow.id ? updatedRow : row));
+        setCall(false);
+        setSurveyRows(updatedRows);
     }
 
     useEffect(() => {
-        if (ids !== 0) {
-            const currentRow = rows[ids];
+        if (ids !== 0 && call) {
+            const currentRow = surveyRows[ids];
             if (currentRow.md && currentRow.azi && currentRow.inc) {
                 processRowUpdate(currentRow);
             }
         }
-        if (!logArray.length) {
-            console.log('yes')
-            setRows(initialRows);
-        }
-
-    }, [rows, logArray])
+    }, [surveyRows])
 
 
 
@@ -255,7 +228,7 @@ export default function SurveyTable() {
                 disableColumnMenu
                 disableColumnFilter
                 onCellEditStop={handleCellEditStop}
-                rows={rows}
+                rows={surveyRows}
                 hideFooter
                 rowHeight={42}
                 columnHeaderHeight={72}

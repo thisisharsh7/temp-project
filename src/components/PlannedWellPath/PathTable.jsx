@@ -2,7 +2,7 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useMatchStore } from '../../store/store';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
@@ -84,7 +84,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         backgroundColor: '#fafafa'
     },
     '& ::-webkit-scrollbar': {
-        width: '4px' ,
+        width: '4px',
         height: '4px'
     },
 
@@ -102,32 +102,9 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     }
 }));
 
-const initialRows = [
-    { id: 1, fieldName: '1', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 2, fieldName: '2', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 3, fieldName: '3', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 4, fieldName: '4', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 5, fieldName: '5', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 6, fieldName: '6', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 7, fieldName: '7', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 8, fieldName: '8', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 9, fieldName: '9', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 10, fieldName: '10', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 11, fieldName: '11', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 12, fieldName: '12', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 13, fieldName: '13', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 14, fieldName: '14', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 15, fieldName: '15', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 16, fieldName: '16', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 17, fieldName: '17', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 18, fieldName: '18', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 19, fieldName: '19', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-    { id: 20, fieldName: '20', md: '0.02', inc: '0.00', azi: '193.630', tvd: '0.02', tvdss: '0.00', north: '0.02', east: '0.002', dls: '0.00', toolface: '0', buildrate: '0.5', turnrate: '0', vs: '0', comments: 'this is comment' },
-
-];
 
 const initialColumns = [
-    { field: 'fieldName', headerName: '', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
+    { field: 'fieldNumber', headerName: '', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
     { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
     { field: 'inc', headerName: 'Inc', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
     { field: 'azi', headerName: 'Azi', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
@@ -145,7 +122,8 @@ const initialColumns = [
 
 
 export default function PathTable() {
-    const [rows, setRows] = useState(initialRows);
+    const { plannedRows } = useMatchStore();
+
 
 
     return (
@@ -154,7 +132,7 @@ export default function PathTable() {
                 rowSelection={false}
                 disableColumnMenu
                 disableColumnFilter
-                rows={rows}
+                rows={plannedRows}
                 hideFooter
                 rowHeight={42}
                 columnHeaderHeight={72}

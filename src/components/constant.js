@@ -74,6 +74,24 @@ export async function postLogData(url, data) {
   }
 }
 
+export async function DeleteLogData(url, data) {
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error('Error:', error);
+    return 0;
+  }
+}
+
 export function formatStringInNumberToTwoDecimalPlaces(input) {
   return parseFloat(Number(input)).toFixed(2);
 }
