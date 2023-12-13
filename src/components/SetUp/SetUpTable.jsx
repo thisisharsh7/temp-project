@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useMatchStore } from '../../store/store';
+import { Padding } from '@mui/icons-material';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
@@ -32,7 +33,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     },
     '& .MuiDataGrid-columnHeader:last-of-type , .MuiDataGrid-cell:last-of-type': {
         borderRight: `none`,
-        paddingRight: '28px',
+        paddingRight: '27px',
 
     },
     '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
@@ -42,10 +43,13 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
         borderBottom: 'none'
     },
     '& .MuiDataGrid-row--lastVisible .MuiDataGrid-cell:first-of-type': {
-        borderRadius: '0rem 0rem 0rem 0.2rem'
+        borderRadius: '0rem 0rem 0rem 0.2rem',
+    },
+    '& .MuiDataGrid-cell:first-of-type': {
+        paddingLeft: '27px',
     },
     '& .MuiDataGrid-row--lastVisible .column-cell': {
-        borderRadius: '0rem 0rem 0.2rem 0rem',
+        borderRadius: '0rem 0rem 0.2rem 0rem'
     },
     '& .MuiDataGrid-cell': {
         fontSize: '15.2px',
@@ -91,14 +95,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     '& ::-webkit-scrollbar-track': {
         background: 'lightgray',
         borderRadius: '0rem 0rem 0.2rem 0rem'
-    },
-    '& .last--cell': {
-        borderRight: 'none',
-        paddingRight: '28px',
-
-    },
-    '& .first--cell': {
-        paddingLeft: '28px'
     },
     '& ::-webkit-scrollbar-thumb': {
         background: '#f1f1f1',
