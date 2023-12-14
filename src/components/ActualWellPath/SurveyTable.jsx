@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
-import { formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, getSavedData, postLogData } from '../constant';
+import { formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, postLogData } from '../constant';
 import { useMatchStore } from '../../store/store';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -124,7 +124,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
 
 export default function SurveyTable() {
-    const { setUp, logArray, surveyRows, setSurveyRows } = useMatchStore();
+    const { setUp, logArray, surveyRows, setSurveyRows, logIndex } = useMatchStore();
     const [call, setCall] = useState(false);
     const [ids, setIds] = useState(0);
     const initialColumns = [
@@ -179,7 +179,7 @@ export default function SurveyTable() {
             "md": Number(currentRow.md),
             "inc": Number(currentRow.inc),
             "azi": Number(currentRow.azi),
-            "logName": logArray[0].logName,
+            "logName": logArray[logIndex].logName,
             "well": setUp.well,
             "fieldNumber": (currentRow.fieldNumber).toString()
         });

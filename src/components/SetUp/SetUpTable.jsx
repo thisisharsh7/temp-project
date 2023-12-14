@@ -189,6 +189,8 @@ export default function PathTable() {
             });
             setColumns(modifiedColumns);
             setRows(modifiedRows);
+        } else {
+            setRows(initialRows);
         }
     }, [setUp.excelName])
     return (

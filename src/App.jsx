@@ -57,7 +57,7 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
-  const { open, setPlannedRows, setUp, setLog, updateSetUp } = useMatchStore();
+  const { open, setPlannedRows, setUp, setLog, updateSetUp, logArray, plannedRows } = useMatchStore();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -92,10 +92,14 @@ export default function BasicTabs() {
       console.log('error');
     }
   };
- 
+
 
   React.useEffect(() => {
-    if (setUp.excelName !== "" || userCurrentFile) {
+    if (setUp.excelName !== "") {
+      fetchPlanned();
+      fetchLogs();
+    }
+    if (userCurrentFile !== "null") {
       fetchData();
       fetchPlanned();
       fetchLogs();
