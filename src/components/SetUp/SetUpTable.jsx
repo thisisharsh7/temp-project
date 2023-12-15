@@ -147,6 +147,7 @@ export default function PathTable() {
         }
         return '';
     };
+    
     useEffect(() => {
         if (setUp.excelName != "") {
             const {
@@ -193,6 +194,7 @@ export default function PathTable() {
             setRows(initialRows);
         }
     }, [setUp.excelName])
+
     return (
         <Box component={'div'} sx={{ height: '100%', width: '100%' }}>
             <StyledDataGrid

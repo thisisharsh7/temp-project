@@ -6,10 +6,12 @@ import { useMatchStore } from '../store/store';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 const ActualWellPath = () => {
-  const { setOpen, logArray } = useMatchStore();
+  const { setOpen, logArray, setUp } = useMatchStore();
 
   const handleClick = (val) => {
-    setOpen({ show: true, text: val, id: -1 });
+    if (setUp.excelName !== "") {
+      setOpen({ show: true, text: val, id: -1 });
+    }
   }
   return (
     <Box mt={2.5} component="div" mb={6}>
