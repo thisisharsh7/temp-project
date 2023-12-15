@@ -65,7 +65,7 @@ export default function BasicTabs() {
   const fetchPlanned = async () => {
     try {
       const data = await getSavedData(`https://og-project.onrender.com/api/v1/getWellPlanned?excelName=${setUp.excelName}`);
-      if (data) {
+      if (data.plan.length) {
         setPlannedRows(data.plan)
       }
     } catch (error) {
@@ -76,9 +76,11 @@ export default function BasicTabs() {
   const fetchData = async () => {
     try {
       const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${userCurrentFile}`);
-      updateSetUp({
-        ...data.details, loading: false, enteries: true, LastRevised: updateDate()
-      });
+      if (data.details) {
+        updateSetUp({
+          ...data.details, loading: false, enteries: true, LastRevised: updateDate()
+        });
+      }
     } catch (error) {
       console.log('error');
     }
@@ -87,7 +89,9 @@ export default function BasicTabs() {
   const fetchLogs = async () => {
     try {
       const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs/`);
-      setLog(data.logs);
+      if (data.logs.length) {
+        setLog(data.logs);
+      }
     } catch (error) {
       console.log('error');
     }
@@ -95,15 +99,9 @@ export default function BasicTabs() {
 
 
   React.useEffect(() => {
-    if (setUp.excelName !== "") {
-      fetchPlanned();
-      fetchLogs();
-    }
-    if (userCurrentFile !== "null") {
-      fetchData();
-      fetchPlanned();
-      fetchLogs();
-    }
+    fetchData();
+    fetchPlanned();
+    fetchLogs();
   }, [setUp.excelName])
 
   return (
@@ -113,10 +111,10 @@ export default function BasicTabs() {
       {(open.text === 'Remove') && <DelNew />}
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Stack display={'grid'} gridTemplateColumns={'300px 1fr'} alignItems={'center'} justifyContent={'space-between'}>
+        <Stack display={'grid'} gridTemplateColumns={{ md: '300px 1fr', sm: '1fr 1fr' }} alignItems={'center'} justifyContent={'space-between'}>
           <Typography variant="h5" mx={2.5} mt={0.5} fontWeight={700} flex={1} width={'400px'}>Survey Application Demo</Typography>
           <Tabs value={value} onChange={handleChange} sx={{
-            placeSelf: "flex-end",
+            placeSelf: { md: "flex-end" },
             mx: 1
           }} variant='scrollable' allowScrollButtonsMobile aria-label="basic tabs example" >
             <Tab label="Set Up" sx={{ fontSize: "16px" }}  {...a11yProps(0)} />
