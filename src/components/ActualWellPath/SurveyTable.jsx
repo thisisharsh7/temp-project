@@ -144,11 +144,11 @@ export default function SurveyTable() {
 
 
     const handleCellEditStop = (params, event) => {
+
         let updateCell = surveyRows;
         if (params.field !== 'comment') {
             const val = formatStringInNumberToTwoDecimalPlaces(event.target.value);
             updateCell = surveyRows.map((sRow, index) => {
-                console.log(sRow);
                 if (index === params.id - 1) {
                     return {
                         ...sRow,
@@ -182,6 +182,7 @@ export default function SurveyTable() {
             "azi": Number(currentRow.azi),
             "logName": logArray[logIndex].logName,
             "well": setUp.well,
+            "tieAzi": 193.60,
             "fieldNumber": (currentRow.fieldNumber).toString()
         });
 
@@ -211,11 +212,46 @@ export default function SurveyTable() {
         setSurveyRows(updatedRows);
     }
 
+    const processFullRowUpdate = async (currentRow) => {
+        const data = await postLogData('https://og-project.onrender.com/api/v1/updateSurveyAzimuth', {
+            "updatedTieAzi": Number(currentRow.azi),
+            "logName": logArray[logIndex].logName,
+            "well": setUp.well,
+        });
+        if (data.surveys.length) {
+            let tieOnRows
+            data.surveys.map((newSurvey, index) => {
+                const updatedRow = {
+                    "id": index,
+                    "fieldNumber": newSurvey.fieldNumber,
+                    "md": formatNumberToTwoDecimalPlaces(newSurvey["md"]),
+                    "cl": formatNumberToTwoDecimalPlaces(newSurvey["cl"]),
+                    "inc": formatNumberToTwoDecimalPlaces(newSurvey["inc"]),
+                    "azi": formatNumberToTwoDecimalPlaces(newSurvey["azi"]),
+                    "tvd": formatNumberToTwoDecimalPlaces(newSurvey["tvd"]),
+                    "ns": formatNumberToTwoDecimalPlaces(newSurvey["ns"]),
+                    "ew": formatNumberToTwoDecimalPlaces(newSurvey["ew"]),
+                    "dls": formatNumberToTwoDecimalPlaces(newSurvey["dls"]),
+                    "vs": formatNumberToTwoDecimalPlaces(newSurvey["vs"]),
+                    "comment": ""
+                };
+                tieOnRows = surveyRows.map((row) => (row.id === updatedRow.id ? updatedRow : row));
+            })
+            setCall(false);
+            setSurveyRows(tieOnRows);
+        }
+    }
     useEffect(() => {
         if (ids !== 0 && call) {
             const currentRow = surveyRows[ids];
             if (currentRow.md && currentRow.azi && currentRow.inc) {
                 processRowUpdate(currentRow);
+            }
+        }
+        if (ids === 0 && call) {
+            const currentRow = surveyRows[ids];
+            if (currentRow.azi) {
+                processFullRowUpdate(currentRow);
             }
         }
     }, [surveyRows])
