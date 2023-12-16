@@ -75,6 +75,24 @@ export async function postLogData(url, data) {
   }
 }
 
+export async function postFieldData(url, data) {
+  try {
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error('Error:', error);
+    return 0;
+  }
+}
+
 export async function DeleteLogData(url, data) {
   try {
     const response = await fetch(url, {

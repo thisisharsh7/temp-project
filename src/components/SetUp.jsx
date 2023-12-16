@@ -17,14 +17,15 @@ const SetUp = () => {
     if (data) {
       localStorage.setItem('fileName', file.name);
       updateSetUp({
-        ...data.newField, loading: false, enteries: true, LastRevised: updateDate()
+        ...data.newField, loading: false, enteries: true, lastRevised: updateDate()
       });
+    } else {
+      updateDataSetUp({ setUp })
     }
   }
   const handleFileChange = (event) => {
 
     const file = event.target.files[0];
-    console.log(file, 'harsh')
     if (file) {
       updateSetUp({ ...setUp, loading: true, enteries: false })
       updateDataSetUp(file);
@@ -110,8 +111,8 @@ const SetUp = () => {
               <LabelInput fieldLabel="Field Name" fieldStatus={!setUp.enteries} fieldValue={setUp.fieldName} fieldName="setUp.fieldName" />
               <LabelInput fieldLabel="Vertical Section Azimuth" fieldStatus={!setUp.enteries} fieldValue={setUp.verticalSectionAzimuth} fieldName="setUp.verticalSectionAzimuth" />
               <LabelInput fieldLabel="Field Vertical Reference" fieldStatus={!setUp.enteries} fieldValue={setUp.fieldVerticalReference} fieldName="setUp.fieldVerticalReference" />
-              <LabelInput fieldLabel="Rotary to Mud Return Line" fieldStatus={!setUp.enteries} fieldValue={setUp.rotaryToMHL} fieldName="setUp.wellbore.Name" />
-              <LabelDateInput fieldLabel="Last Revised" fieldStatus={!setUp.enteries} fieldValue={setUp.LastRevised} fieldName="setUp.LastRevised" />
+              <LabelInput fieldLabel="Rotary to Mud Return Line" fieldStatus={!setUp.enteries} fieldValue={setUp.rotaryToMHL} fieldName="setUp.rotaryToMHL" />
+              <LabelDateInput fieldLabel="Last Revised" fieldStatus={!setUp.enteries} fieldValue={setUp.lastRevised} fieldName="setUp.lastRevised" />
 
             </Stack>
           </Stack>

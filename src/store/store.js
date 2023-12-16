@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { updateDate } from '../components/constant'
 
 export const useMatchStore = create((set) => ({
     //object variable for planned well path
@@ -83,7 +82,7 @@ export const useMatchStore = create((set) => ({
         sectionX: "",
         sectionY: "",
         verticalSectionAzimuth: "",
-        LastRevised: "dd-mm-yy",
+        lastRevised: "dd-mm-yy",
         enteries: false,
         loading: false,
     },

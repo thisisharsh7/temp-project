@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useMatchStore } from '../../store/store';
-import { getSavedData } from '../constant';
+import { getSavedData, postFieldData } from '../constant';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
@@ -116,14 +116,14 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
 const initialColumns = [
     { field: 'col1', headerName: '', minWidth: 195, sortable: false, cellClassName: 'first--cell', flex: 1 },
-    { field: 'col2', headerName: 'Local North', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
-    { field: 'col3', headerName: 'Local East', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-    { field: 'col4', headerName: 'Grid East', headerUnits: '(m)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'Unfrozen--cell', },
-    { field: 'col5', headerName: 'Grid North', headerUnits: '(m)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
-    { field: 'col6', headerName: 'Longitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
-    { field: 'col7', headerName: 'Latitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
-    { field: 'col8', headerName: 'Horiz Uncert 1sd', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
-    { field: 'col9', headerName: 'Vert Uncert 1sd', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
+    { field: 'localNorth', headerName: 'Local North', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
+    { field: 'localEast', headerName: 'Local East', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+    { field: 'localGridEast', headerName: 'Grid East', headerUnits: '(m)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'Unfrozen--cell', },
+    { field: 'localGridNorth', headerName: 'Grid North', headerUnits: '(m)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
+    { field: 'localLongitude', headerName: 'Longitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
+    { field: 'localLatitude', headerName: 'Latitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
+    { field: 'localHoriz', headerName: 'Horiz Uncert 1sd', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
+    { field: 'localVert', headerName: 'Vert Uncert 1sd', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
 ];
 
 export default function PathTable() {
@@ -162,7 +162,20 @@ export default function PathTable() {
         }
         return '';
     };
-
+    const sendData = async (fieldObj) => {
+        try {
+            const data = await postFieldData(`https://og-project.onrender.com/api/v1/updateFields?excelName=${setUp.excelName}`, fieldObj)
+            if (data) {
+                console.log('success');
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const handleCellEdit = (params, event) => {
+        const head = `${params.field}${params.id}`;
+        sendData({ [head]: event.target.value });
+    }
     useEffect(() => {
         if (setUp.excelName != "") {
             const {
@@ -192,9 +205,9 @@ export default function PathTable() {
                 , localVertFieldReferencePt
             } = setUp
             const modifiedRows = [
-                { id: 1, col1: 'Slot Location', col2: localNorthSlotLocation, col3: localEastSlotLocation, col4: localGridNorthSlotLocation, col5: localGridEastSlotLocation, col6: localLongitudeSlotLocation, col7: localLatitudeSlotLocation, col8: localHorizSlotLocation, col9: localVertSlotLocation },
-                { id: 2, col1: 'Facility Reference Pt', col2: localNorthFacilityReferencePt, col3: localEastFacilityReferencePt, col4: localGridNorthFacilityReferencePt, col5: localGridEastFacilityReferencePt, col6: localLongitudeFacilityReferencePt, col7: localLatitudeFacilityReferencePt, col8: localHorizFacilityReferencePt, col9: localVertFacilityReferencePt },
-                { id: 3, col1: 'Field Reference Pt', col2: localNorthFieldReferencePt, col3: localEastFieldReferencePt, col4: localGridNorthFieldReferencePt, col5: localGridEastFieldReferencePt, col6: localLongitudeFieldReferencePt, col7: localLatitudeFieldReferencePt, col8: localHorizFieldReferencePt, col9: localVertFieldReferencePt },
+                { id: "SlotLocation", col1: 'Slot Location', "localNorth": localNorthSlotLocation, "localEast": localEastSlotLocation, "localGridNorth": localGridNorthSlotLocation, "localGridEast": localGridEastSlotLocation, "localLongitude": localLongitudeSlotLocation, "localLatitude": localLatitudeSlotLocation, "localHoriz": localHorizSlotLocation, "localVert": localVertSlotLocation },
+                { id: "FacilityReferencePt", col1: 'Facility Reference Pt', "localNorth": localNorthFacilityReferencePt, "localEast": localEastFacilityReferencePt, "localGridNorth": localGridNorthFacilityReferencePt, "localGridEast": localGridEastFacilityReferencePt, "localLongitude": localLongitudeFacilityReferencePt, "localLatitude": localLatitudeFacilityReferencePt, "localHoriz": localHorizFacilityReferencePt, "localVert": localVertFacilityReferencePt },
+                { id: "FieldReferencePt", col1: 'Field Reference Pt', "localNorth": localNorthFieldReferencePt, "localEast": localEastFieldReferencePt, "localGridNorth": localGridNorthFieldReferencePt, "localGridEast": localGridEastFieldReferencePt, "localLongitude": localLongitudeFieldReferencePt, "localLatitude": localLatitudeFieldReferencePt, "localHoriz": localHorizFieldReferencePt, "localVert": localVertFieldReferencePt },
             ];
             const modifiedColumns = initialColumns.map((column, index) => {
                 const modifiedColumn = { ...column };
@@ -219,6 +232,8 @@ export default function PathTable() {
                 disableColumnMenu
                 disableColumnFilter
                 rows={lokiRows}
+                onCellEditStop={handleCellEdit}
+
                 hideFooter
                 rowHeight={42}
                 columnHeaderHeight={72}
