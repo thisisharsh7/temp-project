@@ -3,6 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
+import { useMatchStore } from '../../store/store';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
@@ -105,30 +106,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     },
 }));
 
-const initialRows = [
-    { id: 1, col1: '1', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 2, col1: '2', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 3, col1: '3', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 4, col1: '4', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 5, col1: '5', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 6, col1: '6', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 7, col1: '7', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 8, col1: '8', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 9, col1: '9', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 10, col1: '10', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 11, col1: '11', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 12, col1: '12', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 13, col1: '13', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 14, col1: '14', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 15, col1: '15', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 16, col1: '16', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 17, col1: '17', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 18, col1: '18', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 19, col1: '19', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    { id: 20, col1: '20', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-
-];
-
 const initialColumns = [
     { field: 'col1', headerName: '', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
     { field: 'col2', headerName: 'MD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', editable: true, flex: 1 },
@@ -142,7 +119,7 @@ const initialColumns = [
 
 
 export default function PathTable() {
-    const [rows, setRows] = useState(initialRows);
+    const { interpolateRows } = useMatchStore();
 
 
     return (
@@ -152,7 +129,7 @@ export default function PathTable() {
                 disableColumnMenu
                 disableColumnFilter
                 editMode='row'
-                rows={rows}
+                rows={interpolateRows}
                 hideFooter
                 rowHeight={42}
                 columnHeaderHeight={72}

@@ -18,9 +18,9 @@ const SetUp = () => {
     if (file) {
       updateSetUp({ ...setUp, loading: true, enteries: false })
       const data = await uploadFile(file);
-
       if (data) {
         localStorage.setItem('fileName', file.name.split('.')[0]);
+
         updateSetUp({
           ...data.newField, loading: false, enteries: true, LastRevised: updateDate()
         });

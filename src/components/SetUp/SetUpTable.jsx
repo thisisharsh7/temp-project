@@ -125,8 +125,8 @@ const initialColumns = [
     { field: 'col3', headerName: 'Local East', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
     { field: 'col4', headerName: 'Grid East', headerUnits: '(m)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'Unfrozen--cell', },
     { field: 'col5', headerName: 'Grid North', headerUnits: '(m)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
-    { field: 'col6', headerName: 'Latitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
-    { field: 'col7', headerName: 'Longitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
+    { field: 'col6', headerName: 'Longitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
+    { field: 'col7', headerName: 'Latitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
     { field: 'col8', headerName: 'Horiz Uncert 1sd', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
     { field: 'col9', headerName: 'Vert Uncert 1sd', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell' },
 ];
@@ -147,7 +147,7 @@ export default function PathTable() {
         }
         return '';
     };
-    
+
     useEffect(() => {
         if (setUp.excelName != "") {
             const {
