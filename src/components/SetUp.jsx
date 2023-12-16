@@ -75,7 +75,7 @@ const SetUp = () => {
         {
           (setUp.enteries) && <Typography sx={{
             fontSize: '15.2px',
-          }} fontWeight={500} color="#009B4D">{setUp.excelName}</Typography>
+          }} fontWeight={500} color="#009B4D">{setUp.excelName}.xlsx</Typography>
         }
         {
           (!setUp.enteries && !setUp.loading) && <Typography variant='body1' sx={{
