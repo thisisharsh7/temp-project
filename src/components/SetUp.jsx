@@ -12,47 +12,50 @@ import LabelSelect from './SetUp/LabelSelect';
 
 const SetUp = () => {
   const { setUp, updateSetUp, setPlannedRows, plannedRows, setLog, logArray } = useMatchStore();
+  const updateDataSetUp = async (file) => {
+    const data = await uploadFile(file);
+    if (data) {
+      localStorage.setItem('fileName', file.name);
+      updateSetUp({
+        ...data.newField, loading: false, enteries: true, LastRevised: updateDate()
+      });
+    }
+  }
+  const handleFileChange = (event) => {
 
-  const handleFileChange = async (event) => {
     const file = event.target.files[0];
+    console.log(file, 'harsh')
     if (file) {
       updateSetUp({ ...setUp, loading: true, enteries: false })
-      const data = await uploadFile(file);
-      if (data) {
-        localStorage.setItem('fileName', file.name.split('.')[0]);
-
-        updateSetUp({
-          ...data.newField, loading: false, enteries: true, LastRevised: updateDate()
-        });
-      } else {
-        updateSetUp({
-          excelName: "",
-          well: "",
-          wellbore: "",
-          planRevision: "",
-          fieldName: "",
-          utm: "",
-          northReference: "",
-          magneticDeclination: "",
-          convergence: "",
-          fieldVerticalReference: "",
-          rotaryToField: "",
-          rotarySubsea: "",
-          rotaryToMHL: "",
-          sectionX: "",
-          sectionY: "",
-          verticalSectionAzimuth: "",
-          LastRevised: "dd-mm-yy",
-          enteries: false,
-          loading: false
-        });
-        setPlannedRows(plannedRows);
-        setLog(logArray);
-        alert('File not supported!');
-        localStorage.setItem('fileName', null);
-      }
+      updateDataSetUp(file);
+    } else {
+      updateSetUp({
+        excelName: "",
+        well: "",
+        wellbore: "",
+        planRevision: "",
+        fieldName: "",
+        utm: "",
+        northReference: "",
+        magneticDeclination: "",
+        convergence: "",
+        fieldVerticalReference: "",
+        rotaryToField: "",
+        rotarySubsea: "",
+        rotaryToMHL: "",
+        sectionX: "",
+        sectionY: "",
+        verticalSectionAzimuth: "",
+        LastRevised: "dd-mm-yy",
+        enteries: false,
+        loading: false
+      });
+      setPlannedRows(plannedRows);
+      setLog(logArray);
+      alert('File not supported!');
+      localStorage.setItem('fileName', null);
     }
-  };
+  }
 
 
   return (
@@ -72,7 +75,7 @@ const SetUp = () => {
         {
           (setUp.enteries) && <Typography sx={{
             fontSize: '15.2px',
-          }} fontWeight={500} color="#009B4D">{setUp.excelName}.xlsx</Typography>
+          }} fontWeight={500} color="#009B4D">{setUp.excelName}</Typography>
         }
         {
           (!setUp.enteries && !setUp.loading) && <Typography variant='body1' sx={{

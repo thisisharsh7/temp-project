@@ -36,10 +36,11 @@ export async function uploadFile(file) {
   let data = null;
   const formData = new FormData();
   formData.append('excelFile', file);
-  const query = file.name.split('.')[0]
+  const fileName = file.name;
+  const fileNameWithoutExtension = fileName.replace(/\.[^.]+$/, '');
 
   try {
-    const response = await fetch(`https://og-project.onrender.com/api/v1/fields?excelName=${query}`, {
+    const response = await fetch(`https://og-project.onrender.com/api/v1/fields?excelName=${fileNameWithoutExtension}`, {
       method: 'POST',
       body: formData,
     });

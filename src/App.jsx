@@ -57,25 +57,16 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
-  const { open, setPlannedRows, setUp, setLog, updateSetUp, logArray, plannedRows } = useMatchStore();
+  const { open, updateSetUp } = useMatchStore();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const fetchPlanned = async () => {
-    try {
-      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getWellPlanned?excelName=${setUp.excelName}`);
-      if (data.plan.length) {
-        setPlannedRows(data.plan)
-      }
-    } catch (error) {
-      console.log('error');
-    }
-
-  };
   const fetchData = async () => {
     try {
-      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${userCurrentFile}`);
+      const fileName = userCurrentFile;
+      const fileNameWithoutExtension = fileName.replace(/\.[^.]+$/, '');
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${fileNameWithoutExtension}`);
       if (data.details) {
         updateSetUp({
           ...data.details, loading: false, enteries: true, LastRevised: updateDate()
@@ -86,23 +77,11 @@ export default function BasicTabs() {
     }
 
   };
-  const fetchLogs = async () => {
-    try {
-      const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs/`);
-      if (data.logs.length) {
-        setLog(data.logs);
-      }
-    } catch (error) {
-      console.log('error');
-    }
-  };
 
 
   React.useEffect(() => {
     fetchData();
-    fetchPlanned();
-    fetchLogs();
-  }, [setUp.excelName])
+  }, [])
 
   return (
     <Box component="main" maxWidth={"1920px"} marginInline={"auto"} >

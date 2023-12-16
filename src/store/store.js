@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { updateDate } from '../components/constant'
 
 export const useMatchStore = create((set) => ({
     //object variable for planned well path
@@ -89,8 +90,19 @@ export const useMatchStore = create((set) => ({
     updateSetUp: (newSetUp) => set(state => ({ setUp: newSetUp })),
 
 
+    lokiRows: [
+        { id: 1, col1: 'Slot Location', col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '' },
+        { id: 2, col1: 'Facility Reference Pt', col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '' },
+        { id: 3, col1: 'Field Reference Pt', col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '' },
+
+    ],
+
+    updateLokiRows: (newLoki) => set(state => ({ lokiRows: newLoki })),
+
+
+
     //object variable for interpolate Tab
-    interpolateRows : [
+    interpolateRows: [
         { id: 1, col1: '1', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
         { id: 2, col1: '2', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
         { id: 3, col1: '3', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
@@ -111,7 +123,7 @@ export const useMatchStore = create((set) => ({
         { id: 18, col1: '18', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
         { id: 19, col1: '19', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
         { id: 20, col1: '20', col2: '0.02', col3: '0.00', col4: '193.630', col5: '0.02', col6: '0.00', col7: '0.02', col8: '0.002', col9: '0.00', col10: '0', col11: '0.5', col12: '0', col13: '0', col14: 'this is comment' },
-    
+
     ],
-    
+
 }))

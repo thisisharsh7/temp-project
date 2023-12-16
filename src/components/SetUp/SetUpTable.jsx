@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useMatchStore } from '../../store/store';
-import { Padding } from '@mui/icons-material';
+import { getSavedData } from '../constant';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
@@ -112,12 +112,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     },
 }));
 
-const initialRows = [
-    { id: 1, col1: 'Slot Location', col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '' },
-    { id: 2, col1: 'Facility Reference Pt', col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '' },
-    { id: 3, col1: 'Field Reference Pt', col2: '', col3: '', col4: '', col5: '', col6: '', col7: '', col8: '', col9: '' },
 
-];
 
 const initialColumns = [
     { field: 'col1', headerName: '', minWidth: 195, sortable: false, cellClassName: 'first--cell', flex: 1 },
@@ -132,9 +127,29 @@ const initialColumns = [
 ];
 
 export default function PathTable() {
-    const [rows, setRows] = useState(initialRows);
     const [columns, setColumns] = useState(initialColumns)
-    const { setUp } = useMatchStore();
+    const { setUp, setPlannedRows, setLog, lokiRows, updateLokiRows } = useMatchStore();
+    const fetchPlanned = async () => {
+        try {
+            const data = await getSavedData(`https://og-project.onrender.com/api/v1/getWellPlanned?excelName=${setUp.excelName}`);
+            if (data.plan.length) {
+                setPlannedRows(data.plan)
+            }
+        } catch (error) {
+            console.log('error');
+        }
+
+    };
+    const fetchLogs = async () => {
+        try {
+            const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs/`);
+            if (data.logs.length) {
+                setLog(data.logs);
+            }
+        } catch (error) {
+            console.log('error');
+        }
+    };
 
 
     const getCellClassName = ({ value, field }) => {
@@ -189,9 +204,11 @@ export default function PathTable() {
                 return modifiedColumn;
             });
             setColumns(modifiedColumns);
-            setRows(modifiedRows);
+            updateLokiRows(modifiedRows);
+            fetchPlanned();
+            fetchLogs();
         } else {
-            setRows(initialRows);
+            updateLokiRows(lokiRows);
         }
     }, [setUp.excelName])
 
@@ -201,7 +218,7 @@ export default function PathTable() {
                 rowSelection={false}
                 disableColumnMenu
                 disableColumnFilter
-                rows={rows}
+                rows={lokiRows}
                 hideFooter
                 rowHeight={42}
                 columnHeaderHeight={72}
