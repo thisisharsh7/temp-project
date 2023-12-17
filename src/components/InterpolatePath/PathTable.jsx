@@ -2,8 +2,9 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMatchStore } from '../../store/store';
+import { formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, postLogData } from '../constant';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
@@ -106,20 +107,96 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     },
 }));
 
-const initialColumns = [
-    { field: 'col1', headerName: '', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
-    { field: 'col2', headerName: 'MD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', editable: true, flex: 1 },
-    { field: 'col3', headerName: 'Inc', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
-    { field: 'col4', headerName: 'Azi', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
-    { field: 'col5', headerName: 'TVD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
-    { field: 'col7', headerName: 'Local N', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
-    { field: 'col8', headerName: 'Local E', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
-    { field: 'col14', headerName: 'Comments', minWidth: 300, align: 'center', headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], editable: true },
-];
+
 
 
 export default function PathTable() {
-    const { interpolateRows } = useMatchStore();
+    const { interpolateRows, setUp, updateInterpolateRows } = useMatchStore();
+    const [call, setCall] = useState(false);
+    const [ids, setIds] = useState(-1);
+    const initialColumns = [
+        { field: 'index', headerName: '', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
+        { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', editable: (setUp.excelName !== "") ? true : false, flex: 1 },
+        { field: 'inc', headerName: 'Inc', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
+        { field: 'azi', headerName: 'Azi', headerUnits: '(deg)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
+        { field: 'tvd', headerName: 'TVD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
+        { field: 'ns', headerName: 'Local N', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
+        { field: 'ew', headerName: 'Local E', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1 },
+        { field: 'comment', headerName: 'Comments', minWidth: 300, align: 'center', headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], editable: (setUp.excelName !== "") ? true : false },
+    ];
+
+
+    const handleCellEditStop = (params, event) => {
+
+        let updateCell = interpolateRows;
+        if (params.field !== 'comment') {
+            const val = formatStringInNumberToTwoDecimalPlaces(event.target.value);
+            updateCell = interpolateRows.map((sRow, index) => {
+                if (index === params.id - 1) {
+                    return {
+                        ...sRow,
+                        [params.field]: val,
+                    };
+                } else {
+                    return sRow;
+                }
+            });
+            setCall(true);
+        } else {
+            updateCell = interpolateRows.map((sRow, index) => {
+                if (index === params.id - 1) {
+                    return {
+                        ...sRow,
+                        [params.field]: event.target.value,
+                    };
+                } else {
+                    return sRow;
+                }
+            });
+            setCall(false);
+        }
+        updateInterpolateRows(updateCell);
+        setIds(params.id - 1);
+    };
+
+    const processRowUpdate = async (currentRow) => {
+        const data = await postLogData('https://og-project.onrender.com/api/v1/interpolate', {
+            "md": Number(currentRow.md),
+            "excelName": setUp.excelName
+        });
+
+        let updatedRow;
+
+        if (data && !data.error) {
+            updatedRow = {
+                "id": currentRow.id,
+                "index": currentRow.index,
+                "md": formatNumberToTwoDecimalPlaces(data["md"]),
+                "cl": formatNumberToTwoDecimalPlaces(data["cl"]),
+                "inc": formatNumberToTwoDecimalPlaces(data["inc"]),
+                "azi": formatNumberToTwoDecimalPlaces(data["azi"]),
+                "tvd": formatNumberToTwoDecimalPlaces(data["tvd"]),
+                "ns": formatNumberToTwoDecimalPlaces(data["ns"]),
+                "ew": formatNumberToTwoDecimalPlaces(data["ew"]),
+                "dls": formatNumberToTwoDecimalPlaces(data["dls"]),
+                "vs": formatNumberToTwoDecimalPlaces(data["vs"]),
+                "comment": currentRow.comment
+            };
+        } else {
+            updatedRow = { ...currentRow };
+        }
+
+        const updatedRows = interpolateRows.map((row) => (row.id === currentRow.id ? updatedRow : row));
+        setCall(false);
+        updateInterpolateRows(updatedRows);
+    }
+
+    useEffect(() => {
+        if (call) {
+            const currentRow = interpolateRows[ids];
+            processRowUpdate(currentRow);
+        }
+    }, [interpolateRows])
 
 
     return (
@@ -128,7 +205,7 @@ export default function PathTable() {
                 rowSelection={false}
                 disableColumnMenu
                 disableColumnFilter
-                editMode='row'
+                onCellEditStop={handleCellEditStop}
                 rows={interpolateRows}
                 hideFooter
                 rowHeight={42}
