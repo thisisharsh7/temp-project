@@ -176,7 +176,8 @@ export default function SurveyTable() {
     };
 
     const processRowUpdate = async (currentRow) => {
-        const data = await postLogData('https://og-project.onrender.com/api/v1/survey?id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869', {
+        const idVal = localStorage.getItem('id');
+        const data = await postLogData(`https://og-project.onrender.com/api/v1/survey?id=${idVal}`, {
             "md": Number(currentRow.md),
             "inc": Number(currentRow.inc),
             "azi": Number(currentRow.azi),
@@ -213,7 +214,8 @@ export default function SurveyTable() {
     }
 
     const processFullRowUpdate = async (currentRow) => {
-        const data = await postLogData('https://og-project.onrender.com/api/v1/updateSurveyAzimuth?id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869', {
+        const idVal = localStorage.getItem('id');
+        const data = await postLogData(`https://og-project.onrender.com/api/v1/updateSurveyAzimuth?id=${idVal}`, {
             "updatedTieAzi": Number(currentRow.azi),
             "logName": logArray[logIndex].logName,
             "well": setUp.well,
@@ -266,7 +268,6 @@ export default function SurveyTable() {
                 disableColumnFilter
                 onCellEditStop={handleCellEditStop}
                 rows={surveyRows}
-                editMode='row'
                 getRowId={(row) => row.id}
                 hideFooter
                 rowHeight={42}

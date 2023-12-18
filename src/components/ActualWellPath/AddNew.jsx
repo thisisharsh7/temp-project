@@ -32,10 +32,11 @@ const AddNew = () => {
             ...form,
             loading: true
         })
-        const logData = await postLogData('https://og-project.onrender.com/api/v1/surveyCreate?id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869', {
+        const idVal = localStorage.getItem('id');
+        const logData = await postLogData(`https://og-project.onrender.com/api/v1/surveyCreate?id=${idVal}`, {
             "logName": form.logName,
-            "usedFrom": 5674.65,
-            "usedBy": 45894
+            "usedFrom": 0,
+            "usedBy": 0
         });
         if (logData) {
             setLog([...logArray, form]);

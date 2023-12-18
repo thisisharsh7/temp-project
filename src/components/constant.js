@@ -40,7 +40,7 @@ export async function uploadFile(file) {
   const fileNameWithoutExtension = fileName.replace(/\.[^.]+$/, '');
 
   try {
-    const response = await fetch(`https://og-project.onrender.com/api/v1/fields?excelName=${fileNameWithoutExtension}&id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869`, {
+    const response = await fetch(`https://og-project.onrender.com/api/v1/fields?excelName=${fileNameWithoutExtension}`, {
       method: 'POST',
       body: formData,
     });

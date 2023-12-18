@@ -15,10 +15,11 @@ const SetUp = () => {
   const updateDataSetUp = async (file) => {
     const data = await uploadFile(file);
     if (data) {
-      localStorage.setItem('fileName', file.name);
       updateSetUp({
         ...data.newField, loading: false, enteries: true, lastRevised: updateDate()
       });
+      localStorage.setItem('fileName', data.newField.excelName);
+      localStorage.setItem('id', data.id);
     } else {
       updateDataSetUp({ setUp })
     }
@@ -55,6 +56,7 @@ const SetUp = () => {
       setLog(logArray);
       alert('File not supported!');
       localStorage.setItem('fileName', null);
+      localStorage.setItem('id', null);
     }
   }
 

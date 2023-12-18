@@ -125,4 +125,5 @@ export const useMatchStore = create((set) => ({
     ],
 
     updateInterpolateRows: (newInterpolate) => set(state => ({ interpolateRows: newInterpolate })),
+    
 }))

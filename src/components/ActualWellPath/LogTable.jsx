@@ -45,7 +45,8 @@ export default function LogTable() {
             { id: 15, fieldNumber: 14, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
         ]
         try {
-            const previousSurvey = await getSavedData(`https://og-project.onrender.com/api/v1/allSurveys?logName=${logArray[logIndex].logName}&id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869`);
+            const idVal = localStorage.getItem('id');
+            const previousSurvey = await getSavedData(`https://og-project.onrender.com/api/v1/allSurveys?logName=${logArray[logIndex].logName}&id=${idVal}`);
             if (previousSurvey.surveys.length) {
                 const updatedDataMap = previousSurvey.surveys.reduce((map, obj) => {
                     map[obj.fieldNumber] = obj;
@@ -71,6 +72,7 @@ export default function LogTable() {
         if (logIndex !== -1) {
             fetchSurveys();
         }
+        console.log(logArray);
 
     }, [logIndex])
     return (

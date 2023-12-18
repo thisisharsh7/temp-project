@@ -65,7 +65,8 @@ export default function BasicTabs() {
     try {
       const fileName = userCurrentFile;
       const fileNameWithoutExtension = fileName.replace(/\.[^.]+$/, '');
-      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${fileNameWithoutExtension}&id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869`);
+      const idVal = localStorage.getItem('id');
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${fileNameWithoutExtension}&id=${idVal}`);
       if (data.details) {
         updateSetUp({
           ...data.details, loading: false, enteries: true, LastRevised: updateDate()
@@ -76,12 +77,13 @@ export default function BasicTabs() {
     }
 
   };
-  
+
   const fetchInterpolate = async () => {
     try {
       const fileName = userCurrentFile;
+      const idVal = localStorage.getItem('id');
       const fileNameWithoutExtension = fileName.replace(/\.[^.]+$/, '');
-      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getInterpolate?excelName=${fileNameWithoutExtension}&id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869`);
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getInterpolate?excelName=${fileNameWithoutExtension}&id=${idVal}`);
       if (data) {
         console.log(data);
       }
