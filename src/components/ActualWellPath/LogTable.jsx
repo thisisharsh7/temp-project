@@ -11,7 +11,7 @@ import { useMatchStore } from '../../store/store';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useEffect } from 'react';
-import { getSavedData } from '../constant';
+import { formatNumberToTwoDecimalPlaces, getSavedData } from '../constant';
 
 export default function LogTable() {
     const { setOpen, logArray, logIndex, setLogIndex, surveyRows, setSurveyRows } = useMatchStore();
@@ -49,16 +49,19 @@ export default function LogTable() {
             const previousSurvey = await getSavedData(`https://og-project.onrender.com/api/v1/allSurveys?logName=${logArray[logIndex].logName}&id=${idVal}`);
 
             if (previousSurvey.surveys.length) {
-                console.log(previousSurvey, 'tellme')
                 const updatedDataMap = previousSurvey.surveys.reduce((map, obj) => {
                     map[obj.fieldNumber] = obj;
                     return map;
                 }, {});
+                console.log(updatedDataMap, 'harsh');
 
                 updateSurveys = surveyRows.map(row => {
                     const updatedObject = updatedDataMap[row.fieldNumber];
                     if (updatedObject) {
                         // If there's an update for the current fieldNumber, merge the objects
+                        updatedObject["md"] = formatNumberToTwoDecimalPlaces(updatedObject["md"]);
+                        updatedObject["azi"] = formatNumberToTwoDecimalPlaces(updatedObject["azi"]);
+                        updatedObject["inc"] = formatNumberToTwoDecimalPlaces(updatedObject["inc"]);
                         return { ...row, ...updatedObject };
                     }
                     return row;
@@ -128,11 +131,11 @@ export default function LogTable() {
                             <TableCell align="right" sx={{
                                 fontSize: '15.2px',
                                 fontWeight: 500,
-                            }}>{row.usedFrom}</TableCell>
+                            }}>{(Number(row.usedFrom)) ? formatNumberToTwoDecimalPlaces(row.usedFrom) : " "}</TableCell>
                             <TableCell align="right" sx={{
                                 fontSize: '15.2px',
                                 fontWeight: 500
-                            }}>{row.usedBy}</TableCell>
+                            }}>{(Number(row.usedBy)) ? formatNumberToTwoDecimalPlaces(row.usedBy) : " "}</TableCell>
                             <TableCell align="right" sx={{
                                 paddingRight: 3.5
                             }}>

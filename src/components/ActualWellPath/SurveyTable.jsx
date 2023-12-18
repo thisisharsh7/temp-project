@@ -130,9 +130,9 @@ export default function SurveyTable() {
     const initialColumns = [
         { field: 'fieldNumber', headerName: '', width: 105, sortable: false },
         { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: (logIndex !== -1 && logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
-        { field: 'cl', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
         { field: 'inc', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: (logIndex !== -1 && logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
         { field: 'azi', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: (logIndex !== -1 && logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+        { field: 'cl', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
         { field: 'tvd', headerName: 'TVD', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
         { field: 'ns', headerName: 'North', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
         { field: 'ew', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
@@ -178,9 +178,9 @@ export default function SurveyTable() {
     const processRowUpdate = async (currentRow) => {
         const idVal = localStorage.getItem('id');
         const data = await postLogData(`https://og-project.onrender.com/api/v1/survey?id=${idVal}`, {
-            "md": Number(currentRow.md),
-            "inc": Number(currentRow.inc),
-            "azi": Number(currentRow.azi),
+            "md": formatStringInNumberToTwoDecimalPlaces(currentRow.md),
+            "inc": formatStringInNumberToTwoDecimalPlaces(currentRow.inc),
+            "azi": formatStringInNumberToTwoDecimalPlaces(currentRow.azi),
             "logName": logArray[logIndex].logName,
             "well": setUp.well,
             "tieAzi": 193.60,

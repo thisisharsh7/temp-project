@@ -17,7 +17,7 @@ const style = {
 };
 
 const EditNew = () => {
-    const { setOpen, open, logArray, setLog } = useMatchStore();
+    const { setOpen, open, logArray, setLog, logIndex } = useMatchStore();
     const [form, setForm] = useState({
         logName: logArray[open.id].logName,
         model: logArray[open.id].model,
@@ -40,14 +40,13 @@ const EditNew = () => {
             "editLogName": form.logName
 
         });
+        console.log(logData);
         if (logData) {
-            const updatedLogArray = logArray.map((item, index) => {
-                if (index === open.id) {
-                    return form;
-                }
-                return item;
-            });
-            setLog(updatedLogArray);
+            const newLog = [...logArray];
+            if (newLog[logIndex]) {
+                newLog[logIndex]["logName"] = form.logName;
+            }
+            setLog(newLog);
         } else {
             alert('Log not added.');
         }
