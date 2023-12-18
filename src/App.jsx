@@ -13,7 +13,7 @@ import AddNew from './components/ActualWellPath/AddNew'
 import EditNew from './components/ActualWellPath/EditNew'
 import DelNew from './components/ActualWellPath/DelNew'
 import { useMatchStore } from './store/store';
-import { getSavedData, updateDate } from './components/constant';
+import { formatNumberToTwoDecimalPlaces, getSavedData, updateDate } from './components/constant';
 
 
 
@@ -56,7 +56,7 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
-  const { open, updateSetUp } = useMatchStore();
+  const { open, updateSetUp, updateInterpolateRows, interpolateRows } = useMatchStore();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -84,11 +84,29 @@ export default function BasicTabs() {
       const idVal = localStorage.getItem('id');
       const fileNameWithoutExtension = fileName.replace(/\.[^.]+$/, '');
       const data = await getSavedData(`https://og-project.onrender.com/api/v1/getInterpolate?excelName=${fileNameWithoutExtension}&id=${idVal}`);
-      if (data) {
-        console.log(data);
+      if (data.interpolateData.length) {
+        let updatedRows = [];
+        data.interpolateData.map((sdata, index) => {
+          let updated;
+          updated = {
+            "id": index + 1,
+            "index": `${index + 1}`,
+            "md": formatNumberToTwoDecimalPlaces(sdata["md"]),
+            "inc": formatNumberToTwoDecimalPlaces(sdata["inc"]),
+            "azi": formatNumberToTwoDecimalPlaces(sdata["azi"]),
+            "tvd": formatNumberToTwoDecimalPlaces(sdata["tvd"]),
+            "ns": formatNumberToTwoDecimalPlaces(sdata["ns"]),
+            "ew": formatNumberToTwoDecimalPlaces(sdata["ew"]),
+            "comment": ""
+          }
+          updatedRows = [...updatedRows, updated];
+        })
+        const getInterpolateRows = interpolateRows.slice(updatedRows.length);
+        updateInterpolateRows([...updatedRows, ...getInterpolateRows]);
+
       }
     } catch (error) {
-      console.log('error');
+      console.log('error interpolate');
     }
 
   };
