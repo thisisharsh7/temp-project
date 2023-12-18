@@ -142,7 +142,7 @@ export default function PathTable() {
     };
     const fetchLogs = async () => {
         try {
-            const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs&id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869/`);
+            const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs?id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869/`);
             if (data.logs.length) {
                 setLog(data.logs);
             }

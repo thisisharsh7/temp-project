@@ -160,7 +160,7 @@ export default function PathTable() {
     };
 
     const processRowUpdate = async (currentRow) => {
-        const data = await postLogData('https://og-project.onrender.com/api/v1/interpolate', {
+        const data = await postLogData('https://og-project.onrender.com/api/v1/interpolate?id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869', {
             "md": Number(currentRow.md),
             "excelName": setUp.excelName
         });

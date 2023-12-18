@@ -25,7 +25,7 @@ const DelNew = () => {
     }
     const handleDelete = async () => {
         setLoading(true);
-        const logData = await DeleteLogData('https://og-project.onrender.com/api/v1/deleteALog', {
+        const logData = await DeleteLogData('https://og-project.onrender.com/api/v1/deleteALog?id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869', {
             "logName": logArray[open.id].logName,
         });
         if (logData) {

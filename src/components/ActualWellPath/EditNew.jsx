@@ -34,7 +34,7 @@ const EditNew = () => {
             ...form,
             loading: true
         })
-        const logData = await postLogData('https://og-project.onrender.com/api/v1/surveyEdit', {
+        const logData = await postLogData('https://og-project.onrender.com/api/v1/surveyEdit?id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869', {
             "logName": logArray[open.id].logName,
             "editLogName": form.logName
 

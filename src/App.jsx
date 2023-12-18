@@ -76,6 +76,7 @@ export default function BasicTabs() {
     }
 
   };
+  
   const fetchInterpolate = async () => {
     try {
       const fileName = userCurrentFile;
