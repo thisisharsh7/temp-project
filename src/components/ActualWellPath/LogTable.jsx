@@ -47,7 +47,9 @@ export default function LogTable() {
         try {
             const idVal = localStorage.getItem('id');
             const previousSurvey = await getSavedData(`https://og-project.onrender.com/api/v1/allSurveys?logName=${logArray[logIndex].logName}&id=${idVal}`);
+
             if (previousSurvey.surveys.length) {
+                console.log(previousSurvey, 'tellme')
                 const updatedDataMap = previousSurvey.surveys.reduce((map, obj) => {
                     map[obj.fieldNumber] = obj;
                     return map;
@@ -62,10 +64,12 @@ export default function LogTable() {
                     return row;
                 });
             }
+            setSurveyRows(updateSurveys);
         } catch (error) {
             console.log('Survey error');
+            setSurveyRows(updateSurveys);
         }
-        setSurveyRows(updateSurveys);
+
     };
 
     useEffect(() => {
@@ -124,11 +128,11 @@ export default function LogTable() {
                             <TableCell align="right" sx={{
                                 fontSize: '15.2px',
                                 fontWeight: 500,
-                            }}>{112.23}</TableCell>
+                            }}>{row.usedFrom}</TableCell>
                             <TableCell align="right" sx={{
                                 fontSize: '15.2px',
                                 fontWeight: 500
-                            }}>{180.23}</TableCell>
+                            }}>{row.usedBy}</TableCell>
                             <TableCell align="right" sx={{
                                 paddingRight: 3.5
                             }}>

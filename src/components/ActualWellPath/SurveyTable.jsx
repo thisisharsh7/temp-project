@@ -124,7 +124,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
 
 export default function SurveyTable() {
-    const { setUp, logArray, surveyRows, setSurveyRows, logIndex } = useMatchStore();
+    const { setUp, logArray, setLog, surveyRows, setSurveyRows, logIndex } = useMatchStore();
     const [call, setCall] = useState(false);
     const [ids, setIds] = useState(0);
     const initialColumns = [
@@ -243,11 +243,32 @@ export default function SurveyTable() {
             setSurveyRows(tieOnRows);
         }
     }
+
+    const updateLogByMD = async (key, val) => {
+        const idVal = localStorage.getItem('id');
+        const logData = await postLogData(`https://og-project.onrender.com/api/v1/surveyEdit?id=${idVal}`, {
+            "logName": logArray[logIndex].logName,
+            [key]: val
+        })
+        console.log(logData)
+    }
     useEffect(() => {
         if (ids !== 0 && call) {
             const currentRow = surveyRows[ids];
             if (currentRow.md && currentRow.azi && currentRow.inc) {
                 processRowUpdate(currentRow);
+                const newLog = [...logArray];
+                if (newLog[logIndex]) {
+                    if (newLog[logIndex]["usedFrom"] === 0 || newLog[logIndex]["usedFrom"] === "" || currentRow.md === newLog[logIndex]["usedFrom"]) {
+                        updateLogByMD("usedFrom", currentRow.md);
+                        newLog[logIndex]["usedFrom"] = currentRow.md;
+                    } else {
+                        updateLogByMD("usedBy", currentRow.md);
+                        newLog[logIndex]["usedBy"] = currentRow.md;
+                    }
+
+                }
+                setLog(newLog);
             }
         }
         if (ids === 0 && call) {
@@ -256,6 +277,7 @@ export default function SurveyTable() {
                 processFullRowUpdate(currentRow);
             }
         }
+        console.log(logIndex);
     }, [surveyRows])
 
 

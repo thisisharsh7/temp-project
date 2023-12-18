@@ -18,6 +18,8 @@ const style = {
 const AddNew = () => {
     const [form, setForm] = useState({
         logName: '',
+        usedBy: '',
+        usedFrom: '',
         model: '',
         error: '',
         loading: false,
@@ -99,6 +101,7 @@ const AddNew = () => {
                                         label="Survey Tool Model"
                                         onChange={handleChange}
                                     >
+                                        <MenuItem value=""></MenuItem>
                                         <MenuItem value={"ISCWSA MWD"}>ISCWSA MWD</MenuItem>
                                     </Select>
                                 </FormControl>
@@ -112,6 +115,7 @@ const AddNew = () => {
                                         label="Error Model"
                                         onChange={handleChange}
                                     >
+                                        <MenuItem value=""></MenuItem>
                                         <MenuItem value={"MWD-STD"}>MWD-STD</MenuItem>
                                     </Select>
                                 </FormControl>
