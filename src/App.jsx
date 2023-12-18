@@ -8,7 +8,6 @@ import Box from '@mui/material/Box';
 import SetUp from "./components/SetUp";
 import PlannedWellPath from "./components/PlannedWellPath";
 import Interpolate from "./components/Interpolate";
-import Comparison from "./components/Comparison"
 import ActualWellPath from './components/ActualWellPath';
 import AddNew from './components/ActualWellPath/AddNew'
 import EditNew from './components/ActualWellPath/EditNew'
@@ -66,7 +65,7 @@ export default function BasicTabs() {
     try {
       const fileName = userCurrentFile;
       const fileNameWithoutExtension = fileName.replace(/\.[^.]+$/, '');
-      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${fileNameWithoutExtension}`);
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${fileNameWithoutExtension}&id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869`);
       if (data.details) {
         updateSetUp({
           ...data.details, loading: false, enteries: true, LastRevised: updateDate()
@@ -77,10 +76,24 @@ export default function BasicTabs() {
     }
 
   };
+  const fetchInterpolate = async () => {
+    try {
+      const fileName = userCurrentFile;
+      const fileNameWithoutExtension = fileName.replace(/\.[^.]+$/, '');
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getInterpolate?excelName=${fileNameWithoutExtension}&id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869`);
+      if (data) {
+        console.log(data);
+      }
+    } catch (error) {
+      console.log('error');
+    }
+
+  };
 
 
   React.useEffect(() => {
     fetchData();
+    fetchInterpolate();
   }, [])
 
   return (
@@ -90,7 +103,7 @@ export default function BasicTabs() {
       {(open.text === 'Remove') && <DelNew />}
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Stack display={'grid'} gridTemplateColumns={{ md: '300px 1fr', sm: '1fr 1fr' }} alignItems={'center'} justifyContent={'space-between'}>
+        <Stack display={'grid'} gridTemplateColumns={{ md: '300px 1fr', sm: '0.8fr 1fr' }} alignItems={'center'} justifyContent={'space-between'}>
           <Typography variant="h5" mx={2.5} mt={0.5} fontWeight={700} flex={1} width={'400px'}>Survey Application Demo</Typography>
           <Tabs value={value} onChange={handleChange} sx={{
             placeSelf: { md: "flex-end" },
@@ -100,7 +113,6 @@ export default function BasicTabs() {
             <Tab label="Planned Well Path" sx={{ fontSize: "16px" }}  {...a11yProps(1)} />
             <Tab label="Interpolate" sx={{ fontSize: "16px" }}  {...a11yProps(2)} />
             <Tab label="Actual Well Path" sx={{ fontSize: "16px" }}  {...a11yProps(3)} />
-            <Tab label="Comparison" sx={{ fontSize: "16px" }}  {...a11yProps(4)} />
           </Tabs>
         </Stack>
       </Box>
@@ -116,9 +128,6 @@ export default function BasicTabs() {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <ActualWellPath />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={4}>
-        <Comparison />
       </CustomTabPanel>
     </Box >
   );

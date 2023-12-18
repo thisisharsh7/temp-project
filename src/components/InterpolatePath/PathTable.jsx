@@ -191,6 +191,7 @@ export default function PathTable() {
         updateInterpolateRows(updatedRows);
     }
 
+
     useEffect(() => {
         if (call) {
             const currentRow = interpolateRows[ids];

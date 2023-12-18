@@ -131,7 +131,7 @@ export default function PathTable() {
     const { setUp, setPlannedRows, setLog, lokiRows, updateLokiRows } = useMatchStore();
     const fetchPlanned = async () => {
         try {
-            const data = await getSavedData(`https://og-project.onrender.com/api/v1/getWellPlanned?excelName=${setUp.excelName}`);
+            const data = await getSavedData(`https://og-project.onrender.com/api/v1/getWellPlanned?excelName=${setUp.excelName}&id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869`);
             if (data.plan.length) {
                 setPlannedRows(data.plan)
             }
@@ -142,7 +142,7 @@ export default function PathTable() {
     };
     const fetchLogs = async () => {
         try {
-            const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs/`);
+            const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs&id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869/`);
             if (data.logs.length) {
                 setLog(data.logs);
             }
@@ -164,7 +164,7 @@ export default function PathTable() {
     };
     const sendData = async (fieldObj) => {
         try {
-            const data = await postFieldData(`https://og-project.onrender.com/api/v1/updateFields?excelName=${setUp.excelName}`, fieldObj)
+            const data = await postFieldData(`https://og-project.onrender.com/api/v1/updateFields?excelName=${setUp.excelName}&id=4a80be7a-8caf-4d0e-8bd7-d81d5a6de869`, fieldObj)
             if (data) {
                 console.log('success');
             }
