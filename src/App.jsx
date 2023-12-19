@@ -120,7 +120,6 @@ export default function BasicTabs() {
 
   React.useEffect(() => {
     fetchData();
-    console.log('u')
     fetchInterpolate();
   }, [])
 

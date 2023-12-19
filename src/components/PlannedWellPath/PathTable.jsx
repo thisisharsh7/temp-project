@@ -3,6 +3,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useMatchStore } from '../../store/store';
+import { getSavedData } from '../constant';
+import { useEffect } from 'react';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
@@ -122,8 +124,36 @@ const initialColumns = [
 
 
 export default function PathTable() {
-    const { plannedRows } = useMatchStore();
+    const { plannedRows, setUp, setPlannedRows } = useMatchStore();
+    const fetchPlanned = async () => {
+        try {
+            const idVal = localStorage.getItem('id');
+            const data = await getSavedData(`https://og-project.onrender.com/api/v1/getWellPlanned?excelName=${setUp.excelName}&id=${idVal}`);
+            if (data.plan.length) {
+                setPlannedRows(data.plan)
+            }
+        } catch (error) {
+            console.log('error');
+        }
 
+    };
+
+    useEffect(() => {
+        const fetchDataInterval = setInterval(async () => {
+            await fetchPlanned();
+        }, 500);
+
+        // Stop the interval after 20 seconds
+        const stopIntervalTimeout = setTimeout(() => {
+            clearInterval(fetchDataInterval);
+        }, 100000);
+
+        // Cleanup function to clear the timeout and interval when the component unmounts
+        return () => {
+            clearInterval(fetchDataInterval);
+            clearTimeout(stopIntervalTimeout);
+        };
+    }, [setUp.excelName]);
 
 
     return (
@@ -133,7 +163,7 @@ export default function PathTable() {
                 disableColumnMenu
                 disableColumnFilter
                 rows={plannedRows}
-                hideFooter
+                pagination
                 rowHeight={42}
                 columnHeaderHeight={72}
                 columns={initialColumns.map((column) => ({
