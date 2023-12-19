@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useMatchStore } from '../../store/store';
-import { getSavedData, postFieldData } from '../constant';
+import { formatNumberToTwoDecimalPlaces, getSavedData, postFieldData } from '../constant';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
@@ -128,7 +128,7 @@ const initialColumns = [
 
 export default function PathTable() {
     const [columns, setColumns] = useState(initialColumns)
-    const { setUp, setPlannedRows, setLog, lokiRows, updateLokiRows, setSurveyRows } = useMatchStore();
+    const { setUp, setPlannedRows, setLog, lokiRows, updateLokiRows, setSurveyRows, surveyRows } = useMatchStore();
     const fetchPlanned = async () => {
         try {
             const idVal = localStorage.getItem('id');
@@ -180,33 +180,32 @@ export default function PathTable() {
         sendData({ [head]: event.target.value });
     }
     const fetchTie = async () => {
-        let tazi = 193.630;
+        let tieOnRows = surveyRows;
         try {
             const iVal = localStorage.getItem('id');
             const updateTie = await getSavedData(`https://og-project.onrender.com/api/v1/getTieOnPoint?id=${iVal}&excelName=${setUp.excelName}`)
             if (updateTie.tieOn) {
-                tazi = updateTie.tieOn
+                const newSurvey = updateTie.tieOn;
+                const updatedRow = {
+                    "id": 1,
+                    "fieldNumber": "Tie On",
+                    "md": formatNumberToTwoDecimalPlaces(newSurvey["md"]),
+                    "cl": formatNumberToTwoDecimalPlaces(newSurvey["cl"]),
+                    "inc": formatNumberToTwoDecimalPlaces(newSurvey["inc"]),
+                    "azi": formatNumberToTwoDecimalPlaces(newSurvey["azi"]),
+                    "tvd": formatNumberToTwoDecimalPlaces(newSurvey["tvd"]),
+                    "ns": formatNumberToTwoDecimalPlaces(newSurvey["ns"]),
+                    "ew": formatNumberToTwoDecimalPlaces(newSurvey["ew"]),
+                    "dls": formatNumberToTwoDecimalPlaces(newSurvey["dls"]),
+                    "vs": formatNumberToTwoDecimalPlaces(newSurvey["vs"]),
+                    "comment": ""
+                };
+                tieOnRows = surveyRows.map((row) => (row.id === updatedRow.id ? updatedRow : row));
             }
         } catch (error) {
             console.log(error, 'jaosfdj');
         }
-        setSurveyRows([
-            { id: 1, fieldNumber: 'Tie On', md: '0.00', inc: '0.00', azi: tazi, tvd: '0.00', ns: '0.00', ew: '0.00', dls: '', vs: '0.00', comment: '' },
-            { id: 2, fieldNumber: 1, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 3, fieldNumber: 2, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 4, fieldNumber: 3, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 5, fieldNumber: 4, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 6, fieldNumber: 5, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 7, fieldNumber: 6, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 8, fieldNumber: 7, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 9, fieldNumber: 8, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 10, fieldNumber: 9, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 11, fieldNumber: 10, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 12, fieldNumber: 11, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 13, fieldNumber: 12, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 14, fieldNumber: 13, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 15, fieldNumber: 14, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-        ])
+        setSurveyRows(tieOnRows);
     }
     useEffect(() => {
         if (setUp.excelName != "") {
