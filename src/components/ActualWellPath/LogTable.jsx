@@ -27,8 +27,14 @@ export default function LogTable() {
     };
 
     const fetchSurveys = async () => {
+        const iVal = localStorage.getItem('id');
+        const updateTie = await getSavedData(`https://og-project.onrender.com/api/v1/getTieOnPoint?id=${iVal}&excelName=${setUp.excelName}`)
+        let tazi = 193.60;
+        if (updateTie.tieOn) {
+            tazi = updateTie.tieOn
+        }
         let updateSurveys = [
-            { id: 1, fieldNumber: 'Tie On', md: '0.00', inc: '0.00', azi: '193.630', tvd: '0.00', ns: '0.00', ew: '0.00', dls: '', vs: '0.00', comment: '' },
+            { id: 1, fieldNumber: 'Tie On', md: '0.00', inc: '0.00', azi: tazi, tvd: '0.00', ns: '0.00', ew: '0.00', dls: '', vs: '0.00', comment: '' },
             { id: 2, fieldNumber: 1, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
             { id: 3, fieldNumber: 2, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
             { id: 4, fieldNumber: 3, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },

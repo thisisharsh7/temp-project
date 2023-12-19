@@ -114,6 +114,10 @@ export default function PathTable() {
     const { interpolateRows, setUp, updateInterpolateRows } = useMatchStore();
     const [call, setCall] = useState(false);
     const [ids, setIds] = useState(-1);
+
+    // const handleAddRow = () => {
+    //     updateInterpolateRows((prevRows) => [...prevRows, createRandomRow()]);
+    //   };
     const initialColumns = [
         { field: 'index', headerName: '', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
         { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', editable: (setUp.excelName !== "") ? true : false, flex: 1 },
