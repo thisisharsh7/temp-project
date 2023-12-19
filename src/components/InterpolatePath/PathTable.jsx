@@ -115,9 +115,9 @@ export default function PathTable() {
     const [call, setCall] = useState(false);
     const [ids, setIds] = useState(-1);
 
-    // const handleAddRow = () => {
-    //     updateInterpolateRows((prevRows) => [...prevRows, createRandomRow()]);
-    //   };
+    // const handleAddRow = (id) => {
+    //     updateInterpolateRows((prevRows) => [...prevRows, iRow]);
+    // };
     const initialColumns = [
         { field: 'index', headerName: '', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
         { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', editable: (setUp.excelName !== "") ? true : false, flex: 1 },
@@ -190,9 +190,8 @@ export default function PathTable() {
         } else {
             updatedRow = { ...currentRow };
         }
-
-        const updatedRows = interpolateRows.map((row) => (row.id === currentRow.id ? updatedRow : row));
         setCall(false);
+        const updatedRows = interpolateRows.map((row) => (row.id === currentRow.id ? updatedRow : row));
         updateInterpolateRows(updatedRows);
     }
 

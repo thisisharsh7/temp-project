@@ -102,7 +102,13 @@ export default function BasicTabs() {
           updatedRows = [...updatedRows, updated];
         })
         const getInterpolateRows = interpolateRows.slice(updatedRows.length);
-        updateInterpolateRows([...updatedRows, ...getInterpolateRows]);
+        if (getInterpolateRows.length === 0) {
+          const iRow = { id: updatedRows.length + 1, index: `${updatedRows.length + 1}`, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', comment: '' };
+          updateInterpolateRows([...updatedRows, iRow]);
+        } else {
+          updateInterpolateRows([...updatedRows, ...getInterpolateRows]);
+        }
+
 
       }
     } catch (error) {
@@ -114,6 +120,7 @@ export default function BasicTabs() {
 
   React.useEffect(() => {
     fetchData();
+    console.log('u')
     fetchInterpolate();
   }, [])
 
