@@ -130,16 +130,16 @@ export default function SurveyTable() {
     const [ids, setIds] = useState(0);
     const initialColumns = [
         { field: 'fieldNumber', headerName: '', width: 105, sortable: false, align: 'center' },
-        { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: (logIndex !== -1 && logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
-        { field: 'inc', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: (logIndex !== -1 && logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-        { field: 'azi', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: (logIndex !== -1 && logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+        { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
+        { field: 'inc', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+        { field: 'azi', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
         { field: 'cl', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
         { field: 'tvd', headerName: 'TVD', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
         { field: 'ns', headerName: 'North', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
         { field: 'ew', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
         { field: 'dls', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
         { field: 'vs', headerName: 'VS', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-        { field: 'comment', headerName: 'Comment', minWidth: 180, align: 'right', editable: (logIndex !== -1 && logArray.length) ? true : false, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
+        { field: 'comment', headerName: 'Comment', minWidth: 180, align: 'right', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
     ];
 
 
@@ -296,11 +296,13 @@ export default function SurveyTable() {
                 rows={surveyRows}
                 getRowId={(row) => row.id}
                 hideFooter
+                isCellEditable={(params) => (params.id === 1 || (params.id !== 1 && logIndex !== -1 && logArray.length))}
                 rowHeight={42}
                 columnHeaderHeight={72}
                 getRowClassName={(params) =>
                     (params.id === 1) ? 'Unfrozen--row' : ''
                 }
+
                 columns={initialColumns.map((column) => ({
                     ...column,
                     renderHeader: (params) => (
