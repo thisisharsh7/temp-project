@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { formatNumberToTwoDecimalPlaces, getSavedData } from '../constant';
 
 export default function LogTable() {
-    const { setOpen, logArray, logIndex, setLogIndex, surveyRows, setSurveyRows } = useMatchStore();
+    const { setOpen, logArray, logIndex, setLogIndex, surveyRows, setSurveyRows, setUp } = useMatchStore();
 
     const handleButton = (val, idx) => {
 
@@ -79,8 +79,6 @@ export default function LogTable() {
         if (logIndex !== -1) {
             fetchSurveys();
         }
-        console.log(logArray);
-
     }, [logIndex])
     return (
         <TableContainer component={Paper} elevation={0} >

@@ -1,4 +1,4 @@
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, useGridApiRef } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
@@ -125,10 +125,11 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
 export default function SurveyTable() {
     const { setUp, logArray, setLog, surveyRows, setSurveyRows, logIndex } = useMatchStore();
+    const apiRef = useGridApiRef();
     const [call, setCall] = useState(false);
     const [ids, setIds] = useState(0);
     const initialColumns = [
-        { field: 'fieldNumber', headerName: '', width: 105, sortable: false },
+        { field: 'fieldNumber', headerName: '', width: 105, sortable: false, align: 'center' },
         { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: (logIndex !== -1 && logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
         { field: 'inc', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: (logIndex !== -1 && logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
         { field: 'azi', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: (logIndex !== -1 && logArray.length) ? true : false, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
@@ -250,13 +251,15 @@ export default function SurveyTable() {
             "logName": logArray[logIndex].logName,
             [key]: val
         })
-        console.log(logData)
+        console.log(logData);
     }
     useEffect(() => {
         if (ids !== 0 && call) {
             const currentRow = surveyRows[ids];
             if (currentRow.md && currentRow.azi && currentRow.inc) {
                 processRowUpdate(currentRow);
+                const rowId = currentRow.id + 1;
+                const field = 'md'
                 const newLog = [...logArray];
                 if (newLog[logIndex]) {
                     if (newLog[logIndex]["usedFrom"] === 0 || newLog[logIndex]["usedFrom"] === "" || currentRow.md === newLog[logIndex]["usedFrom"]) {
@@ -269,6 +272,7 @@ export default function SurveyTable() {
 
                 }
                 setLog(newLog);
+                apiRef.current.setCellFocus(rowId, field);
             }
         }
         if (ids === 0 && call) {
@@ -277,7 +281,6 @@ export default function SurveyTable() {
                 processFullRowUpdate(currentRow);
             }
         }
-        console.log(logIndex);
     }, [surveyRows])
 
 
@@ -287,6 +290,7 @@ export default function SurveyTable() {
             <StyledDataGrid
                 rowSelection={false}
                 disableColumnMenu
+                apiRef={apiRef}
                 disableColumnFilter
                 onCellEditStop={handleCellEditStop}
                 rows={surveyRows}
@@ -296,7 +300,6 @@ export default function SurveyTable() {
                 columnHeaderHeight={72}
                 getRowClassName={(params) =>
                     (params.id === 1) ? 'Unfrozen--row' : ''
-
                 }
                 columns={initialColumns.map((column) => ({
                     ...column,
