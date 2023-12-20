@@ -6,9 +6,9 @@ const LabelInput = ({ fieldName, fieldLabel, fieldValue, fieldStatus }) => {
 
   const { setUp, updateSetUp } = useMatchStore();
   const sendData = async (fieldObj) => {
-    console.log(fieldObj);
     try {
-      const data = await postFieldData(`https://og-project.onrender.com/api/v1/updateFields?excelName=${setUp.excelName}`, fieldObj);
+      const id = localStorage.getItem('id')
+      const data = await postFieldData(`https://og-project.onrender.com/api/v1/updateFields?excelName=${setUp.excelName}&id=${id}`, fieldObj);
       if (data) {
         console.log('data updated');
       }
