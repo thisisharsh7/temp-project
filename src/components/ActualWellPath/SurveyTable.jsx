@@ -269,6 +269,11 @@ export default function SurveyTable() {
         if (ids !== 0 && call) {
             const currentRow = surveyRows[ids];
             if (currentRow.md && currentRow.azi && currentRow.inc) {
+                if (currentRow.id === surveyRows.length) {
+                    const iRow = { id: currentRow.id + 1, fieldNumber: `${currentRow.id}`, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' };
+                    setSurveyRows([...surveyRows, iRow]);
+                    apiRef.current.setCellFocus(currentRow.id + 1, "md");
+                }
                 processRowUpdate(currentRow);
                 const rowId = currentRow.id + 1;
                 const field = 'md'

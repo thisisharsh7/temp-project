@@ -57,10 +57,12 @@ export default function LogTable() {
                     map[obj.fieldNumber] = obj;
                     return map;
                 }, {});
+                console.log(updatedDataMap, 'harsh');
 
                 tieOnRows = surveyRows.map(row => {
                     const updatedObject = updatedDataMap[row.fieldNumber];
                     if (updatedObject) {
+                        // If there's an update for the current fieldNumber, merge the objects
                         updatedObject["md"] = formatNumberToTwoDecimalPlaces(updatedObject["md"]);
                         updatedObject["azi"] = formatNumberToTwoDecimalPlaces(updatedObject["azi"]);
                         updatedObject["inc"] = formatNumberToTwoDecimalPlaces(updatedObject["inc"]);
