@@ -19,6 +19,8 @@ const SetUp = () => {
         ...data.newField, loading: false, enteries: true, lastRevised: updateDate()
       });
       localStorage.setItem('fileName', data.newField.excelName);
+      localStorage.setItem('MaxMd',data.maxMd)
+      localStorage.setItem('MinMd',data.minMd)
       localStorage.setItem('id', data.id);
     } else {
       updateDataSetUp({ setUp })

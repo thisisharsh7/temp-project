@@ -129,7 +129,7 @@ export default function SurveyTable() {
     const [call, setCall] = useState(false);
     const [ids, setIds] = useState(0);
     const initialColumns = [
-        { field: 'fieldNumber', headerName: '', width: 105, sortable: false, align: 'center' },
+        { field: 'fieldNumber', headerName: '', width: 105, sortable: false, align: 'center', },
         { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
         { field: 'inc', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
         { field: 'azi', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
@@ -225,6 +225,7 @@ export default function SurveyTable() {
         const idVal = localStorage.getItem('id');
         const apiUrl = `https://og-project.onrender.com/api/v1/getTieOnPoint?id=${idVal}&excelName=${setUp.excelName}`;
         const updateData = await postLogData(apiUrl, jsonData);
+        console.log(updateData);
         if (logIndex !== -1 && logArray.length) {
             const data = await postLogData(`https://og-project.onrender.com/api/v1/updateSurveyAzimuth?id=${idVal}`, {
                 "updatedTieAzi": Number(currentRow.azi),
@@ -305,7 +306,7 @@ export default function SurveyTable() {
                 rows={surveyRows}
                 getRowId={(row) => row.id}
                 hideFooter
-                isCellEditable={(params) => (params.id === 1 || (params.id !== 1 && (params.field === "md" || params.field === "inc" || params.field === "azi" || params.field === "comment")
+                isCellEditable={(params) => ((params.id === 1 && setUp.excelName !== "") || (params.id !== 1 && (params.field === "md" || params.field === "inc" || params.field === "azi" || params.field === "comment")
                     && logIndex !== -1 && logArray.length))}
                 rowHeight={42}
                 columnHeaderHeight={72}

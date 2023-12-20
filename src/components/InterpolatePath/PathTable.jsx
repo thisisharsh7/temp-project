@@ -1,5 +1,5 @@
 
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, useGridApiRef } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
@@ -114,10 +114,7 @@ export default function PathTable() {
     const { interpolateRows, setUp, updateInterpolateRows } = useMatchStore();
     const [call, setCall] = useState(false);
     const [ids, setIds] = useState(-1);
-
-    // const handleAddRow = (id) => {
-    //     updateInterpolateRows((prevRows) => [...prevRows, iRow]);
-    // };
+    const apiRef = useGridApiRef();
     const initialColumns = [
         { field: 'index', headerName: '', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
         { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 100, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', editable: (setUp.excelName !== "") ? true : false, flex: 1 },
@@ -192,14 +189,36 @@ export default function PathTable() {
         }
         setCall(false);
         const updatedRows = interpolateRows.map((row) => (row.id === currentRow.id ? updatedRow : row));
-        updateInterpolateRows(updatedRows);
+        console.log(currentRow.id, interpolateRows.length, 'harsh ki jadu')
+        if (currentRow.id === interpolateRows.length) {
+            const iRow = { id: currentRow.id + 1, index: `${currentRow.id + 1}`, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', comment: '' };
+            updateInterpolateRows([...updatedRows, iRow]);
+        } else {
+            updateInterpolateRows(updatedRows);
+        }
+
     }
 
 
     useEffect(() => {
         if (call) {
             const currentRow = interpolateRows[ids];
-            processRowUpdate(currentRow);
+            const MaxMd = Number(localStorage.getItem('MaxMd'));
+            const MinMd = Number(localStorage.getItem('MinMd'));
+            const mdC = Number(currentRow.md);
+            console.log(mdC, MaxMd, MinMd);
+            if (mdC > MinMd && mdC < MaxMd) {
+                if (currentRow.id === interpolateRows.length) {
+                    const iRow = { id: currentRow.id + 1, index: `${currentRow.id + 1}`, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', comment: '' };
+                    updateInterpolateRows([...interpolateRows, iRow]);
+                    apiRef.current.setCellFocus(currentRow.id + 1, "md");
+                }
+                processRowUpdate(currentRow);
+            } else {
+                alert('Value of MD must lie between Maximum md and Minimum md.');
+                apiRef.current.setCellFocus(currentRow.id, "md");
+            }
+
         }
     }, [interpolateRows])
 
@@ -212,6 +231,7 @@ export default function PathTable() {
                 disableColumnFilter
                 onCellEditStop={handleCellEditStop}
                 rows={interpolateRows}
+                apiRef={apiRef}
                 hideFooter
                 rowHeight={42}
                 columnHeaderHeight={72}
