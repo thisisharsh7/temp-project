@@ -2,7 +2,7 @@ import { DataGrid, useGridApiRef } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
-import { fetchAxiosData, formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, postLogData } from '../constant';
+import { formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, postLogData } from '../constant';
 import { useMatchStore } from '../../store/store';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -213,12 +213,18 @@ export default function SurveyTable() {
     }
 
     const processFullRowUpdate = async (currentRow) => {
+        const jsonData = {
+            "azi": currentRow.azi, "md": currentRow.md, "inc": currentRow.inc,
+            "cl": currentRow.cl,
+            "tvd": currentRow.tvd,
+            "ns": currentRow.ns,
+            "ew": currentRow.ew,
+            "dls": currentRow.dls,
+            "vs": currentRow.vs,
+        }
         const idVal = localStorage.getItem('id');
-        const updateData = await postLogData(`https://og-project.onrender.com/api/v1/editTiePnPoint?id=${idVal}`, {
-            "excelName": setUp.excelName,
-            "tieOn": currentRow.azi
-        })
-        console.log(updateData);
+        const apiUrl = `https://og-project.onrender.com/api/v1/getTieOnPoint?id=${idVal}&excelName=${setUp.excelName}`;
+        const updateData = await postLogData(apiUrl, jsonData);
         if (logIndex !== -1 && logArray.length) {
             const data = await postLogData(`https://og-project.onrender.com/api/v1/updateSurveyAzimuth?id=${idVal}`, {
                 "updatedTieAzi": Number(currentRow.azi),
@@ -282,12 +288,7 @@ export default function SurveyTable() {
         }
         if (ids === 0 && call) {
             const currentRow = surveyRows[ids];
-            if (currentRow.azi) {
-                const jsonData = { "azi": currentRow.azi }
-                const idVal = localStorage.getItem('id');
-                console.log(jsonData)
-                fetchAxiosData(jsonData, idVal, setUp.excelName);
-            }
+            processFullRowUpdate(currentRow);
         }
     }, [surveyRows])
 
