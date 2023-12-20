@@ -27,29 +27,27 @@ export default function LogTable() {
     };
 
     const fetchSurveys = async () => {
+        let tieOnRows = surveyRows;
         const iVal = localStorage.getItem('id');
         const updateTie = await getSavedData(`https://og-project.onrender.com/api/v1/getTieOnPoint?id=${iVal}&excelName=${setUp.excelName}`)
-        let tazi = 193.60;
         if (updateTie.tieOn) {
-            tazi = updateTie.tieOn
+            const newSurvey = updateTie.tieOn;
+            const updatedRow = {
+                "id": 1,
+                "fieldNumber": "Tie On",
+                "md": formatNumberToTwoDecimalPlaces(newSurvey["md"]),
+                "cl": formatNumberToTwoDecimalPlaces(newSurvey["cl"]),
+                "inc": formatNumberToTwoDecimalPlaces(newSurvey["inc"]),
+                "azi": formatNumberToTwoDecimalPlaces(newSurvey["azi"]),
+                "tvd": formatNumberToTwoDecimalPlaces(newSurvey["tvd"]),
+                "ns": formatNumberToTwoDecimalPlaces(newSurvey["ns"]),
+                "ew": formatNumberToTwoDecimalPlaces(newSurvey["ew"]),
+                "dls": formatNumberToTwoDecimalPlaces(newSurvey["dls"]),
+                "vs": formatNumberToTwoDecimalPlaces(newSurvey["vs"]),
+                "comment": ""
+            };
+            tieOnRows = surveyRows.map((row) => (row.id === updatedRow.id ? updatedRow : row));
         }
-        let updateSurveys = [
-            { id: 1, fieldNumber: 'Tie On', md: '0.00', inc: '0.00', azi: tazi, tvd: '0.00', ns: '0.00', ew: '0.00', dls: '', vs: '0.00', comment: '' },
-            { id: 2, fieldNumber: 1, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 3, fieldNumber: 2, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 4, fieldNumber: 3, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 5, fieldNumber: 4, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 6, fieldNumber: 5, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 7, fieldNumber: 6, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 8, fieldNumber: 7, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 9, fieldNumber: 8, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 10, fieldNumber: 9, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 11, fieldNumber: 10, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 12, fieldNumber: 11, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 13, fieldNumber: 12, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 14, fieldNumber: 13, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-            { id: 15, fieldNumber: 14, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-        ]
         try {
             const idVal = localStorage.getItem('id');
             const previousSurvey = await getSavedData(`https://og-project.onrender.com/api/v1/allSurveys?logName=${logArray[logIndex].logName}&id=${idVal}`);
@@ -61,7 +59,7 @@ export default function LogTable() {
                 }, {});
                 console.log(updatedDataMap, 'harsh');
 
-                updateSurveys = surveyRows.map(row => {
+                tieOnRows = surveyRows.map(row => {
                     const updatedObject = updatedDataMap[row.fieldNumber];
                     if (updatedObject) {
                         // If there's an update for the current fieldNumber, merge the objects
@@ -73,10 +71,10 @@ export default function LogTable() {
                     return row;
                 });
             }
-            setSurveyRows(updateSurveys);
+            setSurveyRows(tieOnRows);
         } catch (error) {
             console.log('Survey error');
-            setSurveyRows(updateSurveys);
+            setSurveyRows(tieOnRows);
         }
 
     };

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import axios from 'axios';
 
 export const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -128,3 +129,20 @@ export async function getSavedData(url) {
     throw error;
   }
 }
+
+export const fetchAxiosData = async (jsonData, idVal, excelName) => {
+  try {
+    const apiUrl = `https://og-project.onrender.com/api/v1/getTieOnPoint?id=${idVal}&excelName=${excelName}`;
+
+    const response = await axios.get(apiUrl, {
+      
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log(response.data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};

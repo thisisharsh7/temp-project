@@ -3,7 +3,7 @@ import { useMatchStore } from "../../store/store";
 import BoxHeader from "../SetUp/BoxHeader";
 import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from "react";
-import { DeleteLogData } from "../constant";
+import { DeleteLogData, formatNumberToTwoDecimalPlaces, getSavedData } from "../constant";
 
 
 const style = {
@@ -17,7 +17,7 @@ const style = {
 };
 
 const DelNew = () => {
-    const { setOpen, open, logArray, setLog, setSurveyRows } = useMatchStore();
+    const { setOpen, open, logArray, setLog, setSurveyRows, surveyNotEditRows, setUp } = useMatchStore();
     const [loading, setLoading] = useState(false);
 
     const handleClose = () => {
@@ -35,24 +35,28 @@ const DelNew = () => {
                 ...logArray.slice(open.id + 1),
             ];
             setLog(updatedLogArray);
-            setSurveyRows([
-                { id: 1, fieldNumber: 'Tie On', md: '0.00', inc: '0.00', azi: '193.630', tvd: '0.00', ns: '0.00', ew: '0.00', dls: '', vs: '0.00', comment: '' },
-                { id: 2, fieldNumber: 1, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 3, fieldNumber: 2, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 4, fieldNumber: 3, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 5, fieldNumber: 4, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 6, fieldNumber: 5, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 7, fieldNumber: 6, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 8, fieldNumber: 7, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 9, fieldNumber: 8, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 10, fieldNumber: 9, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 11, fieldNumber: 10, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 12, fieldNumber: 11, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 13, fieldNumber: 12, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 14, fieldNumber: 13, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-                { id: 15, fieldNumber: 14, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' },
-
-            ])
+            let tieOnRows = surveyNotEditRows;
+            const iVal = localStorage.getItem('id');
+            const updateTie = await getSavedData(`https://og-project.onrender.com/api/v1/getTieOnPoint?id=${iVal}&excelName=${setUp.excelName}`)
+            if (updateTie.tieOn) {
+                const newSurvey = updateTie.tieOn;
+                const updatedRow = {
+                    "id": 1,
+                    "fieldNumber": "Tie On",
+                    "md": formatNumberToTwoDecimalPlaces(newSurvey["md"]),
+                    "cl": formatNumberToTwoDecimalPlaces(newSurvey["cl"]),
+                    "inc": formatNumberToTwoDecimalPlaces(newSurvey["inc"]),
+                    "azi": formatNumberToTwoDecimalPlaces(newSurvey["azi"]),
+                    "tvd": formatNumberToTwoDecimalPlaces(newSurvey["tvd"]),
+                    "ns": formatNumberToTwoDecimalPlaces(newSurvey["ns"]),
+                    "ew": formatNumberToTwoDecimalPlaces(newSurvey["ew"]),
+                    "dls": formatNumberToTwoDecimalPlaces(newSurvey["dls"]),
+                    "vs": formatNumberToTwoDecimalPlaces(newSurvey["vs"]),
+                    "comment": ""
+                };
+                tieOnRows = tieOnRows.map((row) => (row.id === updatedRow.id ? updatedRow : row));
+            }
+            setSurveyRows(tieOnRows)
         } else {
             alert('Log not Deleted.');
         }

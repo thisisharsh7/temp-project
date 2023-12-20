@@ -2,7 +2,7 @@ import { DataGrid, useGridApiRef } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
-import { formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, postLogData } from '../constant';
+import { fetchAxiosData, formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, postLogData } from '../constant';
 import { useMatchStore } from '../../store/store';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -133,15 +133,14 @@ export default function SurveyTable() {
         { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
         { field: 'inc', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
         { field: 'azi', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-        { field: 'cl', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell' },
-        { field: 'tvd', headerName: 'TVD', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-        { field: 'ns', headerName: 'North', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-        { field: 'ew', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-        { field: 'dls', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
-        { field: 'vs', headerName: 'VS', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', },
+        { field: 'cl', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
+        { field: 'tvd', headerName: 'TVD', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
+        { field: 'ns', headerName: 'North', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
+        { field: 'ew', headerName: 'East', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
+        { field: 'dls', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
+        { field: 'vs', headerName: 'VS', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
         { field: 'comment', headerName: 'Comment', minWidth: 180, align: 'right', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
     ];
-
 
 
     const handleCellEditStop = (params, event) => {
@@ -183,7 +182,7 @@ export default function SurveyTable() {
             "azi": formatStringInNumberToTwoDecimalPlaces(currentRow.azi),
             "logName": logArray[logIndex].logName,
             "well": setUp.well,
-            "tieAzi": surveyRows[0]["azi"],
+            "tieAzi": surveyRows[0].azi,
             "fieldNumber": (currentRow.fieldNumber).toString()
         });
 
@@ -284,7 +283,10 @@ export default function SurveyTable() {
         if (ids === 0 && call) {
             const currentRow = surveyRows[ids];
             if (currentRow.azi) {
-                processFullRowUpdate(currentRow);
+                const jsonData = { "azi": currentRow.azi }
+                const idVal = localStorage.getItem('id');
+                console.log(jsonData)
+                fetchAxiosData(jsonData, idVal, setUp.excelName);
             }
         }
     }, [surveyRows])
@@ -302,7 +304,8 @@ export default function SurveyTable() {
                 rows={surveyRows}
                 getRowId={(row) => row.id}
                 hideFooter
-                isCellEditable={(params) => (params.id === 1 || (params.id !== 1 && logIndex !== -1 && logArray.length))}
+                isCellEditable={(params) => (params.id === 1 || (params.id !== 1 && (params.field === "md" || params.field === "inc" || params.field === "azi" || params.field === "comment")
+                    && logIndex !== -1 && logArray.length))}
                 rowHeight={42}
                 columnHeaderHeight={72}
                 getRowClassName={(params) =>

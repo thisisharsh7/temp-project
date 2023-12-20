@@ -141,12 +141,12 @@ export default function PathTable() {
     useEffect(() => {
         const fetchDataInterval = setInterval(async () => {
             await fetchPlanned();
-        }, 500);
+        }, 400);
 
         // Stop the interval after 20 seconds
         const stopIntervalTimeout = setTimeout(() => {
             clearInterval(fetchDataInterval);
-        }, 100000);
+        }, 130000);
 
         // Cleanup function to clear the timeout and interval when the component unmounts
         return () => {
