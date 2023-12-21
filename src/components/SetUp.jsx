@@ -26,8 +26,8 @@ const SetUp = () => {
       updateSetUp(setUpNotEditValues);
       setPlannedRows(plannedRows);
       setLog(logArray);
-      localStorage.setItem('fileName', null);
-      localStorage.setItem('id', null);
+      localStorage.removeItem('fileName');
+      localStorage.removeItem('id');
       alert('File not supported!');
     }
   }
