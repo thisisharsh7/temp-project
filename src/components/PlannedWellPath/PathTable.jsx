@@ -139,20 +139,22 @@ export default function PathTable() {
     };
 
     useEffect(() => {
-        const fetchDataInterval = setInterval(async () => {
-            await fetchPlanned();
-        }, 400);
+        if (setUp.enteries) {
+            const fetchDataInterval = setInterval(async () => {
+                await fetchPlanned();
+            }, 400);
 
-        // Stop the interval after 20 seconds
-        const stopIntervalTimeout = setTimeout(() => {
-            clearInterval(fetchDataInterval);
-        }, 130000);
+            // Stop the interval after 20 seconds
+            const stopIntervalTimeout = setTimeout(() => {
+                clearInterval(fetchDataInterval);
+            }, 130000);
 
-        // Cleanup function to clear the timeout and interval when the component unmounts
-        return () => {
-            clearInterval(fetchDataInterval);
-            clearTimeout(stopIntervalTimeout);
-        };
+
+            return () => {
+                clearInterval(fetchDataInterval);
+                clearTimeout(stopIntervalTimeout);
+            };
+        }
     }, [setUp.excelName]);
 
 

@@ -11,7 +11,7 @@ import LabelSelect from './SetUp/LabelSelect';
 
 
 const SetUp = () => {
-  const { setUp, updateSetUp, setPlannedRows, plannedRows, setLog, logArray } = useMatchStore();
+  const { setUp, updateSetUp, setPlannedRows, plannedRows, setLog, logArray, setUpNotEditValues } = useMatchStore();
   const updateDataSetUp = async (file) => {
     const data = await uploadFile(file);
     if (data) {
@@ -19,46 +19,23 @@ const SetUp = () => {
         ...data.newField, loading: false, enteries: true, lastRevised: updateDate()
       });
       localStorage.setItem('fileName', data.newField.excelName);
-      localStorage.setItem('MaxMd',data.maxMd)
-      localStorage.setItem('MinMd',data.minMd)
+      localStorage.setItem('MaxMd', data.maxMd)
+      localStorage.setItem('MinMd', data.minMd)
       localStorage.setItem('id', data.id);
     } else {
-      updateDataSetUp({ setUp })
+      updateSetUp(setUpNotEditValues);
+      setPlannedRows(plannedRows);
+      setLog(logArray);
+      localStorage.setItem('fileName', null);
+      localStorage.setItem('id', null);
+      alert('File not supported!');
     }
   }
   const handleFileChange = (event) => {
-
     const file = event.target.files[0];
     if (file) {
       updateSetUp({ ...setUp, loading: true, enteries: false })
       updateDataSetUp(file);
-    } else {
-      updateSetUp({
-        excelName: "",
-        well: "",
-        wellbore: "",
-        planRevision: "",
-        fieldName: "",
-        utm: "",
-        northReference: "",
-        magneticDeclination: "",
-        convergence: "",
-        fieldVerticalReference: "",
-        rotaryToField: "",
-        rotarySubsea: "",
-        rotaryToMHL: "",
-        sectionX: "",
-        sectionY: "",
-        verticalSectionAzimuth: "",
-        LastRevised: "dd-mm-yy",
-        enteries: false,
-        loading: false
-      });
-      setPlannedRows(plannedRows);
-      setLog(logArray);
-      alert('File not supported!');
-      localStorage.setItem('fileName', null);
-      localStorage.setItem('id', null);
     }
   }
 
