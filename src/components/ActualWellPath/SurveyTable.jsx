@@ -187,7 +187,7 @@ export default function SurveyTable() {
         });
 
         let updatedRow;
-
+        console.log(data);
         if (data) {
             updatedRow = {
                 "id": currentRow.id,
@@ -206,10 +206,15 @@ export default function SurveyTable() {
         } else {
             updatedRow = { ...currentRow };
         }
-
         const updatedRows = surveyRows.map((row) => (row.id === currentRow.id ? updatedRow : row));
         setCall(false);
-        setSurveyRows(updatedRows);
+        if (currentRow.id === surveyRows.length) {
+            const iRow = { id: currentRow.id + 1, fieldNumber: currentRow.id, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' };
+            setSurveyRows([...updatedRows, iRow]);
+        } else {
+            setSurveyRows(updatedRows);
+        }
+        apiRef.current.setCellFocus(currentRow.id + 1, "md");
     }
 
     const processFullRowUpdate = async (currentRow) => {
@@ -269,11 +274,6 @@ export default function SurveyTable() {
         if (ids !== 0 && call) {
             const currentRow = surveyRows[ids];
             if (currentRow.md && currentRow.azi && currentRow.inc) {
-                if (currentRow.id === surveyRows.length) {
-                    const iRow = { id: currentRow.id + 1, fieldNumber: `${currentRow.id}`, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' };
-                    setSurveyRows([...surveyRows, iRow]);
-                    apiRef.current.setCellFocus(currentRow.id + 1, "md");
-                }
                 processRowUpdate(currentRow);
                 const rowId = currentRow.id + 1;
                 const field = 'md'

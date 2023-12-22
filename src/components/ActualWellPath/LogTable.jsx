@@ -55,7 +55,7 @@ export default function LogTable() {
                 updated = {
                     key: index + 2,
                     "id": index + 2,
-                    "fieldNumber": sdata.fieldNumber,
+                    "fieldNumber": Number(sdata.fieldNumber),
                     "md": formatNumberToTwoDecimalPlaces(sdata["md"]),
                     "inc": formatNumberToTwoDecimalPlaces(sdata["inc"]),
                     "azi": formatNumberToTwoDecimalPlaces(sdata["azi"]),
@@ -69,9 +69,9 @@ export default function LogTable() {
                 }
                 updatedRows = [...updatedRows, updated];
             })
-            const getSurveyRows = surveyRows.slice(updatedRows.length + 1);
+            const getSurveyRows = surveyNotEditRows.slice(updatedRows.length);
             if (getSurveyRows.length === 0) {
-                const iRow = { id: updatedRows.length + 2, index: updatedRows.length + 2, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', vs: '', dls: '', cl: '', comment: '' };
+                const iRow = { id: updatedRows.length + 2, fieldNumber: updatedRows.length + 1, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', vs: '', dls: '', cl: '', comment: '' };
                 setSurveyRows([tieOnRow, ...updatedRows, iRow]);
             } else {
                 setSurveyRows([tieOnRow, ...updatedRows, ...getSurveyRows]);
