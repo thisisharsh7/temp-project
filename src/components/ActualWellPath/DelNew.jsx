@@ -60,7 +60,6 @@ const DelNew = () => {
         } else {
             alert('Log not Deleted.');
         }
-        // Update the state with the new array
         handleClose();
         setLoading(false);
     }

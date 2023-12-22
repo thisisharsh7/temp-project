@@ -56,7 +56,7 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
-  const { open, setUp, updateSetUp, updateInterpolateRows, interpolateRows } = useMatchStore();
+  const { open, updateSetUp, updateInterpolateRows, interpolateRows } = useMatchStore();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

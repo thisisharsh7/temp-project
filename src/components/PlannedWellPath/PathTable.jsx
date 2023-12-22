@@ -124,7 +124,7 @@ const initialColumns = [
 
 
 export default function PathTable() {
-    const { plannedRows, setUp, setPlannedRows } = useMatchStore();
+    const { plannedRows, setUp, setPlannedRows, notEditPlannedRows } = useMatchStore();
     const fetchPlanned = async () => {
         try {
             const idVal = localStorage.getItem('id');
@@ -154,6 +154,8 @@ export default function PathTable() {
                 clearInterval(fetchDataInterval);
                 clearTimeout(stopIntervalTimeout);
             };
+        } else {
+            setPlannedRows(notEditPlannedRows);
         }
     }, [setUp.excelName]);
 

@@ -2,7 +2,7 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useMatchStore } from '../../store/store';
 import { formatNumberToTwoDecimalPlaces, getSavedData, postFieldData } from '../constant';
 
@@ -127,7 +127,7 @@ const columns = [
 ];
 
 export default function PathTable() {
-    const { setUp, setPlannedRows, updateSetUp, setUpNotEditValues, setLog, lokiRows, updateLokiRows, setSurveyRows, surveyRows } = useMatchStore();
+    const { setUp, setPlannedRows, setLog, lokiRows, updateLokiRows, setSurveyRows, surveyRows } = useMatchStore();
     const handleLokiPlease = () => {
         const {
             localNorthSlotLocation
@@ -236,7 +236,7 @@ export default function PathTable() {
                 tieOnRows = surveyRows.map((row) => (row.id === updatedRow.id ? updatedRow : row));
             }
         } catch (error) {
-            console.log(error, 'jaosfdj');
+            console.log(error);
         }
         setSurveyRows(tieOnRows);
     }
@@ -245,10 +245,8 @@ export default function PathTable() {
             fetchPlanned();
             fetchLogs();
             fetchTie();
-        } else {
-            updateSetUp(setUpNotEditValues);
+            handleLokiPlease();
         }
-        handleLokiPlease();
     }, [setUp.enteries])
     return (
         <Box component={'div'} sx={{ height: '100%', width: '100%' }}>

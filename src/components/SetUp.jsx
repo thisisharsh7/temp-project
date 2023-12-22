@@ -11,7 +11,35 @@ import LabelSelect from './SetUp/LabelSelect';
 
 
 const SetUp = () => {
-  const { setUp, updateSetUp, setPlannedRows, plannedRows, setLog, logArray, setUpNotEditValues } = useMatchStore();
+  const { setUp, updateSetUp, setPlannedRows, plannedRows, setLog, logArray, notEditInterpolateRows, updateInterpolateRows, updateLokiRows, setUpNotEditValues, setSurveyRows, surveyNotEditRows } = useMatchStore();
+
+  const handlePlease = () => {
+    updateInterpolateRows(notEditInterpolateRows);
+    setLog([]);
+    const modifiedRows = [
+      { id: "SlotLocation", col1: 'Slot Location', "localNorth": "", "localEast": "", "localGridNorth": "", "localGridEast": "", "localLongitude": "", "localLatitude": "", "localHoriz": "", "localVert": "" },
+      { id: "FacilityReferencePt", col1: 'Facility Reference Pt', "localNorth": "", "localEast": "", "localGridNorth": "", "localGridEast": "", "localLongitude": "", "localLatitude": "", "localHoriz": "", "localVert": "" },
+      { id: "FieldReferencePt", col1: 'Field Reference Pt', "localNorth": "", "localEast": "", "localGridNorth": "", "localGridEast": "", "localLongitude": "", "localLatitude": "", "localHoriz": "", "localVert": "" },
+    ];
+    updateLokiRows(modifiedRows);
+    const tieOnRow = {
+      "id": 1,
+      "fieldNumber": "Tie On",
+      "md": "",
+      "cl": "",
+      "inc": "",
+      "azi": "",
+      "tvd": "",
+      "ns": "",
+      "ew": "",
+      "dls": "",
+      "vs": "",
+      "comment": ""
+    };
+    setSurveyRows([tieOnRow, ...surveyNotEditRows]);
+  }
+
+
   const updateDataSetUp = async (file) => {
     const data = await uploadFile(file);
     if (data) {
@@ -29,10 +57,11 @@ const SetUp = () => {
       localStorage.removeItem('fileName');
       localStorage.removeItem('id');
       alert('File not supported!');
+      handlePlease();
     }
   }
 
-  
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
