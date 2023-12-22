@@ -27,12 +27,12 @@ export default function LogTable() {
     };
 
     const fetchSurveys = async () => {
-        let tieOnRows = surveyRows;
+        let tieOnRow = { ...surveyRows[0] };
         const iVal = localStorage.getItem('id');
         const updateTie = await getSavedData(`https://og-project.onrender.com/api/v1/getTieOnPoint?id=${iVal}&excelName=${setUp.excelName}`)
         if (updateTie.tieOn) {
             const newSurvey = updateTie.tieOn;
-            const updatedRow = {
+            tieOnRow = {
                 "id": 1,
                 "fieldNumber": "Tie On",
                 "md": formatNumberToTwoDecimalPlaces(newSurvey["md"]),
@@ -46,35 +46,41 @@ export default function LogTable() {
                 "vs": formatNumberToTwoDecimalPlaces(newSurvey["vs"]),
                 "comment": ""
             };
-            tieOnRows = surveyRows.map((row) => (row.id === updatedRow.id ? updatedRow : row));
         }
         try {
             const idVal = localStorage.getItem('id');
-            const previousSurvey = await getSavedData(`https://og-project.onrender.com/api/v1/allSurveys?logName=${logArray[logIndex].logName}&id=${idVal}`);
-
-            if (previousSurvey.surveys.length) {
-                const updatedDataMap = previousSurvey.surveys.reduce((map, obj) => {
-                    map[obj.fieldNumber] = obj;
-                    return map;
-                }, {});
-                console.log(updatedDataMap, 'harsh');
-
-                tieOnRows = surveyRows.map(row => {
-                    const updatedObject = updatedDataMap[row.fieldNumber];
-                    if (updatedObject) {
-                        // If there's an update for the current fieldNumber, merge the objects
-                        updatedObject["md"] = formatNumberToTwoDecimalPlaces(updatedObject["md"]);
-                        updatedObject["azi"] = formatNumberToTwoDecimalPlaces(updatedObject["azi"]);
-                        updatedObject["inc"] = formatNumberToTwoDecimalPlaces(updatedObject["inc"]);
-                        return { ...row, ...updatedObject };
+            const data = await getSavedData(`https://og-project.onrender.com/api/v1/allSurveys?logName=${logArray[logIndex].logName}&id=${idVal}`);
+            if (data.surveys.length) {
+                let updatedRows = [];
+                data.surveys.map((sdata, index) => {
+                    let updated;
+                    updated = {
+                        "id": `${index + 1}`,
+                        "fieldNumber": sdata.fieldNumber,
+                        "md": formatNumberToTwoDecimalPlaces(sdata["md"]),
+                        "inc": formatNumberToTwoDecimalPlaces(sdata["inc"]),
+                        "azi": formatNumberToTwoDecimalPlaces(sdata["azi"]),
+                        "tvd": formatNumberToTwoDecimalPlaces(sdata["tvd"]),
+                        "ns": formatNumberToTwoDecimalPlaces(sdata["ns"]),
+                        "ew": formatNumberToTwoDecimalPlaces(sdata["ew"]),
+                        "dls": formatNumberToTwoDecimalPlaces(sdata["dls"]),
+                        "vs": formatNumberToTwoDecimalPlaces(sdata["vs"]),
+                        "cl": formatNumberToTwoDecimalPlaces(sdata["cl"]),
+                        "comment": ""
                     }
-                    return row;
-                });
+                    updatedRows = [...updatedRows, updated];
+                })
+                const getSurveyRows = surveyRows.slice(updatedRows.length + 1);
+                if (getSurveyRows.length === 0) {
+                    const iRow = { id: updatedRows.length + 1, index: `${updatedRows.length + 1}`, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', vs: '', dls: '', cl: '', comment: '' };
+                    setSurveyRows([tieOnRow, ...updatedRows, iRow]);
+                } else {
+                    setSurveyRows([tieOnRow, ...updatedRows, ...getSurveyRows]);
+                }
             }
-            setSurveyRows(tieOnRows);
         } catch (error) {
-            console.log('Survey error');
-            setSurveyRows(tieOnRows);
+            const getSurveyRows = surveyRows.slice(1);
+            setSurveyRows([tieOnRow, ...getSurveyRows]);
         }
 
     };

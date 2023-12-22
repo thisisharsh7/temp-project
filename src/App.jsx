@@ -119,10 +119,8 @@ export default function BasicTabs() {
 
 
   React.useEffect(() => {
-    if (setUp.enteries) {
-      fetchData();
-      fetchInterpolate();
-    }
+    fetchData();
+    fetchInterpolate();
   }, [])
 
   return (
