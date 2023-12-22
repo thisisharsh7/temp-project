@@ -17,7 +17,7 @@ const style = {
 };
 
 const DelNew = () => {
-    const { setOpen, open, logArray, setLog, setSurveyRows, surveyNotEditRows, setUp } = useMatchStore();
+    const { setOpen, open, logArray, setLog, surveyRows, setSurveyRows, surveyNotEditRows, setUp } = useMatchStore();
     const [loading, setLoading] = useState(false);
 
     const handleClose = () => {
@@ -35,12 +35,12 @@ const DelNew = () => {
                 ...logArray.slice(open.id + 1),
             ];
             setLog(updatedLogArray);
-            let tieOnRows = surveyNotEditRows;
+            let tieOnRow = { ...surveyRows[0] };
             const iVal = localStorage.getItem('id');
             const updateTie = await getSavedData(`https://og-project.onrender.com/api/v1/getTieOnPoint?id=${iVal}&excelName=${setUp.excelName}`)
             if (updateTie.tieOn) {
                 const newSurvey = updateTie.tieOn;
-                const updatedRow = {
+                tieOnRow = {
                     "id": 1,
                     "fieldNumber": "Tie On",
                     "md": formatNumberToTwoDecimalPlaces(newSurvey["md"]),
@@ -54,9 +54,9 @@ const DelNew = () => {
                     "vs": formatNumberToTwoDecimalPlaces(newSurvey["vs"]),
                     "comment": ""
                 };
-                tieOnRows = tieOnRows.map((row) => (row.id === updatedRow.id ? updatedRow : row));
             }
-            setSurveyRows(tieOnRows)
+            setSurveyRows([tieOnRow, ...surveyNotEditRows])
+
         } else {
             alert('Log not Deleted.');
         }

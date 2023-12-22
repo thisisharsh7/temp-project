@@ -894,19 +894,6 @@ export const useMatchStore = create((set) => ({
 
     surveyNotEditRows: [
         {
-            id: 1,
-            fieldNumber: "Tie On",
-            md: "0.00",
-            inc: "0.00",
-            azi: "193.630",
-            tvd: "0.00",
-            ns: "0.00",
-            ew: "0.00",
-            dls: "",
-            vs: "0.00",
-            comment: "",
-        },
-        {
             id: 2,
             fieldNumber: 1,
             md: "",
