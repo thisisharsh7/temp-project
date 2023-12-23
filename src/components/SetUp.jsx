@@ -118,7 +118,7 @@ const SetUp = () => {
               <LabelInput fieldLabel="Plan Revision" fieldStatus={!setUp.enteries} fieldValue={setUp.planRevision} fieldName="setUp.planRevision" />
               <LabelInput fieldLabel="Grid Convergence" fieldStatus={!setUp.enteries} fieldValue={setUp.convergence} fieldName="setUp.convergence" />
               <LabelSelect fieldArray={["Grid", "True", "Magnetic"]} fieldLabel="North Reference" fieldStatus={!setUp.enteries} fieldValue={setUp.northReference} fieldName="setUp.northReference" />
-              <LabelInput fieldLabel="Rotary to Sub Sea" fieldStatus={!setUp.enteries} fieldValue={setUp.rotarySubsea} fieldName="setUp.rotarySubsea" />
+              <LabelInput fieldLabel="Rotary to Field Vertical Reference" fieldStatus={!setUp.enteries} fieldValue={setUp.rotarySubsea} fieldName="setUp.rotarySubsea" />
               <LabelInput fieldLabel="Section Origin Y" fieldStatus={!setUp.enteries} fieldValue={setUp.sectionY} fieldName="setUp.sectionY" />
               <LabelInput fieldLabel="Field Name" fieldStatus={!setUp.enteries} fieldValue={setUp.fieldName} fieldName="setUp.fieldName" />
               <LabelInput fieldLabel="Vertical Section Azimuth" fieldStatus={!setUp.enteries} fieldValue={setUp.verticalSectionAzimuth} fieldName="setUp.verticalSectionAzimuth" />

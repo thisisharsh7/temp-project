@@ -64,12 +64,11 @@ export default function BasicTabs() {
   const fetchData = async () => {
     try {
       const fileName = userCurrentFile;
-      const fileNameWithoutExtension = fileName.replace(/\.[^.]+$/, '');
       const idVal = localStorage.getItem('id');
-      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${fileNameWithoutExtension}&id=${idVal}`);
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getAllFields?excelName=${fileName}&id=${idVal}`);
       if (data.details) {
         updateSetUp({
-          ...data.details, loading: false, enteries: true, LastRevised: updateDate()
+          ...data.details, loading: false, enteries: true, lastRevised: updateDate()
         });
       }
     } catch (error) {

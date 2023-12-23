@@ -219,7 +219,9 @@ export default function SurveyTable() {
 
     const processFullRowUpdate = async (currentRow) => {
         const jsonData = {
-            "azi": currentRow.azi, "md": currentRow.md, "inc": currentRow.inc,
+            "azi": currentRow.azi,
+            "md": currentRow.md,
+            "inc": currentRow.inc,
             "cl": currentRow.cl,
             "tvd": currentRow.tvd,
             "ns": currentRow.ns,
@@ -233,31 +235,43 @@ export default function SurveyTable() {
         console.log(updateData);
         if (logIndex !== -1 && logArray.length) {
             const data = await postLogData(`https://og-project.onrender.com/api/v1/updateSurveyAzimuth?id=${idVal}`, {
-                "updatedTieAzi": Number(currentRow.azi),
+                "updatedTieAzi": formatStringInNumberToTwoDecimalPlaces(currentRow.azi),
+                "updatedTieMd": formatStringInNumberToTwoDecimalPlaces(currentRow.md),
+                "updatedTieInc": formatStringInNumberToTwoDecimalPlaces(currentRow.inc),
+                "updatedTieCl": formatStringInNumberToTwoDecimalPlaces(currentRow.cl),
+                "updatedTieTvd": formatStringInNumberToTwoDecimalPlaces(currentRow.tvd),
+                "updatedTieNs": formatStringInNumberToTwoDecimalPlaces(currentRow.ns),
+                "updatedTieEw": formatStringInNumberToTwoDecimalPlaces(currentRow.ew),
+                "updatedTieDls": formatStringInNumberToTwoDecimalPlaces(currentRow.dls),
+                "updatedTieVs": formatStringInNumberToTwoDecimalPlaces(currentRow.vs),
                 "logName": logArray[logIndex].logName,
                 "well": setUp.well,
             });
             if (data.surveys.length) {
-                let tieOnRows
-                data.surveys.map((newSurvey, index) => {
-                    const updatedRow = {
-                        "id": index,
-                        "fieldNumber": newSurvey.fieldNumber,
-                        "md": formatNumberToTwoDecimalPlaces(newSurvey["md"]),
-                        "cl": formatNumberToTwoDecimalPlaces(newSurvey["cl"]),
-                        "inc": formatNumberToTwoDecimalPlaces(newSurvey["inc"]),
-                        "azi": formatNumberToTwoDecimalPlaces(newSurvey["azi"]),
-                        "tvd": formatNumberToTwoDecimalPlaces(newSurvey["tvd"]),
-                        "ns": formatNumberToTwoDecimalPlaces(newSurvey["ns"]),
-                        "ew": formatNumberToTwoDecimalPlaces(newSurvey["ew"]),
-                        "dls": formatNumberToTwoDecimalPlaces(newSurvey["dls"]),
-                        "vs": formatNumberToTwoDecimalPlaces(newSurvey["vs"]),
+                let updatedRows = [];
+                data.surveys.map((sdata, index) => {
+                    let updated;
+                    updated = {
+                        key: index + 2,
+                        "id": index + 2,
+                        "fieldNumber": Number(sdata.fieldNumber),
+                        "md": formatNumberToTwoDecimalPlaces(sdata["md"]),
+                        "inc": formatNumberToTwoDecimalPlaces(sdata["inc"]),
+                        "azi": formatNumberToTwoDecimalPlaces(sdata["azi"]),
+                        "tvd": formatNumberToTwoDecimalPlaces(sdata["tvd"]),
+                        "ns": formatNumberToTwoDecimalPlaces(sdata["ns"]),
+                        "ew": formatNumberToTwoDecimalPlaces(sdata["ew"]),
+                        "dls": formatNumberToTwoDecimalPlaces(sdata["dls"]),
+                        "vs": formatNumberToTwoDecimalPlaces(sdata["vs"]),
+                        "cl": formatNumberToTwoDecimalPlaces(sdata["cl"]),
                         "comment": ""
-                    };
-                    tieOnRows = surveyRows.map((row) => (row.id === updatedRow.id ? updatedRow : row));
+                    }
+                    updatedRows = [...updatedRows, updated];
                 })
+                const getSurveyRows = surveyRows.slice(updatedRows.length + 1);
+                console.log(surveyRows[0], updatedRows, getSurveyRows);
+                setSurveyRows([surveyRows[0], ...updatedRows, ...getSurveyRows]);
                 setCall(false);
-                setSurveyRows(tieOnRows);
             }
         }
     }
