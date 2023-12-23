@@ -55,6 +55,8 @@ const SetUp = () => {
       setPlannedRows(plannedRows);
       setLog(logArray);
       localStorage.removeItem('fileName');
+      localStorage.setItem('MaxMd')
+      localStorage.setItem('MinMd')
       localStorage.removeItem('id');
       alert('File not supported!');
       handlePlease();
@@ -66,7 +68,7 @@ const SetUp = () => {
     const file = event.target.files[0];
     if (file) {
       updateSetUp({ ...setUp, loading: true, enteries: false })
-      updateDataSetUp(file);
+      updateDataSetUp(file);//fetch when file uploads
     }
   }
 

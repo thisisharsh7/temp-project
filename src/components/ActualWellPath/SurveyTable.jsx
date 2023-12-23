@@ -269,7 +269,6 @@ export default function SurveyTable() {
                     updatedRows = [...updatedRows, updated];
                 })
                 const getSurveyRows = surveyRows.slice(updatedRows.length + 1);
-                console.log(surveyRows[0], updatedRows, getSurveyRows);
                 setSurveyRows([surveyRows[0], ...updatedRows, ...getSurveyRows]);
                 setCall(false);
             }
