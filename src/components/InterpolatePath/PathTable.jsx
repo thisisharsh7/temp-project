@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useMatchStore } from '../../store/store';
 import { formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, postLogData } from '../constant';
+import InterpolateAlert from './InterpolateAlert';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
@@ -114,6 +115,7 @@ export default function PathTable() {
     const { interpolateRows, setUp, updateInterpolateRows } = useMatchStore();
     const [call, setCall] = useState(false);
     const [ids, setIds] = useState(-1);
+    const [show, setShow] = useState(false);
     const apiRef = useGridApiRef();
     const initialColumns = [
         { field: 'index', headerName: '', width: 50, sortable: false, align: 'center', headerAlign: 'center', },
@@ -126,6 +128,9 @@ export default function PathTable() {
         { field: 'comment', headerName: 'Comments', minWidth: 300, align: 'center', headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], editable: (setUp.excelName !== "") ? true : false },
     ];
 
+    const handleClose = () => {
+        setShow(false);
+    }
 
     const handleCellEditStop = (params, event) => {
 
@@ -207,7 +212,7 @@ export default function PathTable() {
             const MinMd = Number(localStorage.getItem('MinMd'));
             const mdC = Number(currentRow.md);
             console.log(mdC, MaxMd, MinMd);
-            if (mdC > MinMd && mdC < MaxMd) {
+            if (mdC >= MinMd && mdC <= MaxMd) {
                 if (currentRow.id === interpolateRows.length) {
                     const iRow = { id: currentRow.id + 1, index: `${currentRow.id + 1}`, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', comment: '' };
                     updateInterpolateRows([...interpolateRows, iRow]);
@@ -215,7 +220,7 @@ export default function PathTable() {
                 }
                 processRowUpdate(currentRow);
             } else {
-                alert('Value of MD must lie between Maximum md and Minimum md.');
+                setShow(true);
                 apiRef.current.setCellFocus(currentRow.id, "md");
             }
 
@@ -225,6 +230,7 @@ export default function PathTable() {
 
     return (
         <Box component={'div'} sx={{ height: 800, width: '100%' }}>
+            <InterpolateAlert show={show} handleClose={handleClose} />
             <StyledDataGrid
                 rowSelection={false}
                 disableColumnMenu
