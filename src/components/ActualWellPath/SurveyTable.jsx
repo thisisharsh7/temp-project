@@ -178,7 +178,7 @@ export default function SurveyTable() {
         setCall(false);
         const idVal = localStorage.getItem('id');
         const fileName = localStorage.getItem('fileName');
-        let apiUrl = `https://og-project.onrender.com/api/v1/survey?id=${idVal}`
+        let apiUrl = `https://og-project.onrender.com/api/v1/survey?id=${idVal}&excelName=${fileName}`
         if (currentRow.cl !== "") {
             const newLog = [...logArray];
             apiUrl = `https://og-project.onrender.com/api/v1/updateSurvey?id=${idVal}`
@@ -189,7 +189,6 @@ export default function SurveyTable() {
             "inc": formatStringInNumberToTwoDecimalPlaces(currentRow.inc),
             "azi": formatStringInNumberToTwoDecimalPlaces(currentRow.azi),
             "logName": logArray[logIndex].logName,
-            "excelName": fileName,
             "well": setUp.well,
             "tieAzi": surveyRows[0].azi,
             "fieldNumber": (currentRow.fieldNumber).toString()
