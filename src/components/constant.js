@@ -57,7 +57,6 @@ export async function uploadFile(file) {
     if (response.ok) {
       const result = await response.json();
       data = result;
-      localStorage.setItem('id', result.newField.userId);
     } else {
       console.error('Request failed:', response.statusText);
     }
