@@ -177,7 +177,8 @@ export default function SurveyTable() {
     const processRowUpdate = async (currentRow) => {
         setCall(false);
         const idVal = localStorage.getItem('id');
-        let apiUrl = `https://og-project.onrender.com/api/v1/survey?id=${idVal}`
+        const fileName = localStorage.getItem('fileName');
+        let apiUrl = `https://og-project.onrender.com/api/v1/survey?id=${idVal}&excelName=${fileName}`
         if (currentRow.cl !== "") {
             const newLog = [...logArray];
             apiUrl = `https://og-project.onrender.com/api/v1/updateSurvey?id=${idVal}`
