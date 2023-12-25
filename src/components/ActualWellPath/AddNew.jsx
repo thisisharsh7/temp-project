@@ -24,7 +24,7 @@ const AddNew = () => {
         error: '',
         loading: false,
     })
-    const { setOpen, open, logArray, setLog } = useMatchStore();
+    const { setOpen, open, logArray, setLog, setLogIndex } = useMatchStore();
 
     const handleClose = () => {
         setOpen({ show: false, text: '', id: -1 });
@@ -35,12 +35,16 @@ const AddNew = () => {
             loading: true
         })
         const idVal = localStorage.getItem('id');
-        const logData = await postLogData(`https://og-project.onrender.com/api/v1/surveyCreate?id=${idVal}`, {
+        const excelName = localStorage.getItem('fileName')
+        const logData = await postLogData(`https://og-project.onrender.com/api/v1/surveyCreate?id=${idVal}&excelName=${excelName}`, {
             "logName": form.logName,
             "usedFrom": 0,
-            "usedBy": 0
+            "usedBy": 0,
+            "model": form.model,
+            "error": form.error
         });
         if (logData) {
+            setLogIndex(logArray.length);
             setLog([...logArray, form]);
 
         } else {

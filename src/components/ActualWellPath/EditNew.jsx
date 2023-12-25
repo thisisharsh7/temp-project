@@ -35,7 +35,8 @@ const EditNew = () => {
             loading: true
         })
         const idVal = localStorage.getItem('id');
-        const logData = await postLogData(`https://og-project.onrender.com/api/v1/surveyEdit?id=${idVal}`, {
+        const excelName = localStorage.getItem('fileName')
+        const logData = await postLogData(`https://og-project.onrender.com/api/v1/surveyEdit?id=${idVal}&excelName=${excelName}`, {
             "logName": logArray[open.id].logName,
             "editLogName": form.logName
 

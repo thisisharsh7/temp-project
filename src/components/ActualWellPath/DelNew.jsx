@@ -26,7 +26,8 @@ const DelNew = () => {
     const handleDelete = async () => {
         setLoading(true);
         const idVal = localStorage.getItem('id');
-        const logData = await DeleteLogData(`https://og-project.onrender.com/api/v1/deleteALog?id=${idVal}`, {
+        const excelName = localStorage.getItem('fileName')
+        const logData = await DeleteLogData(`https://og-project.onrender.com/api/v1/deleteALog?id=${idVal}&excelName=${excelName}`, {
             "logName": logArray[open.id].logName,
         });
         if (logData) {

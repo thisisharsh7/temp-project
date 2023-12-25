@@ -127,7 +127,7 @@ const columns = [
 ];
 
 export default function PathTable() {
-    const { setUp, setPlannedRows, setLog, lokiRows, updateLokiRows, setSurveyRows, surveyRows } = useMatchStore();
+    const { setUp, setPlannedRows, setLog, lokiRows, updateLokiRows, setSurveyRows, surveyRows, setLogIndex } = useMatchStore();
     const handleLokiPlease = () => {
         const {
             localNorthSlotLocation
@@ -177,9 +177,11 @@ export default function PathTable() {
     const fetchLogs = async () => {
         try {
             const idVal = localStorage.getItem('id');
-            const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs?id=${idVal}`);
+            const excelName = localStorage.getItem('fileName')
+            const data = await getSavedData(`https://og-project.onrender.com/api/v1/allLogs?id=${idVal}&excelName=${excelName}`);
             if (data.logs.length) {
                 setLog(data.logs);
+                setLogIndex(0);
             }
         } catch (error) {
             console.log('error');
