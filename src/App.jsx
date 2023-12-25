@@ -79,10 +79,9 @@ export default function BasicTabs() {
 
   const fetchInterpolate = async () => {
     try {
-      const fileName = userCurrentFile;
+      const fileName = localStorage.getItem('fileName');
       const idVal = localStorage.getItem('id');
-      const fileNameWithoutExtension = fileName.replace(/\.[^.]+$/, '');
-      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getInterpolate?excelName=${fileNameWithoutExtension}&id=${idVal}`);
+      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getInterpolate?excelName=${fileName}&id=${idVal}`);
       if (data.interpolateData.length) {
         let updatedRows = [];
         data.interpolateData.map((sdata, index) => {

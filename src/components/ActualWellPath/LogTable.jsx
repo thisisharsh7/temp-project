@@ -88,6 +88,7 @@ export default function LogTable() {
             fetchSurveys();
         }
     }, [logIndex])
+    
     return (
         <TableContainer component={Paper} elevation={0} >
             <Table aria-label="simple table" >

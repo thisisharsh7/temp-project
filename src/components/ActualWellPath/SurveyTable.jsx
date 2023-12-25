@@ -2,7 +2,7 @@ import { DataGrid, useGridApiRef } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
-import { formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, postLogData } from '../constant';
+import { formatNumberToTwoDecimalPlaces, formatStringInNumberToTwoDecimalPlaces, getSavedData, postLogData } from '../constant';
 import { useMatchStore } from '../../store/store';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -179,7 +179,9 @@ export default function SurveyTable() {
         const idVal = localStorage.getItem('id');
         let apiUrl = `https://og-project.onrender.com/api/v1/survey?id=${idVal}`
         if (currentRow.cl !== "") {
+            const newLog = [...logArray];
             apiUrl = `https://og-project.onrender.com/api/v1/updateSurvey?id=${idVal}`
+            changeMdByLength(newLog[logIndex].logName, currentRow, 1);
         }
         const data = await postLogData(apiUrl, {
             "md": formatStringInNumberToTwoDecimalPlaces(currentRow.md),
@@ -192,7 +194,6 @@ export default function SurveyTable() {
         });
 
         let updatedRow;
-        console.log(data);
         if (data) {
             updatedRow = {
                 "id": currentRow.id,
@@ -214,6 +215,7 @@ export default function SurveyTable() {
         const updatedRows = surveyRows.map((row) => (row.id === currentRow.id ? updatedRow : row));
         if (currentRow.id === surveyRows.length) {
             const iRow = { id: currentRow.id + 1, fieldNumber: currentRow.id, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' };
+
             setSurveyRows([...updatedRows, iRow]);
         } else {
             setSurveyRows(updatedRows);
@@ -288,6 +290,25 @@ export default function SurveyTable() {
         })
         console.log(logData);
     }
+
+    const changeMdByLength = async (name, currentRow, val) => {
+        try {
+            const newLog = [...logArray];
+            const idVal = localStorage.getItem('id');
+            const data = await getSavedData(`https://og-project.onrender.com/api/v1/length?id=${idVal}&logName=${name}`);
+            if (data.length) {
+                if (currentRow.fieldNumber === Number(data.length) + 1 - val) {
+
+                    updateLogByMD("usedBy", currentRow.md);
+                    newLog[logIndex]["usedBy"] = currentRow.md;
+                    setLog(newLog);
+                }
+            }
+        } catch (error) {
+            console.log('error');
+        }
+    };
+
     useEffect(() => {
         if (ids !== 0 && call) {
             const currentRow = surveyRows[ids];
@@ -297,16 +318,16 @@ export default function SurveyTable() {
                 const field = 'md'
                 const newLog = [...logArray];
                 if (newLog[logIndex]) {
-                    if (newLog[logIndex]["usedFrom"] === 0 || newLog[logIndex]["usedFrom"] === "" || currentRow.md === newLog[logIndex]["usedFrom"]) {
+                    if (currentRow.fieldNumber === 1) {
                         updateLogByMD("usedFrom", currentRow.md);
                         newLog[logIndex]["usedFrom"] = currentRow.md;
+                        setLog(newLog);
                     } else {
-                        updateLogByMD("usedBy", currentRow.md);
-                        newLog[logIndex]["usedBy"] = currentRow.md;
+                        changeMdByLength(newLog[logIndex].logName, currentRow, 0);
                     }
 
                 }
-                setLog(newLog);
+
                 apiRef.current.setCellFocus(rowId, field);
             }
         }
