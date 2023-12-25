@@ -182,8 +182,11 @@ export default function PathTable() {
             if (data.logs.length) {
                 setLog(data.logs);
                 setLogIndex(0);
+            } else {
+                setLog([]);
             }
         } catch (error) {
+            alert('hi')
             console.log('error');
         }
     };
