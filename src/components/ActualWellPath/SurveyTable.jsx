@@ -176,6 +176,7 @@ export default function SurveyTable() {
     };
     const processRowUpdate = async (currentRow) => {
         const idVal = localStorage.getItem('id');
+        
         const data = await postLogData(`https://og-project.onrender.com/api/v1/survey?id=${idVal}`, {
             "md": formatStringInNumberToTwoDecimalPlaces(currentRow.md),
             "inc": formatStringInNumberToTwoDecimalPlaces(currentRow.inc),

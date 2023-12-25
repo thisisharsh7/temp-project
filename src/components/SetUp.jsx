@@ -49,7 +49,7 @@ const SetUp = () => {
       localStorage.setItem('fileName', data.newField.excelName);
       localStorage.setItem('MaxMd', data.maxMd)
       localStorage.setItem('MinMd', data.minMd)
-      localStorage.setItem('id', data.id);
+      localStorage.setItem('id', data.newField.userId);
     } else {
       updateSetUp(setUpNotEditValues);
       setPlannedRows(plannedRows);
