@@ -175,9 +175,13 @@ export default function SurveyTable() {
         setSurveyRows(updateCell);
     };
     const processRowUpdate = async (currentRow) => {
+        setCall(false);
         const idVal = localStorage.getItem('id');
-        
-        const data = await postLogData(`https://og-project.onrender.com/api/v1/survey?id=${idVal}`, {
+        let apiUrl = `https://og-project.onrender.com/api/v1/survey?id=${idVal}`
+        if (currentRow.cl !== "") {
+            apiUrl = `https://og-project.onrender.com/api/v1/updateSurvey?id=${idVal}`
+        }
+        const data = await postLogData(apiUrl, {
             "md": formatStringInNumberToTwoDecimalPlaces(currentRow.md),
             "inc": formatStringInNumberToTwoDecimalPlaces(currentRow.inc),
             "azi": formatStringInNumberToTwoDecimalPlaces(currentRow.azi),
@@ -208,7 +212,6 @@ export default function SurveyTable() {
             updatedRow = { ...currentRow };
         }
         const updatedRows = surveyRows.map((row) => (row.id === currentRow.id ? updatedRow : row));
-        setCall(false);
         if (currentRow.id === surveyRows.length) {
             const iRow = { id: currentRow.id + 1, fieldNumber: currentRow.id, md: '', cl: '', inc: '', azi: '', tvd: '', ns: '', ew: '', dls: '', vs: '', comment: '' };
             setSurveyRows([...updatedRows, iRow]);
@@ -219,6 +222,7 @@ export default function SurveyTable() {
     }
 
     const processFullRowUpdate = async (currentRow) => {
+        setCall(false);
         const jsonData = {
             "azi": currentRow.azi,
             "md": currentRow.md,
@@ -271,7 +275,7 @@ export default function SurveyTable() {
                 })
                 const getSurveyRows = surveyRows.slice(updatedRows.length + 1);
                 setSurveyRows([surveyRows[0], ...updatedRows, ...getSurveyRows]);
-                setCall(false);
+
             }
         }
     }
