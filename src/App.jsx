@@ -56,7 +56,7 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
-  const { open, updateSetUp, updateInterpolateRows, interpolateRows } = useMatchStore();
+  const { open, updateSetUp, updateInterpolateRows, interpolateRows, notEditInterpolateRows } = useMatchStore();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -77,48 +77,10 @@ export default function BasicTabs() {
 
   };
 
-  const fetchInterpolate = async () => {
-    try {
-      const fileName = localStorage.getItem('fileName');
-      const idVal = localStorage.getItem('id');
-      const data = await getSavedData(`https://og-project.onrender.com/api/v1/getInterpolate?excelName=${fileName}&id=${idVal}`);
-      if (data.interpolateData.length) {
-        let updatedRows = [];
-        data.interpolateData.map((sdata, index) => {
-          let updated;
-          updated = {
-            "id": index + 1,
-            "index": `${index + 1}`,
-            "md": formatNumberToTwoDecimalPlaces(sdata["md"]),
-            "inc": formatNumberToTwoDecimalPlaces(sdata["inc"]),
-            "azi": formatNumberToTwoDecimalPlaces(sdata["azi"]),
-            "tvd": formatNumberToTwoDecimalPlaces(sdata["tvd"]),
-            "ns": formatNumberToTwoDecimalPlaces(sdata["ns"]),
-            "ew": formatNumberToTwoDecimalPlaces(sdata["ew"]),
-            "comment": ""
-          }
-          updatedRows = [...updatedRows, updated];
-        })
-        const getInterpolateRows = interpolateRows.slice(updatedRows.length);
-        if (getInterpolateRows.length === 0) {
-          const iRow = { id: updatedRows.length + 1, index: `${updatedRows.length + 1}`, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', comment: '' };
-          updateInterpolateRows([...updatedRows, iRow]);
-        } else {
-          updateInterpolateRows([...updatedRows, ...getInterpolateRows]);
-        }
-
-
-      }
-    } catch (error) {
-      console.log('error interpolate');
-    }
-
-  };
 
 
   React.useEffect(() => {
     fetchData();
-    fetchInterpolate();
   }, [])
 
   return (

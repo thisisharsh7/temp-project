@@ -55,8 +55,8 @@ const SetUp = () => {
       setPlannedRows(plannedRows);
       setLog(logArray);
       localStorage.removeItem('fileName');
-      localStorage.setItem('MaxMd')
-      localStorage.setItem('MinMd')
+      localStorage.removeItem('MaxMd')
+      localStorage.removeItem('MinMd')
       localStorage.removeItem('id');
       alert('File not supported!');
       handlePlease();

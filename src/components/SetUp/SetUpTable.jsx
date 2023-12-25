@@ -127,7 +127,7 @@ const columns = [
 ];
 
 export default function PathTable() {
-    const { setUp, setPlannedRows, setLog, lokiRows, updateLokiRows, setSurveyRows, surveyRows, setLogIndex } = useMatchStore();
+    const { setUp, setPlannedRows, updateInterpolateRows, notEditInterpolateRows, surveyNotEditRows, setLog, lokiRows, updateLokiRows, setSurveyRows, setLogIndex } = useMatchStore();
     const handleLokiPlease = () => {
         const {
             localNorthSlotLocation
@@ -186,7 +186,6 @@ export default function PathTable() {
                 setLog([]);
             }
         } catch (error) {
-            alert('hi')
             console.log('error');
         }
     };
@@ -218,7 +217,7 @@ export default function PathTable() {
         sendData({ [head]: event.target.value });
     }
     const fetchTie = async () => {
-        let tieOnRows = surveyRows;
+        let tieOnRows = surveyNotEditRows;
         try {
             const iVal = localStorage.getItem('id');
             const updateTie = await getSavedData(`https://og-project.onrender.com/api/v1/getTieOnPoint?id=${iVal}&excelName=${setUp.excelName}`)
@@ -238,19 +237,61 @@ export default function PathTable() {
                     "vs": formatNumberToTwoDecimalPlaces(newSurvey["vs"]),
                     "comment": ""
                 };
-                tieOnRows = surveyRows.map((row) => (row.id === updatedRow.id ? updatedRow : row));
+                tieOnRows = [updatedRow, ...tieOnRows];
             }
         } catch (error) {
             console.log(error);
         }
         setSurveyRows(tieOnRows);
     }
+
+    const fetchInterpolate = async () => {
+        try {
+            const fileName = localStorage.getItem('fileName');
+            const idVal = localStorage.getItem('id');
+            const data = await getSavedData(`https://og-project.onrender.com/api/v1/getInterpolate?excelName=${fileName}&id=${idVal}`);
+            if (data.interpolateData.length) {
+                let updatedRows = [];
+                data.interpolateData.map((sdata, index) => {
+                    let updated;
+                    updated = {
+                        "id": index + 1,
+                        "index": `${index + 1}`,
+                        "md": formatNumberToTwoDecimalPlaces(sdata["md"]),
+                        "inc": formatNumberToTwoDecimalPlaces(sdata["inc"]),
+                        "azi": formatNumberToTwoDecimalPlaces(sdata["azi"]),
+                        "tvd": formatNumberToTwoDecimalPlaces(sdata["tvd"]),
+                        "ns": formatNumberToTwoDecimalPlaces(sdata["ns"]),
+                        "ew": formatNumberToTwoDecimalPlaces(sdata["ew"]),
+                        "comment": ""
+                    }
+                    updatedRows = [...updatedRows, updated];
+                })
+                const getInterpolateRows = notEditInterpolateRows.slice(updatedRows.length);
+                if (getInterpolateRows.length === 0) {
+                    const iRow = { id: updatedRows.length + 1, index: `${updatedRows.length + 1}`, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', comment: '' };
+                    updateInterpolateRows([...updatedRows, iRow]);
+                } else {
+                    updateInterpolateRows([...updatedRows, ...getInterpolateRows]);
+                }
+
+
+            } else {
+                updateInterpolateRows(notEditInterpolateRows)
+            }
+        } catch (error) {
+            console.log('error interpolate');
+        }
+
+    };
+
     useEffect(() => {
         if (setUp.enteries) {
             fetchPlanned();
             fetchLogs();
             fetchTie();
             handleLokiPlease();
+            fetchInterpolate();
         }
     }, [setUp.enteries])
     return (

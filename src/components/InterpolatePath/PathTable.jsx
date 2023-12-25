@@ -194,7 +194,6 @@ export default function PathTable() {
         }
         setCall(false);
         const updatedRows = interpolateRows.map((row) => (row.id === currentRow.id ? updatedRow : row));
-        console.log(currentRow.id, interpolateRows.length, 'harsh ki jadu')
         if (currentRow.id === interpolateRows.length) {
             const iRow = { id: currentRow.id + 1, index: `${currentRow.id + 1}`, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', comment: '' };
             updateInterpolateRows([...updatedRows, iRow]);
@@ -211,7 +210,6 @@ export default function PathTable() {
             const MaxMd = Number(localStorage.getItem('MaxMd'));
             const MinMd = Number(localStorage.getItem('MinMd'));
             const mdC = Number(currentRow.md);
-            console.log(mdC, MaxMd, MinMd);
             if (mdC >= MinMd && mdC <= MaxMd) {
                 if (currentRow.id === interpolateRows.length) {
                     const iRow = { id: currentRow.id + 1, index: `${currentRow.id + 1}`, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', comment: '' };
