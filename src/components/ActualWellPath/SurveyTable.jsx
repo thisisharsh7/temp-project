@@ -24,14 +24,14 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     },
     '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
         borderRight: `1px solid #e7e7e6`,
-        paddingLeft: '28px',
-        paddingRight: '28px'
+        paddingLeft: '18px',
+        paddingRight: '18px'
 
     },
     '& .MuiDataGrid-columnHeader:last-of-type , .MuiDataGrid-cell:last-of-type': {
         borderRight: `none`,
-        paddingLeft: '10px',
-        paddingRight: '10px'
+        paddingLeft: '0px',
+        paddingRight: '0px'
 
     },
     '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
@@ -131,15 +131,15 @@ export default function SurveyTable() {
     const initialColumns = [
         { field: 'fieldNumber', headerName: '', width: 105, sortable: false, align: 'center', },
         { field: 'md', headerName: 'MD', headerUnits: '(ft)', minWidth: 130, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell' },
-        { field: 'inc', headerName: 'Inc', headerUnits: '(deg)', minWidth: 130, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-        { field: 'azi', headerName: 'Azi', headerUnits: '(deg)', minWidth: 130, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
-        { field: 'cl', headerName: 'CL', headerUnits: '(ft)', minWidth: 130, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
+        { field: 'inc', headerName: 'Inc', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+        { field: 'azi', headerName: 'Azi', headerUnits: '(deg)', minWidth: 115, editable: true, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', },
+        { field: 'cl', headerName: 'CL', headerUnits: '(ft)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
         { field: 'tvd', headerName: 'TVD', headerUnits: '(ft)', minWidth: 130, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
         { field: 'ns', headerName: 'North', headerUnits: '(ft)', minWidth: 130, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
         { field: 'ew', headerName: 'East', headerUnits: '(ft)', minWidth: 130, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
-        { field: 'dls', headerName: 'DLS', headerUnits: '(deg)', minWidth: 130, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
+        { field: 'dls', headerName: 'DLS', headerUnits: '(deg)', minWidth: 115, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
         { field: 'vs', headerName: 'VS', headerUnits: '(ft)', minWidth: 130, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
-        { field: 'comment', headerName: 'Comment', minWidth: 180, align: 'right', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
+        { field: 'comment', headerName: 'Comment', minWidth: 120, align: 'center', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
     ];
 
 
