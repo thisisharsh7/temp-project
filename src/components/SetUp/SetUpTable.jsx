@@ -116,14 +116,14 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
 const columns = [
     { field: 'col1', headerName: '', minWidth: 195, sortable: false, cellClassName: 'first--cell', flex: 1 },
-    { field: 'localNorth', headerName: 'Local North', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1, editable: true },
-    { field: 'localEast', headerName: 'Local East', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', editable: true },
-    { field: 'localGridEast', headerName: 'Grid East', headerUnits: '(m)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'Unfrozen--cell', editable: true },
-    { field: 'localGridNorth', headerName: 'Grid North', headerUnits: '(m)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell', editable: true },
-    { field: 'localLongitude', headerName: 'Longitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell', editable: true },
-    { field: 'localLatitude', headerName: 'Latitude', headerUnits: '', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell', editable: true },
-    { field: 'localHoriz', headerName: 'Horiz Uncert 1sd', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell', editable: true },
-    { field: 'localVert', headerName: 'Vert Uncert 1sd', headerUnits: '(ft)', minWidth: 195, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell', editable: true },
+    { field: 'localNorth', headerName: 'Local North', headerUnits: '(ft)', minWidth: 120, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', flex: 1, editable: true },
+    { field: 'localEast', headerName: 'Local East', headerUnits: '(ft)', minWidth: 120, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'Unfrozen--cell', editable: true },
+    { field: 'localGridEast', headerName: 'Grid East', headerUnits: '(m)', minWidth: 175, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'Unfrozen--cell', editable: true },
+    { field: 'localGridNorth', headerName: 'Grid North', headerUnits: '(m)', minWidth: 175, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell', editable: true },
+    { field: 'localLongitude', headerName: 'Longitude', headerUnits: '', minWidth: 175, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell', editable: true },
+    { field: 'localLatitude', headerName: 'Latitude', headerUnits: '', minWidth: 175, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell', editable: true },
+    { field: 'localHoriz', headerName: 'Horiz Uncert 1sd', headerUnits: '(ft)', minWidth: 152, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell', editable: true },
+    { field: 'localVert', headerName: 'Vert Uncert 1sd', headerUnits: '(ft)', minWidth: 152, align: 'right', headerAlign: 'center', sortable: false, flex: 1, cellClassName: 'frozen--cell', editable: true },
 ];
 
 export default function PathTable() {
