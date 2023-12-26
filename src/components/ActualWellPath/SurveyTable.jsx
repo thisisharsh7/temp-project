@@ -124,7 +124,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
 
 export default function SurveyTable() {
-    const { setUp, logArray, setLog, surveyRows, setSurveyRows, logIndex } = useMatchStore();
+    const { setUp, logArray, setLog, surveyRows, surveyNotEditRows, setSurveyRows, logIndex } = useMatchStore();
     const apiRef = useGridApiRef();
     const [call, setCall] = useState(false);
     const [ids, setIds] = useState(0);
@@ -141,6 +141,63 @@ export default function SurveyTable() {
         { field: 'vs', headerName: 'VS', headerUnits: '(ft)', minWidth: 130, align: 'right', headerAlign: 'center', sortable: false, cellClassName: 'frozen--cell', editable: true },
         { field: 'comment', headerName: 'Comment', minWidth: 120, align: 'center', editable: true, headerAlign: 'center', flex: 1, sortable: false, cellClassName: ['Unfrozen--cell', 'column-cell'], },
     ];
+
+    const fetchSurveys = async () => {
+        let tieOnRow = { ...surveyRows[0] };
+        const iVal = localStorage.getItem('id');
+        const updateTie = await getSavedData(`https://og-project.onrender.com/api/v1/getTieOnPoint?id=${iVal}&excelName=${setUp.excelName}`)
+        if (updateTie.tieOn) {
+            const newSurvey = updateTie.tieOn;
+            tieOnRow = {
+                "id": 1,
+                "fieldNumber": "Tie On",
+                "md": formatNumberToTwoDecimalPlaces(newSurvey["md"]),
+                "cl": formatNumberToTwoDecimalPlaces(newSurvey["cl"]),
+                "inc": formatNumberToTwoDecimalPlaces(newSurvey["inc"]),
+                "azi": formatNumberToTwoDecimalPlaces(newSurvey["azi"]),
+                "tvd": formatNumberToTwoDecimalPlaces(newSurvey["tvd"]),
+                "ns": formatNumberToTwoDecimalPlaces(newSurvey["ns"]),
+                "ew": formatNumberToTwoDecimalPlaces(newSurvey["ew"]),
+                "dls": formatNumberToTwoDecimalPlaces(newSurvey["dls"]),
+                "vs": formatNumberToTwoDecimalPlaces(newSurvey["vs"]),
+                "comment": ""
+            };
+        }
+        const data = await getSavedData(`https://og-project.onrender.com/api/v1/allSurveys?logName=${logArray[logIndex].logName}&id=${iVal}`);
+        if (data.surveys.length) {
+            let updatedRows = [];
+            data.surveys.map((sdata, index) => {
+                let updated;
+                updated = {
+                    key: index + 2,
+                    "id": index + 2,
+                    "fieldNumber": Number(sdata.fieldNumber),
+                    "md": formatNumberToTwoDecimalPlaces(sdata["md"]),
+                    "inc": formatNumberToTwoDecimalPlaces(sdata["inc"]),
+                    "azi": formatNumberToTwoDecimalPlaces(sdata["azi"]),
+                    "tvd": formatNumberToTwoDecimalPlaces(sdata["tvd"]),
+                    "ns": formatNumberToTwoDecimalPlaces(sdata["ns"]),
+                    "ew": formatNumberToTwoDecimalPlaces(sdata["ew"]),
+                    "dls": formatNumberToTwoDecimalPlaces(sdata["dls"]),
+                    "vs": formatNumberToTwoDecimalPlaces(sdata["vs"]),
+                    "cl": formatNumberToTwoDecimalPlaces(sdata["cl"]),
+                    "comment": ""
+                }
+                updatedRows = [...updatedRows, updated];
+            })
+            const getSurveyRows = surveyNotEditRows.slice(updatedRows.length);
+            if (getSurveyRows.length === 0) {
+                const iRow = { id: updatedRows.length + 2, fieldNumber: updatedRows.length + 1, md: '', inc: '', azi: '', tvd: '', ns: '', ew: '', vs: '', dls: '', cl: '', comment: '' };
+                setSurveyRows([tieOnRow, ...updatedRows, iRow]);
+            } else {
+                setSurveyRows([tieOnRow, ...updatedRows, ...getSurveyRows]);
+            }
+        } else {
+            setSurveyRows([tieOnRow, ...surveyNotEditRows]);
+        }
+
+
+    };
 
 
     const handleCellEditStop = (params, event) => {
@@ -197,6 +254,9 @@ export default function SurveyTable() {
 
         let updatedRow;
         if (data) {
+            if (currentRow.cl !== "") {
+                fetchSurveys();
+            }
             updatedRow = {
                 "id": currentRow.id,
                 "fieldNumber": currentRow.fieldNumber,
